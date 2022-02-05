@@ -1,0 +1,112 @@
+  html {
+    font-size: 10px;
+    font-family: 'Montserrat', sans-serif;
+    background-color:lemonchiffon;
+  }
+
+  h1 {
+    font-size: 50px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 30px;
+    text-align: center;
+  }
+  
+  p, li {
+    font-size: 16px;
+    line-height: 2;
+    letter-spacing: 1px;
+  }
+
+  .keyboard {
+    background-color: gainsboro;
+    margin: auto;
+    width:80%;
+    padding:3px;
+    border-radius: 7px;
+    margin-bottom: 150px;
+  }
+
+  .keys {
+    display:block;
+    padding: 3px;
+    background-color: gainsboro;
+  }
+
+  .row {
+    width:100%;
+    background-color:transparent;
+    display:flex;
+    align-items: center;
+  }
+
+  .regular_keys {
+    display:flex;
+    background-color: white;
+    color: black;
+    width: 60px;
+    height: 60px;
+    font-size: medium;
+    margin: 3px;
+    border-radius: 7px;
+    align-items: center;    
+    justify-content: center;
+  }
+
+  .special_keys {
+    font-size:small;
+  }
+
+  .space {
+    width: 400px;
+    margin-left: 25%;
+  }
+
+  .tab {
+    width:90px;
+  }
+
+  .shift_l {
+    width:135px
+  }
+
+  .shift_r {
+    width: 185px;
+  }
+
+  .caps_lock {
+    width:100px
+  }
+
+  .enter {
+    width:155px;
+  }
+
+  .symbols {
+
+  }
+
+  .backspace {
+    width:130px;
+  }
+
+  .backslash {
+    width: 100px;
+  }
+
+  .type_text {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+  }
+
+  .type_box {
+    border-width: 10px;
+    border-color: red;
+    background-color: lightgray;
+    margin-inline: 20%;
+    padding-left: 20px;
+    border-radius: 7px;
+
+  }
