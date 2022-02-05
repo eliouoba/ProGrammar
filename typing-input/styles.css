@@ -1,0 +1,30 @@
+/*Josiah Hsu*/
+h1 {
+    color: darkviolet;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: medium;
+    font-stretch: extra-expanded;
+}
+
+#typed p{
+    background-color: white;
+    color: red;
+}
+
+#EDITABLE p {
+    background-color: white;
+}
+
+mark{
+    background-color: lightcoral;
+}
+
+textarea{
+    width: 100%;
+}
+
+body{
+    background-color: beige;
+    color: black;
+    float: left;
+}

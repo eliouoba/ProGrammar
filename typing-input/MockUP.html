@@ -1,0 +1,27 @@
+<!--Josiah Hsu-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <button type="button" onclick = "reset()">Reset</button>
+
+    <pre id="toType">
+Here is a collection of sample text for you to type.
+Newlines are included, so you will need to type those too.
+Errors should be tracked by the program.</pre>
+
+    <p contenteditable="true" id="typed" style="background-color: white;"></p>
+
+    <p id="stats"></p>
+
+    <textarea id="textfield" autofocus placeholder="Type the above text here."></textarea>
+    
+    <script src="MockUpScript.js"></script>
+</body>
+</html>
