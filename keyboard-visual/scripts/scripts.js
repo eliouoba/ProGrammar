@@ -1,3 +1,5 @@
+/* Eli Ouoba */
+
 var capsLockDown = false;
 
 //darken key when pressed
