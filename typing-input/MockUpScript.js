@@ -4,7 +4,6 @@ const toType = document.getElementById("toType").innerHTML;
 const textfield = document.getElementById("textfield");
 const stats = document.getElementById("stats");
 const typed = document.getElementById("typed");
-const editable = document.getElementById("EDITABLE");
 
 textfield.length = toType.length;
 init();
