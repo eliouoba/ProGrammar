@@ -1,5 +1,9 @@
 /* Sam Burk */
 
+body {
+    background-color: beige;
+}
+
 h1 {
     font-family: "Times New Roman", 'Times New Roman', Times, serif;
     text-align: center;
