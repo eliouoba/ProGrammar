@@ -1,0 +1,30 @@
+img {
+  width: 100px;
+  border-radius: 50px;
+  border-color: black;
+  float: left;
+  margin-right: 20px;
+}
+html {
+  background-color: beige;
+}
+button {
+  background-color: rgb(187, 194, 209);
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border-color: black;
+  cursor: pointer;
+  width: 35%;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+}
+button:hover {
+  opacity: 70%;
+}
+textarea {
+  background-color: beige;
+  border: white;
+  width: 1000px;
+}

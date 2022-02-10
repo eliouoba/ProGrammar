@@ -1,0 +1,45 @@
+<!-- Sam Burk -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <audio autoplay muted loop>
+        <source src="lobby-classic-game.mp3">
+    </audio>
+
+    <h1>
+        ProGrammar
+    </h1>
+
+    <h3>
+        Levels:
+    </h3>
+
+    <button id="1" onclick="selectLevel(1)"> 1 </button>
+    <button id="2" onclick="selectLevel(2)"> 2 </button>
+    <button id="3" onclick="selectLevel(3)"> 3 </button>
+    <button id="4" onclick="selectLevel(4)"> 4 </button>
+    <button id="5" onclick="selectLevel(5)"> 5 </button>
+    <button id="6" onclick="selectLevel(6)"> 6 </button>
+    <button id="7" onclick="selectLevel(7)"> 7 </button>
+    <button id="8" onclick="selectLevel(8)"> 8 </button>
+    <button id="9" onclick="selectLevel(9)"> 9 </button>
+    <button id="10" onclick="selectLevel(10)"> 10 </button>
+
+    <script> formatButtons(); </script>
+
+    <p id="LevelText">
+        Select a level to begin.
+    </p>
+
+    <textarea name="PlayerText" id="PlayerText" cols="30" rows="10"></textarea>
+
+    <script src="MockupScript.js"></script>
+</body>
+</html>
