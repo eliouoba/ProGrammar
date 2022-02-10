@@ -1,7 +1,16 @@
 /*Josiah Hsu*/
-#typed p{
+body{
+    background-color: beige;
+    color: black;
+    float: left;
+}
+
+pre{
+    tab-size: 4;
+}
+
+#typed pre{
     background-color: white;
-    color: red;
 }
 
 mark{
@@ -10,10 +19,5 @@ mark{
 
 textarea{
     width: 100%;
-}
-
-body{
-    background-color: beige;
-    color: black;
-    float: left;
+    tab-size: 4;
 }

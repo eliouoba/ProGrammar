@@ -4,9 +4,22 @@ const toType = document.getElementById("toType").innerHTML;
 const textfield = document.getElementById("textfield");
 const stats = document.getElementById("stats");
 const typed = document.getElementById("typed");
-
 textfield.length = toType.length;
 init();
+
+/**
+ * tab - Overrides default behavior of tab key and instead inputs a tab character
+ * @param {*} keydownEvent 
+ */
+ function tab(keydownEvent){
+    const key = keydownEvent.key;
+    if(key == 'Tab'){
+        keydownEvent.preventDefault();
+        typed.innerHTML += '&#09';
+        textfield.value += '\t';
+        typed.innerHTML = makeText();
+    }
+}
 
 /**
  * init - sets initial state
@@ -50,6 +63,7 @@ function timer(){
 function initType(inputEvent){
     textfield.removeEventListener("input", initType);
     textfield.addEventListener("input", type);
+    textfield.addEventListener("keydown", tab);
     type(inputEvent);
     interval = window.setInterval(timer, 1000)
     start = Date.now();
@@ -70,6 +84,7 @@ function type(inputEvent){
     if(chars == toType.length){
         end = Date.now();
         clearInterval(interval);
+        textfield.removeEventListener("keydown", tab);
         time = (end - start) / 1000;
         wpm = Math.round((chars / 5) / (time / 60))
         const netwpm = wpm - errors;
@@ -93,9 +108,10 @@ function type(inputEvent){
         let c = textfield.value[i];
         if(c == toType[i]){
             if(c == '\n')
-                text+= '<br>';
-            else
-                text+=c;
+                c = '<br>';
+            else if(c == '\t')
+                c ='&#09';
+            text+=c;
         }
         else{
             switch(c){
@@ -106,7 +122,7 @@ function type(inputEvent){
                     c = '<br>>';
                     break;
                 case '\t':
-                    c = ''
+                    c = '|tab|'
             }
             text += `<mark>${c}</mark>`;
             errors++;
