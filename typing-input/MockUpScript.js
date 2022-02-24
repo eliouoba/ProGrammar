@@ -1,39 +1,21 @@
 //Josiah Hsu
-let chars, errors, time, interval, wpm, start, end;
+let errors, time,  wpm, tracker, start, end, interval;
 const toType = document.getElementById("toType").innerHTML;
-const textfield = document.getElementById("textfield");
 const stats = document.getElementById("stats");
 const typed = document.getElementById("typed");
-textfield.length = toType.length;
-init();
 
-/**
- * tab - Overrides default behavior of tab key and instead inputs a tab character
- * @param {*} keydownEvent 
- */
- function tab(keydownEvent){
-    const key = keydownEvent.key;
-    if(key == 'Tab'){
-        keydownEvent.preventDefault();
-        typed.innerHTML += '&#09';
-        textfield.value += '\t';
-        typed.innerHTML = makeText();
-    }
-}
+init();
 
 /**
  * init - sets initial state
  */
 function init(){
-    chars = 0;
     errors = 0;
     time = 0;
     wpm = 0;
-    textfield.value = '';
-    textfield.disabled = false;
-    textfield.hidden = false;
-    textfield.addEventListener("input", initType);
-    typed.textContent = '';
+    tracker = [];
+    document.addEventListener("keydown", initType); 
+    typed.innerHTML = '<span style="color:gray">Begin typing the above text to start.</span>';
     stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
     window.clearInterval(interval);
 }
@@ -43,7 +25,7 @@ function init(){
  */
 function timer(){
     time++;
-    wpm = Math.round((chars / 5) / (time / 60));
+    wpm = Math.round((tracker.length / 5) / (time / 60));
     stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
  }
 
@@ -52,81 +34,94 @@ function timer(){
   */
  function reset(){
     alert("Resetting!");
-    textfield.removeEventListener("input", type);
+    document.removeEventListener("keydown", type);
     init();
 }
 
 /**
  * initType - special event for first input
- * @param {*} inputEvent the inputEvent upon first type
+ * @param {*} keydownEvent the keydownEvent upon first type
  */
-function initType(inputEvent){
-    textfield.removeEventListener("input", initType);
-    textfield.addEventListener("input", type);
-    textfield.addEventListener("keydown", tab);
-    type(inputEvent);
-    interval = window.setInterval(timer, 1000)
-    start = Date.now();
+function initType(keydownEvent){
+    if(keydownEvent.key.length == 1){
+        document.removeEventListener("keydown", initType);
+        document.addEventListener("keydown", type);
+        type(keydownEvent);
+        interval = window.setInterval(timer, 1000)
+        start = Date.now();
+    }
 }
 
 /**
- * type - inputs a typed character and checks for correctness
- * @param {*} inputEvent the inputEvent for the type
+ * type - records input from keyboard in tracker
+ * @param {*} keydownEvent the keydownEvent 
  */
-function type(inputEvent){
-    if(inputEvent.inputType == "insertFromPaste" 
-        || inputEvent.inputType == "insertFromDrop")
-        //prevents pasting into textfield
-        textfield.value = typed.textContent;
-    else
-        typed.innerHTML =  makeText();
-    stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
-    if(chars == toType.length){
-        end = Date.now();
-        clearInterval(interval);
-        textfield.removeEventListener("keydown", tab);
-        time = (end - start) / 1000;
-        wpm = Math.round((chars / 5) / (time / 60))
-        const netwpm = wpm - errors;
-        alert(`Gross WPM: ${wpm}\nErrors: ${errors}\nNet WPM: ${netwpm}`);
-        textfield.disabled = true;
-        textfield.hidden = true;
-        stats.textContent = `Final time: ${time} Errors: ${errors} Net WPM: ${netwpm}`;
+ function type(keydownEvent){
+    switch(keydownEvent.key){
+        case "Tab":
+            keydownEvent.preventDefault();
+            tracker.push('\t');
+            break;
+        case "Backspace":
+            tracker.pop();
+            break;
+        case "Enter":
+            tracker.push('\n')
+            break;
+        default:
+            if(keydownEvent.key.length == 1){
+                tracker.push(keydownEvent.key);
+            }
     }
+    makeText();
 }
 
 /**
  * makeText - function to create representation of text typed 
  *              so far w/ HTML formatting/colors
- * @returns HTML-formatted string of typed characters
  */
  function makeText(){
     let text = '';
     errors = 0;
-    chars = textfield.value.length;
-    for(var i = 0; i < chars; i++){
-        let c = textfield.value[i];
+    for(var i = 0; i < tracker.length; i++){
+        let c = tracker[i];
         if(c == toType[i]){
             if(c == '\n')
                 c = '<br>';
             else if(c == '\t')
-                c ='&#09';
-            text+=c;
+                c = '&#09;'
         }
         else{
-            switch(c){
-                case ' ':
-                    c = '_';
-                    break;
-                case '\n':
-                    c = '<br>>';
-                    break;
-                case '\t':
-                    c = '|tab|'
-            }
-            text += `<mark>${c}</mark>`;
             errors++;
+            if(c == ' ')
+                c = '_';
+            else if(c == '\n')
+                c = '<br>>';
+            else if (c == '\t')
+                c = '|tab|';
+            c = `<mark>${c}</mark>`;
         }
+        text+=c;
     }
-    return text;
+    typed.innerHTML = text;
+    stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
+    
+    if(tracker.length == toType.length)
+        endLesson();
+    else
+        typed.innerHTML += '_';
+}
+
+/**
+ * endLesson - function that sets lesson to completed state
+ */
+function endLesson(){
+    end = Date.now();
+    clearInterval(interval);
+    document.removeEventListener("keydown", type);
+    time = (end - start) / 1000;
+    wpm = Math.round((tracker.length / 5) / (time / 60))
+    const netwpm = wpm - errors;
+    alert(`Gross WPM: ${wpm}\nErrors: ${errors}\nNet WPM: ${netwpm}`);
+    stats.textContent = `Final time: ${time} Errors: ${errors} Net WPM: ${netwpm}`;
 }
