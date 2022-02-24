@@ -12,7 +12,7 @@ let httpx = new XMLHttpRequest();
 httpx.open("GET", "files/SampleText.txt"); //determines which file to load
 httpx.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("toType").innerHTML = this.responseText;
+        document.getElementById("toType").innerHTML = this.responseText.replace(/    /g, "&#09;");
         toType = document.getElementById("toType").innerHTML;
     }
 };

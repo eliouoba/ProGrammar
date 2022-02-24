@@ -1,4 +1,4 @@
 Here is a collection of sample text for you to type.
 Newlines are included, so you will need to type those too.
-&#09;Indents are now accounted for.
+    Indents are now accounted for.
 Errors should be tracked by the program.
