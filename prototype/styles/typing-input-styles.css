@@ -1,0 +1,17 @@
+/* Sam Burk */
+
+body {
+    background-color: beige;
+}
+
+h1 {
+    font-family: "Times New Roman", 'Times New Roman', Times, serif;
+    text-align: center;
+}
+
+button {
+    background-color: white;
+    color: black;
+    border: 2px solid blue;
+    padding: 10px 10px;
+}
