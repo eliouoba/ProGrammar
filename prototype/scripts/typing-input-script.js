@@ -1,21 +1,22 @@
 //Josiah Hsu
 let errors, time, wpm, tracker, start, end, interval;
 let toType;
+
 const stats = document.getElementById("stats");
 const typed = document.getElementById("typed");
 
 init();
 
 //load text into document
-let x = new XMLHttpRequest();
-x.open("GET", "files/SampleText2.txt"); //determines which file to load
-x.onreadystatechange = function() {
+let httpx = new XMLHttpRequest();
+httpx.open("GET", "files/SampleText.txt"); //determines which file to load
+httpx.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         document.getElementById("toType").innerHTML = this.responseText;
         toType = document.getElementById("toType").innerHTML;
     }
 };
-x.send();
+httpx.send();
 
 /**
  * init - sets initial state
@@ -78,6 +79,10 @@ function type(keydownEvent) {
             break;
         case "Enter":
             tracker.push('\n')
+            break;
+        case " ":
+            keydownEvent.preventDefault();
+            tracker.push(' ');
             break;
         default:
             if (keydownEvent.key.length == 1) {
