@@ -9,21 +9,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProGrammar</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/styles.css">
-    <script src="scripts/scripts.js"></script>
+    <link rel="stylesheet" href="styles/sample-level-style.css">
+    <script src="scripts/typing-input-script.js"></script>
+    <script src="scripts/keyboard-visual-script.js"></script>
+
 </head>
 
 <body>
+    <button onclick="location.href='index.html'" type="button">Home</button>
     <br>
-
-
-
+    <pre id="typed" style="background-color: white;"></pre>
+    <p id="stats"></p>
     <h1>Type!</h1>
     <h2>Aim for speed while maintaining accuracy.</h2>
     <br>
     <div class=type_box>
-        <p class="type_text">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos, illo nobis eaque quisquam facilis qui tempore. Sit, quos beatae omnis recusandae voluptates, sint architecto labore, obcaecati aperiam eius sapiente expedita?</p>
+        <pre id="toType">
+Here is a collection of sample text for you to type.
+Newlines are included, so you will need to type those too.
+&#09;Indents are now accounted for.
+Errors should be tracked by the program.
+        </pre>
     </div>
+    <button id="reset" type="button" onclick="reset()">Reset</button>
+
     <br>
     <br>
     <br>

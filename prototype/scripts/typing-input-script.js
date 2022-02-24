@@ -1,25 +1,126 @@
-// Sam Burk
+//Josiah Hsu
+let errors, time, wpm, tracker, start, end, interval;
+const toType = document.getElementById("toType").innerHTML;
+const stats = document.getElementById("stats");
+const typed = document.getElementById("typed");
 
-let levelsPassed = 5;
+init();
 
-const levelText = ["Here is level 1! Type this!", 
-                    "You made it to level 2! Now type this!", 
-                    "Wow, level 3! Well done!", 
-                    "Level 4 gang!", 
-                    "Nice job, you're on level 5!", 
-                    "Welcome to level 6!", 
-                    "This is good level design, right Dr. Kim?", 
-                    "Why are you going this far?", 
-                    "This level is probably invalid anyway", 
-                    "Level 10 is pretty epic right?"];
+/**
+ * init - sets initial state
+ */
+function init() {
+    errors = 0;
+    time = 0;
+    wpm = 0;
+    tracker = [];
+    document.addEventListener("keydown", initType);
+    typed.innerHTML = '<span style="color:gray">Begin typing the above text to start.</span>';
+    stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
+    window.clearInterval(interval);
+}
 
+/**
+ * timer - updates stats every second
+ */
+function timer() {
+    time++;
+    wpm = Math.round((tracker.length / 5) / (time / 60));
+    stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
+}
 
-formatButtons();
+/**
+ * reset - reset to initial state
+ */
+function reset() {
+    alert("Resetting!");
+    document.removeEventListener("keydown", type);
+    init();
+}
 
-function selectLevel(v) {
-    if (v <= levelsPassed + 1) { 
-        document.getElementById("LevelText").innerHTML = levelText[v - 1];
-    } else { 
-        window.alert("You have not unlocked this level yet."); 
+/**
+ * initType - special event for first input
+ * @param {*} keydownEvent the keydownEvent upon first type
+ */
+function initType(keydownEvent) {
+    if (keydownEvent.key.length == 1) {
+        document.removeEventListener("keydown", initType);
+        document.addEventListener("keydown", type);
+        type(keydownEvent);
+        interval = window.setInterval(timer, 1000)
+        start = Date.now();
     }
+}
+
+/**
+ * type - records input from keyboard in tracker
+ * @param {*} keydownEvent the keydownEvent 
+ */
+function type(keydownEvent) {
+    switch (keydownEvent.key) {
+        case "Tab":
+            keydownEvent.preventDefault();
+            tracker.push('\t');
+            break;
+        case "Backspace":
+            tracker.pop();
+            break;
+        case "Enter":
+            tracker.push('\n')
+            break;
+        default:
+            if (keydownEvent.key.length == 1) {
+                tracker.push(keydownEvent.key);
+            }
+    }
+    makeText();
+}
+
+/**
+ * makeText - function to create representation of text typed 
+ *              so far w/ HTML formatting/colors
+ */
+function makeText() {
+    let text = '';
+    errors = 0;
+    for (var i = 0; i < tracker.length; i++) {
+        let c = tracker[i];
+        if (c == toType[i]) {
+            if (c == '\n')
+                c = '<br>';
+            else if (c == '\t')
+                c = '&#09;'
+        } else {
+            errors++;
+            if (c == ' ')
+                c = '_';
+            else if (c == '\n')
+                c = '<br>>';
+            else if (c == '\t')
+                c = '|tab|';
+            c = `<mark>${c}</mark>`;
+        }
+        text += c;
+    }
+    typed.innerHTML = text;
+    stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
+
+    if (tracker.length == toType.length)
+        endLesson();
+    else
+        typed.innerHTML += '_';
+}
+
+/**
+ * endLesson - function that sets lesson to completed state
+ */
+function endLesson() {
+    end = Date.now();
+    clearInterval(interval);
+    document.removeEventListener("keydown", type);
+    time = (end - start) / 1000;
+    wpm = Math.round((tracker.length / 5) / (time / 60))
+    const netwpm = wpm - errors;
+    alert(`Gross WPM: ${wpm}\nErrors: ${errors}\nNet WPM: ${netwpm}`);
+    stats.textContent = `Final time: ${time} Errors: ${errors} Net WPM: ${netwpm}`;
 }

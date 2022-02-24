@@ -1,14 +1,19 @@
 <!-- Sam Burk -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Styles.css">
+    <link rel="stylesheet" href="styles/topics-style.css">
     <title>Document</title>
+    <script src="scripts/topics-script.js"></script>
+
 </head>
+
 <body>
+    <button onclick="location.href='index.html'" type="button">Home</button>
     <audio autoplay muted loop>
         <source src="lobby-classic-game.mp3">
     </audio>
@@ -32,7 +37,9 @@
     <button id="9" onclick="selectLevel(9)"> 9 </button>
     <button id="10" onclick="selectLevel(10)"> 10 </button>
 
-    <script> formatButtons(); </script>
+    <script>
+        formatButtons();
+    </script>
 
     <p id="LevelText">
         Select a level to begin.
@@ -40,6 +47,6 @@
 
     <textarea name="PlayerText" id="PlayerText" cols="30" rows="10"></textarea>
 
-    <script src="MockupScript.js"></script>
 </body>
+
 </html>
