@@ -1,24 +1,14 @@
 // Sam Burk
 
-let levelsPassed = 5;
+//Arbitrary, will be linked to user profiles in the future
+let levelsPassed = 16;
 
-const levelText = ["Here is level 1! Type this!", 
-                    "You made it to level 2! Now type this!", 
-                    "Wow, level 3! Well done!", 
-                    "Level 4 gang!", 
-                    "Nice job, you're on level 5!", 
-                    "Welcome to level 6!", 
-                    "This is good level design, right Dr. Kim?", 
-                    "Why are you going this far?", 
-                    "This level is probably invalid anyway", 
-                    "Level 10 is pretty epic right?"];
-
-
-formatButtons();
-
+/* Param v: level number
+ * Will allow for loading different levels in the future
+ */
 function selectLevel(v) {
     if (v <= levelsPassed + 1) { 
-        document.getElementById("LevelText").innerHTML = levelText[v - 1];
+        window.location.href='sample-level.html';
     } else { 
         window.alert("You have not unlocked this level yet."); 
     }
