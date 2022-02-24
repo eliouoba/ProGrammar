@@ -23,21 +23,8 @@ li {
     letter-spacing: 1px;
 }
 
-
-/*
-body{
-    background-color: beige;
-    color: black;
-    float: left;
-}
-*/
-
 pre {
     tab-size: 4;
-}
-
-#typed pre {
-    background-color: white;
 }
 
 mark {
