@@ -16,8 +16,3 @@ pre{
 mark{
     background-color: lightcoral;
 }
-
-textarea{
-    width: 100%;
-    tab-size: 4;
-}
