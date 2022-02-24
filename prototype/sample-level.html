@@ -10,7 +10,7 @@
     <title>ProGrammar</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/sample-level-style.css">
-    <script src="scripts/typing-input-script.js"></script>
+    <script src="scripts/typing-input-script.js" defer></script>
     <script src="scripts/keyboard-visual-script.js"></script>
 
 </head>
@@ -18,19 +18,16 @@
 <body>
     <button onclick="location.href='index.html'" type="button">Home</button>
     <br>
-    <pre id="typed" style="background-color: white;"></pre>
-    <p id="stats"></p>
     <h1>Type!</h1>
     <h2>Aim for speed while maintaining accuracy.</h2>
     <br>
     <div class=type_box>
-        <pre id="toType">
-Here is a collection of sample text for you to type.
-Newlines are included, so you will need to type those too.
-&#09;Indents are now accounted for.
-Errors should be tracked by the program.
-        </pre>
+        <pre id="toType"></pre>
     </div>
+
+    <pre id="toType"></pre>
+    <pre id="typed" style="background-color: white;"></pre>
+    <p id="stats"></p>
     <button id="reset" type="button" onclick="reset()">Reset</button>
 
     <br>
@@ -104,5 +101,5 @@ Errors should be tracked by the program.
             </div>
         </div>
     </div>
-
+</body>
 </html>
