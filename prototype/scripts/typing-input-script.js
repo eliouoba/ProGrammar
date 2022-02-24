@@ -1,10 +1,21 @@
 //Josiah Hsu
 let errors, time, wpm, tracker, start, end, interval;
-const toType = document.getElementById("toType").innerHTML;
+let toType;
 const stats = document.getElementById("stats");
 const typed = document.getElementById("typed");
 
 init();
+
+//load text into document
+let x = new XMLHttpRequest();
+x.open("GET", "files/SampleText2.txt"); //determines which file to load
+x.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        document.getElementById("toType").innerHTML = this.responseText;
+        toType = document.getElementById("toType").innerHTML;
+    }
+};
+x.send();
 
 /**
  * init - sets initial state
