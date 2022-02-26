@@ -1,50 +1,49 @@
 //Josiah Hsu
-let errors, time, wpm, tracker, start, end, interval;
-let toType;
+let errors, time, wpm, tracker
+let start, end, interval;
+let typeRef;
 
 const stats = document.getElementById("stats");
-const typed = document.getElementById("typed");
-
-init();
+const toType = document.getElementById("toType");
 
 //load text into document
 let httpx = new XMLHttpRequest();
 httpx.open("GET", "files/SampleText.txt"); //determines which file to load
 httpx.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-        document.getElementById("toType").innerHTML = this.responseText.replace(/    /g, "&#09;");
-        toType = document.getElementById("toType").innerHTML;
+        typeRef = this.responseText.replace(/    /g, "\t").replace(/\r/g, '');
+        init();
     }
-};
+  };
 httpx.send();
+
 
 /**
  * init - sets initial state
  */
-function init() {
+function init(){
     errors = 0;
     time = 0;
     wpm = 0;
     tracker = [];
-    document.addEventListener("keydown", initType);
-    typed.innerHTML = '<span style="color:gray">Begin typing the above text to start.</span>';
-    stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
+    document.addEventListener("keydown", initType); 
+    makeText();
     window.clearInterval(interval);
 }
 
 /**
- * timer - updates stats every second
+ * timer - updates wpm and time
  */
-function timer() {
-    time++;
+function updateStats(){
+    time = (Date.now() - start) / 1000;
     wpm = Math.round((tracker.length / 5) / (time / 60));
     stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
-}
+ }
 
-/**
- * reset - reset to initial state
- */
-function reset() {
+ /**
+  * reset - reset to initial state
+  */
+ function reset(){
     alert("Resetting!");
     document.removeEventListener("keydown", type);
     init();
@@ -54,12 +53,12 @@ function reset() {
  * initType - special event for first input
  * @param {*} keydownEvent the keydownEvent upon first type
  */
-function initType(keydownEvent) {
-    if (keydownEvent.key.length == 1) {
+function initType(keydownEvent){
+    if(keydownEvent.key.length == 1){
         document.removeEventListener("keydown", initType);
         document.addEventListener("keydown", type);
         type(keydownEvent);
-        interval = window.setInterval(timer, 1000)
+        interval = window.setInterval(updateStats, 250)
         start = Date.now();
     }
 }
@@ -68,8 +67,8 @@ function initType(keydownEvent) {
  * type - records input from keyboard in tracker
  * @param {*} keydownEvent the keydownEvent 
  */
-function type(keydownEvent) {
-    switch (keydownEvent.key) {
+ function type(keydownEvent){
+    switch(keydownEvent.key){
         case "Tab":
             keydownEvent.preventDefault();
             tracker.push('\t');
@@ -78,14 +77,14 @@ function type(keydownEvent) {
             tracker.pop();
             break;
         case "Enter":
-            tracker.push('\n')
+            tracker.push('\n');
             break;
         case " ":
             keydownEvent.preventDefault();
             tracker.push(' ');
             break;
         default:
-            if (keydownEvent.key.length == 1) {
+            if(keydownEvent.key.length == 1){
                 tracker.push(keydownEvent.key);
             }
     }
@@ -96,41 +95,79 @@ function type(keydownEvent) {
  * makeText - function to create representation of text typed 
  *              so far w/ HTML formatting/colors
  */
-function makeText() {
+ function makeText(){
     let text = '';
+    let i;
     errors = 0;
-    for (var i = 0; i < tracker.length; i++) {
-        let c = tracker[i];
-        if (c == toType[i]) {
-            if (c == '\n')
-                c = '<br>';
-            else if (c == '\t')
-                c = '&#09;'
-        } else {
-            errors++;
-            if (c == ' ')
-                c = '_';
-            else if (c == '\n')
-                c = '<br>>';
-            else if (c == '\t')
-                c = '|tab|';
-            c = `<mark>${c}</mark>`;
-        }
-        text += c;
-    }
-    typed.innerHTML = text;
-    stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
 
-    if (tracker.length == toType.length)
+    //typed portion
+    text += '<b>';
+    for(i = 0; i < tracker.length; i++){
+        let c = tracker[i];
+        let correct = (c == typeRef[i]);
+        c = convertReserved(c);
+
+        if(!correct){
+            errors++;
+            c = `<mark>${convertInvis(c)}</mark>`;
+        }
+        text+=c;
+    }
+    text += '</b>'
+
+    //untyped portion
+    text += '<span style="color:gray">'
+    if(i < typeRef.length){
+        //underlines next character
+        text+=`<u>${convertInvis(typeRef[i])}</u>`;
+        i++;
+    }
+
+    while (i < typeRef.length){
+        text+=convertReserved(typeRef[i++]);
+    }
+    text += '</span>'
+    
+    toType.innerHTML = text;
+    if(tracker.length == typeRef.length)
         endLesson();
     else
-        typed.innerHTML += '_';
+        stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
+}
+
+/**
+ * convertReserved - converts reserved characters to their character codes. 
+ *                  Nonreserved characters are left unchanged.
+ * @param {*} c The character to convert.
+ * @returns The converted character if reserved, the character itself otherwise.
+ */
+function convertReserved(c){
+    switch(c){
+        case '&': c = '&#38;'; break;
+        case '<': c = '&#60;'; break;
+        case '>': c = '&#62;'; break;
+    }
+    return c;
+}
+
+/**
+ * convertInvis - converts nonvisible characters to a corresponding visible character.
+ *              Visible characters are left unchanged.
+ * @param {*} c The character to convert.
+ * @returns The converted character if nonvisible, the character itself otherwise.
+ */
+function convertInvis(c){
+    switch(c){
+        case '\n': c = '&#8629;\n'; break; //carrage return symbol
+        case '\t': c = '&#8594;\t'; break; //right arrow symbol
+    }
+    return c;
 }
 
 /**
  * endLesson - function that sets lesson to completed state
  */
-function endLesson() {
+function endLesson(){
     end = Date.now();
     clearInterval(interval);
     document.removeEventListener("keydown", type);
