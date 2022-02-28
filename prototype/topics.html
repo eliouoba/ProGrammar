@@ -1,6 +1,7 @@
 <!-- Sam Burk -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,11 +9,13 @@
     <link rel="stylesheet" href="Styles/topics-style.css">
     <title>Level Selection Page</title>
 </head>
+
 <body>
-    <h1>
-        ProGrammar
-    </h1>
-    <button id="Back" onclick="window.location.href='index.html'"> Home </button>
+    <nav class="nav_bar">
+        <ul class="navlist">
+            <a class="programmar nav_menu" href="index.html">ProGrammar</a>
+        </ul>
+    </nav>
 
     <h3>
         Topics:
@@ -20,29 +23,29 @@
 
     <div class="navbar">
         <div class="dropdown">
-        <button class="dropbtn">Topic 1 
+            <button class="dropbtn">Topic 1 
             <i class="fa fa-caret-down"></i>
         </button>
-        <div class="dropdown-content">
-            <div class="row">
-                <div class="column">
-                    <a href="#" onclick="selectLevel(1)">Lesson 1.1</a>
-                    <a href="#" onclick="selectLevel(2)">Lesson 1.2</a>
-                    <a href="#" onclick="selectLevel(3)">Lesson 1.3</a>
-                </div>
-                <div class="column">
-                    <a href="#" onclick="selectLevel(5)">Lesson 1.4</a>
-                    <a href="#" onclick="selectLevel(4)">Lesson 1.5</a>
-                    <a href="#" onclick="selectLevel(6)">Lesson 1.6</a>
-                </div>
-                <div class="column">
-                    <a href="#" onclick="selectLevel(7)">Lesson 1.7</a>
-                    <a href="#" onclick="selectLevel(8)">Lesson 1.8</a>
-                    <a href="#" onclick="selectLevel(9)">Lesson 1.9</a>
+            <div class="dropdown-content">
+                <div class="row">
+                    <div class="column">
+                        <a href="#" onclick="selectLevel(1)">Lesson 1.1</a>
+                        <a href="#" onclick="selectLevel(2)">Lesson 1.2</a>
+                        <a href="#" onclick="selectLevel(3)">Lesson 1.3</a>
+                    </div>
+                    <div class="column">
+                        <a href="#" onclick="selectLevel(5)">Lesson 1.4</a>
+                        <a href="#" onclick="selectLevel(4)">Lesson 1.5</a>
+                        <a href="#" onclick="selectLevel(6)">Lesson 1.6</a>
+                    </div>
+                    <div class="column">
+                        <a href="#" onclick="selectLevel(7)">Lesson 1.7</a>
+                        <a href="#" onclick="selectLevel(8)">Lesson 1.8</a>
+                        <a href="#" onclick="selectLevel(9)">Lesson 1.9</a>
+                    </div>
                 </div>
             </div>
         </div>
-        </div> 
 
         <div class="dropdown">
             <button class="dropbtn">Topic 2 
@@ -67,9 +70,10 @@
                     </div>
                 </div>
             </div>
-            </div> 
+        </div>
     </div>
 
     <script src=scripts/topics-script.js></script>
 </body>
+
 </html>

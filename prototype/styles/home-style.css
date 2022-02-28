@@ -10,6 +10,10 @@ html {
     background-color: beige;
 }
 
+body {
+    margin: 0;
+}
+
 button {
     background-color: rgb(187, 194, 209);
     color: black;
@@ -31,4 +35,25 @@ textarea {
     background-color: beige;
     border: white;
     width: 1000px;
+}
+
+.navbar {
+    width: 100%;
+    background-color: lightgrey;
+    justify-items: center;
+    display: inline-block;
+}
+
+.navlist {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.programmar {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    float: left;
+    font-size: 30px;
+    margin: 10px;
 }

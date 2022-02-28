@@ -9,24 +9,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProGrammar</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/sample-level-style.css">
+    <link rel="stylesheet" href="styles/sample-lesson-style.css">
     <script src="scripts/typing-input-script.js" defer></script>
     <script src="scripts/keyboard-visual-script.js"></script>
 
 </head>
 
 <body>
-    <button onclick="location.href='index.html'" type="button">Home</button>
-    <button id="reset" type="button" onclick="reset()">Reset</button>
+    <nav class="navbar">
+        <ul class="navlist">
+            <a class="programmar nav_menu" href="index.html">ProGrammar</a>
+        </ul>
+    </nav>
     <br>
-    
     <h1>Type!</h1>
     <h2>Aim for speed while maintaining accuracy.</h2>
     <div class=type_box>
         <pre id="toType"></pre>
     </div>
+    <div>
+        <button id="reset" type="button" onclick="reset()">Reset</button>
+        <span id="stats"></p>
+    </div>
 
-    <p id="stats"></p>
     <pre id="typed" style="background-color: white;"></pre>
 
     <div class=keyboard>
@@ -98,4 +103,5 @@
         </div>
     </div>
 </body>
+
 </html>

@@ -3,7 +3,12 @@
 var capsLockDown = false;
 
 //darken key when pressed
-document.addEventListener("keydown", e => {
+document.addEventListener("keydown", keyPressed);
+
+//lighten key when released
+document.addEventListener("keyup", keyReleased);
+
+function keyPressed(e) {
     if (e.key == "CapsLock") {
         if (capsLockDown) lighten(e);
         else darken(e);
@@ -12,13 +17,12 @@ document.addEventListener("keydown", e => {
         e.preventDefault();
         darken(e);
     } else darken(e);
-}, );
+}
 
-//lighten key when released
-document.addEventListener("keyup", e => {
+function keyReleased(e) {
     if (e.key != "CapsLock")
         lighten(e); //For caps lock, only change color on "keydown" event
-}, );
+}
 
 function lighten(event) {
     keyPressed = getKey(event);
@@ -32,7 +36,6 @@ function darken(event) {
     keyPressed.style.color = "white";
 }
 
-//find out which key was pressed
 function getKey(event) {
     var keyPressed;
     if (event.key == "Shift")

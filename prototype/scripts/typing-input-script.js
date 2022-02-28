@@ -14,19 +14,19 @@ httpx.onreadystatechange = function() {
         typeRef = this.responseText.replace(/    /g, "\t").replace(/\r/g, '');
         init();
     }
-  };
+};
 httpx.send();
 
 
 /**
  * init - sets initial state
  */
-function init(){
+function init() {
     errors = 0;
     time = 0;
     wpm = 0;
     tracker = [];
-    document.addEventListener("keydown", initType); 
+    document.addEventListener("keydown", initType);
     makeText();
     window.clearInterval(interval);
 }
@@ -34,16 +34,16 @@ function init(){
 /**
  * timer - updates wpm and time
  */
-function updateStats(){
+function updateStats() {
     time = (Date.now() - start) / 1000;
     wpm = Math.round((tracker.length / 5) / (time / 60));
     stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
- }
+}
 
- /**
-  * reset - reset to initial state
-  */
- function reset(){
+/**
+ * reset - reset to initial state
+ */
+function reset() {
     alert("Resetting!");
     document.removeEventListener("keydown", type);
     init();
@@ -53,12 +53,12 @@ function updateStats(){
  * initType - special event for first input
  * @param {*} keydownEvent the keydownEvent upon first type
  */
-function initType(keydownEvent){
-    if(keydownEvent.key.length == 1){
+function initType(keydownEvent) {
+    if (keydownEvent.key.length == 1) {
         document.removeEventListener("keydown", initType);
         document.addEventListener("keydown", type);
         type(keydownEvent);
-        interval = window.setInterval(updateStats, 250)
+        interval = window.setInterval(updateStats, 250);
         start = Date.now();
     }
 }
@@ -67,8 +67,8 @@ function initType(keydownEvent){
  * type - records input from keyboard in tracker
  * @param {*} keydownEvent the keydownEvent 
  */
- function type(keydownEvent){
-    switch(keydownEvent.key){
+function type(keydownEvent) {
+    switch (keydownEvent.key) {
         case "Tab":
             keydownEvent.preventDefault();
             tracker.push('\t');
@@ -84,7 +84,7 @@ function initType(keydownEvent){
             tracker.push(' ');
             break;
         default:
-            if(keydownEvent.key.length == 1){
+            if (keydownEvent.key.length == 1) {
                 tracker.push(keydownEvent.key);
             }
     }
@@ -95,41 +95,41 @@ function initType(keydownEvent){
  * makeText - function to create representation of text typed 
  *              so far w/ HTML formatting/colors
  */
- function makeText(){
+function makeText() {
     let text = '';
     let i;
     errors = 0;
 
     //typed portion
     text += '<b>';
-    for(i = 0; i < tracker.length; i++){
+    for (i = 0; i < tracker.length; i++) {
         let c = tracker[i];
         let correct = (c == typeRef[i]);
         c = convertReserved(c);
 
-        if(!correct){
+        if (!correct) {
             errors++;
             c = `<mark>${convertInvis(c)}</mark>`;
         }
-        text+=c;
+        text += c;
     }
     text += '</b>'
 
     //untyped portion
     text += '<span style="color:gray">'
-    if(i < typeRef.length){
+    if (i < typeRef.length) {
         //underlines next character
-        text+=`<u>${convertInvis(typeRef[i])}</u>`;
+        text += `<u>${convertInvis(typeRef[i])}</u>`;
         i++;
     }
 
-    while (i < typeRef.length){
-        text+=convertReserved(typeRef[i++]);
+    while (i < typeRef.length) {
+        text += convertReserved(typeRef[i++]);
     }
     text += '</span>'
-    
+
     toType.innerHTML = text;
-    if(tracker.length == typeRef.length)
+    if (tracker.length == typeRef.length)
         endLesson();
     else
         stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
@@ -141,11 +141,17 @@ function initType(keydownEvent){
  * @param {*} c The character to convert.
  * @returns The converted character if reserved, the character itself otherwise.
  */
-function convertReserved(c){
-    switch(c){
-        case '&': c = '&#38;'; break;
-        case '<': c = '&#60;'; break;
-        case '>': c = '&#62;'; break;
+function convertReserved(c) {
+    switch (c) {
+        case '&':
+            c = '&#38;';
+            break;
+        case '<':
+            c = '&#60;';
+            break;
+        case '>':
+            c = '&#62;';
+            break;
     }
     return c;
 }
@@ -156,10 +162,14 @@ function convertReserved(c){
  * @param {*} c The character to convert.
  * @returns The converted character if nonvisible, the character itself otherwise.
  */
-function convertInvis(c){
-    switch(c){
-        case '\n': c = '&#8629;\n'; break; //carrage return symbol
-        case '\t': c = '&#8594;\t'; break; //right arrow symbol
+function convertInvis(c) {
+    switch (c) {
+        case '\n':
+            c = '&#8629;\n';
+            break; //carrage return symbol
+        case '\t':
+            c = '&#8594;\t';
+            break; //right arrow symbol
     }
     return c;
 }
@@ -167,7 +177,7 @@ function convertInvis(c){
 /**
  * endLesson - function that sets lesson to completed state
  */
-function endLesson(){
+function endLesson() {
     end = Date.now();
     clearInterval(interval);
     document.removeEventListener("keydown", type);
