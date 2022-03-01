@@ -1,36 +1,31 @@
 //Josiah Hsu
 
-//wait until all the HTML is loaded
-document.addEventListener("DOMContentLoaded", preTasks);
-
-function preTasks() {
-
-    let errors, time, wpm, tracker;
-    let start, end, interval;
-    let typeRef;
+let errors, time, wpm, tracker;
+let start, end, interval;
+let typeRef;
 
 
-    const stats = document.getElementById("stats");
-    const toType = document.getElementById("toType");
+const stats = document.getElementById("stats");
+const toType = document.getElementById("toType");
 
-    //determine lesson from url
-    const urlParams = new URLSearchParams(window.location.search);
-    let lessonFile = urlParams.get("lesson");
+//determine lesson from url
+const urlParams = new URLSearchParams(window.location.search);
+let lessonFile = urlParams.get("lesson");
 
-    //load lesson into document
-    let httpx = new XMLHttpRequest();
-    httpx.open("GET", "files/" + lessonFile);
-    httpx.onreadystatechange = function() {
-        if (this.readyState == 4) {
-            if (this.status == 200)
-                typeRef = this.responseText.replace(/    /g, "\t").replace(/\r/g, '');
-            else if (this.status == 404)
-                typeRef = "The lesson you selected could not be found.";
-            init();
-        }
-    };
-    httpx.send();
-}
+//load lesson into document
+let httpx = new XMLHttpRequest();
+httpx.open("GET", "files/" + lessonFile);
+httpx.onreadystatechange = function() {
+    if (this.readyState == 4) {
+        if (this.status == 200)
+            typeRef = this.responseText.replace(/    /g, "\t").replace(/\r/g, '');
+        else if (this.status == 404)
+            typeRef = "The lesson you selected could not be found.";
+        init();
+    }
+};
+httpx.send();
+
 
 /**
  * init - sets initial state
