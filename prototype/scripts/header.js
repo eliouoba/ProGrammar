@@ -19,7 +19,7 @@ function addHeader() {
                 <span class="nav_dividers">|</span>
                 <a class="nav_menu">Settings</a>
                 <span class="nav_dividers">|</span>
-                <a class="nav_menu">References</a>
+                <a class="nav_menu" id="references" href='references.html'>References</a>
                 <span class="nav_dividers">|</span>
                 <a class="nav_menu" class="login nav_menu" href="login.html">Login</a>
             </ul>
