@@ -1,22 +1,28 @@
 //Josiah Hsu
-let errors, time, wpm, tracker
+let errors, time, wpm, tracker;
 let start, end, interval;
 let typeRef;
 
 const stats = document.getElementById("stats");
 const toType = document.getElementById("toType");
 
-//load text into document
+//determine lesson from url
+const urlParams = new URLSearchParams(window.location.search);
+let lessonFile = urlParams.get("lesson");
+
+//load lesson into document
 let httpx = new XMLHttpRequest();
-httpx.open("GET", "files/SampleText.txt"); //determines which file to load
+httpx.open("GET", "files/" + lessonFile);
 httpx.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        typeRef = this.responseText.replace(/    /g, "\t").replace(/\r/g, '');
+    if (this.readyState == 4){
+        if(this.status == 200)
+            typeRef = this.responseText.replace(/    /g, "\t").replace(/\r/g, '');
+        else if(this.status == 404)
+            typeRef = "The lesson you selected could not be found.";
         init();
     }
 };
 httpx.send();
-
 
 /**
  * init - sets initial state
@@ -109,7 +115,10 @@ function makeText() {
 
         if (!correct) {
             errors++;
-            c = `<mark>${convertInvis(c)}</mark>`;
+            c = convertInvis(c);
+            c = `<mark>${c}</mark>`;
+            if(typeRef[i] == '\n')
+                c += '\n';
         }
         text += c;
     }
@@ -119,8 +128,7 @@ function makeText() {
     text += '<span style="color:gray">'
     if (i < typeRef.length) {
         //underlines next character
-        text += `<u>${convertInvis(typeRef[i])}</u>`;
-        i++;
+        text += `<u>${convertInvis(convertReserved(typeRef[i++]))}</u>`;
     }
 
     while (i < typeRef.length) {
@@ -165,11 +173,11 @@ function convertReserved(c) {
 function convertInvis(c) {
     switch (c) {
         case '\n':
-            c = '&#8629;\n';
-            break; //carrage return symbol
+            c = '&#8629;\n'; //carrage return symbol
+            break;
         case '\t':
-            c = '&#8594;\t';
-            break; //right arrow symbol
+            c = '&#8594;\t'; //right arrow symbol
+            break;
     }
     return c;
 }
