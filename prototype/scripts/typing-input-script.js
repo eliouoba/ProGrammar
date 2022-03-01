@@ -3,20 +3,24 @@ let errors, time, wpm, tracker
 let start, end, interval;
 let typeRef;
 
-const stats = document.getElementById("stats");
-const toType = document.getElementById("toType");
+//wait until all the HTML is loaded
+document.addEventListener("DOMContentLoaded", preTasks);
 
-//load text into document
-let httpx = new XMLHttpRequest();
-httpx.open("GET", "files/SampleText.txt"); //determines which file to load
-httpx.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        typeRef = this.responseText.replace(/    /g, "\t").replace(/\r/g, '');
-        init();
-    }
-};
-httpx.send();
+function preTasks() {
+    const stats = document.getElementById("stats");
+    const toType = document.getElementById("toType");
 
+    //load text into document
+    let httpx = new XMLHttpRequest();
+    httpx.open("GET", "files/SampleText.txt"); //determines which file to load
+    httpx.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            typeRef = this.responseText.replace(/    /g, "\t").replace(/\r/g, '');
+            init();
+        }
+    };
+    httpx.send();
+}
 
 /**
  * init - sets initial state
