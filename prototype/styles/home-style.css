@@ -21,6 +21,7 @@ button {
     margin: 8px 0;
     border-color: black;
     cursor: pointer;
+    width: 35%;
     border-radius: 10px;
     align-items: center;
     justify-content: center;
@@ -34,23 +35,6 @@ textarea {
     background-color: beige;
     border: white;
     width: 1000px;
-}
-
-.dropbtn {
-    font-size: 16px;
-    border: none;
-    outline: none;
-    color: black;
-    padding: 14px 16px;
-    background-color: inherit;
-    font: inherit;
-    /* Important for vertical align on mobile phones */
-    margin: 0;
-    /* Important for vertical align on mobile phones */
-}
-
-.dropdown:hover .dropbtn {
-    background-color: red;
 }
 
 .navbar {
@@ -72,5 +56,4 @@ textarea {
     float: left;
     font-size: 30px;
     margin: 10px;
-    border: black;
 }
