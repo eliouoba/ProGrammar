@@ -8,7 +8,7 @@ let levelsPassed = 16;
  */
 function selectLevel(v) {
     if (v <= levelsPassed + 1) { 
-        window.location.href='sample-level.html';
+        window.location.href='sample-lesson.html';
     } else { 
         window.alert("You have not unlocked this level yet."); 
     }
