@@ -39,7 +39,7 @@ function init() {
 }
 
 /**
- * timer - updates wpm and time
+ * updateStats - updates wpm and time
  */
 function updateStats() {
     time = (Date.now() - start) / 1000;
