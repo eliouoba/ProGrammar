@@ -1,77 +1,34 @@
 body {
-  background-color: #474e5d;
+    background-color: #474e5d;
 }
+
 .head {
-  margin: auto;
-  text-align: center;
-  justify-content: center;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  padding: 20px;
-  width: 500px;
-  border-radius: 10px;
-  background-color: white;
+    margin: auto;
+    text-align: center;
+    justify-content: center;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    padding: 20px;
+    width: 500px;
+    border-radius: 10px;
+    background-color: white;
 }
 
 .panel {
-  text-align: center;
-  justify-content: center;
-  margin: auto;
-  padding: 80px;
-  background-color: lightgrey;
-  border-radius: 15px;
-  top: 25%;
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    padding: 80px;
+    background-color: lightgrey;
+    border-radius: 15px;
+    top: 25%;
 }
-.lesson {
-  text-align: center;
-  justify-content: center;
-  margin: auto;
-  padding: 10px;
-  background-color: gray;
-  border-radius: 15px;
-  top: 25%;
-}
-.accuracy {
-  text-align: center;
-  justify-content: center;
-  margin: auto;
-  padding: 10px;
-  background-color: gray;
-  border-radius: 15px;
-  top: 25%;
-}
-.topic {
-  text-align: center;
-  justify-content: center;
-  margin: auto;
-  padding: 10px;
-  background-color: gray;
-  border-radius: 15px;
-  top: 25%;
-}
-.GameP {
-  text-align: center;
-  justify-content: center;
-  margin: auto;
-  padding: 10px;
-  background-color: gray;
-  border-radius: 15px;
-  top: 25%;
-}
-.GameW {
-  text-align: center;
-  justify-content: center;
-  margin: auto;
-  padding: 10px;
-  background-color: gray;
-  border-radius: 15px;
-  top: 25%;
-}
-.wpm {
-  text-align: center;
-  justify-content: center;
-  margin: auto;
-  padding: 10px;
-  background-color: gray;
-  border-radius: 15px;
-  top: 25%;
+
+.stats {
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    padding: 10px;
+    background-color: gray;
+    border-radius: 15px;
+    top: 25%;
 }
