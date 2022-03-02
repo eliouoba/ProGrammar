@@ -89,7 +89,7 @@ function type(keydownEvent) {
             break;
         case "Enter":
             tracker.push('\n');
-            if(++newlinecount > 2)
+            if(++newlinecount > 5)
                 window.scrollBy(0, 25);
             break;
         case " ":
