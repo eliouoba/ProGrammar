@@ -26,12 +26,14 @@ function keyReleased(e) {
 
 function lighten(event) {
     keyPressed = getKey(event);
+    if (keyPressed == null) return;
     keyPressed.style.backgroundColor = "white";
     keyPressed.style.color = "black";
 }
 
 function darken(event) {
     keyPressed = getKey(event);
+    if (keyPressed == null) return;
     keyPressed.style.backgroundColor = "silver";
     keyPressed.style.color = "white";
 }
