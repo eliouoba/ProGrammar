@@ -1,6 +1,6 @@
 //Josiah Hsu
 
-let errors, time, wpm, tracker;
+let errors, time, wpm, tracker, newlinecount;
 let start, end, interval;
 let typeRef;
 
@@ -32,6 +32,7 @@ function init() {
     errors = 0;
     time = 0;
     wpm = 0;
+    newlinecount = 0;
     tracker = [];
     document.addEventListener("keydown", initType);
     makeText();
@@ -81,15 +82,22 @@ function type(keydownEvent) {
             tracker.push('\t');
             break;
         case "Backspace":
-            tracker.pop();
+            if(tracker.pop() == '\n'){
+                newlinecount--;
+                window.scrollBy(0,-24.5);
+            }
             break;
         case "Enter":
             tracker.push('\n');
+            if(++newlinecount > 5)
+                window.scrollBy(0, 25);
             break;
         case " ":
             keydownEvent.preventDefault();
             tracker.push(' ');
             break;
+        case "Shift": //no input for shift
+            return;
         default:
             if (keydownEvent.key.length == 1) {
                 tracker.push(keydownEvent.key);
