@@ -1,12 +1,10 @@
-var mysql = require('mysql');
+const {createPool} = require('mysql')
 
-var con = mysql.createConnection({
+const pool = createPool({
   host: "localhost",
   user: "root",
-  password: "root"
-});
+  password: "A..912889",
+})
 
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
+
+pool.query('select * from ')
