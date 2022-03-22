@@ -1,10 +1,18 @@
-const {createPool} = require('mysql')
+const mysql = require('mysql');
+const connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'newuser',
+  password: 'newpassword',
+  database: 'department'
+});
 
-const pool = createPool({
-  host: "localhost",
-  user: "root",
-  password: "A..912889",
-})
+connection.connect((err) => {
+  if (err) throw err;
+  console.log('Connected to MySQL Server!');
+});
 
-
-pool.query('select * from ')
+connection.query('SELECT * from student', (err, rows) => {
+  if(err) throw err;
+  console.log('The data from users table are: \n', rows);
+  connection.end();
+});
