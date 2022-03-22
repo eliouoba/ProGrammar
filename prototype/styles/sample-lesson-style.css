@@ -126,6 +126,7 @@ mark {
     overflow-x: auto;
     overflow-y: auto;
     height: 8em;
+    line-height: 1.2em;
 }
 
 #reset {
