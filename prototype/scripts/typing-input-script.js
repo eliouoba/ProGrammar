@@ -1,8 +1,9 @@
 //Josiah Hsu
 
-let errors, time, wpm, tracker, newlinecount;
-let start, end, interval;
-let typeRef;
+let typeRef, tracker, newlinecount, oldTyped, oldRef; //typed
+let time, errors, wpm, accuracy; //stats
+let entries, totalErrors; //accuracy
+let start, end, interval; //timer
 
 const stats = document.getElementById("stats");
 const toType = document.getElementById("toType");
@@ -29,9 +30,12 @@ httpx.send();
  * init - sets initial state
  */
 function init() {
-    errors = 0;
+    entries = 0;
+    totalErrors = 0;
     time = 0;
+    errors = 0;
     wpm = 0;
+    accuracy = 100;
     newlinecount = 0;
     tracker = [];
     document.addEventListener("keydown", initType);
@@ -40,12 +44,21 @@ function init() {
 }
 
 /**
- * updateStats - updates wpm and time
+ * timer - keeps track of the time and wpm
  */
-function updateStats() {
+function timer() {
     time = (Date.now() - start) / 1000;
     wpm = Math.round((tracker.length / 5) / (time / 60));
-    stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
+    updateStats();
+}
+
+/**
+ * updateStats - updates wpm, errors, and time
+ */
+function updateStats() {
+    const netwpm = wpm-errors;
+    stats.innerHTML = `Time: ${time.toFixed(3)} Errors: ${errors}
+                        WPM: ${netwpm} Accuracy: ${accuracy.toFixed(2)}%`;
 }
 
 /**
@@ -54,6 +67,7 @@ function updateStats() {
 function reset() {
     alert("Resetting!");
     document.removeEventListener("keydown", type);
+    document.getElementById("reset").blur();
     init();
 }
 
@@ -66,7 +80,7 @@ function initType(keydownEvent) {
         document.removeEventListener("keydown", initType);
         document.addEventListener("keydown", type);
         type(keydownEvent);
-        interval = window.setInterval(updateStats, 250);
+        interval = window.setInterval(timer, 250);
         start = Date.now();
     }
 }
@@ -84,13 +98,13 @@ function type(keydownEvent) {
         case "Backspace":
             if(tracker.pop() == '\n'){
                 newlinecount--;
-                window.scrollBy(0,-24.5);
+                document.getElementById("toTypeBox").scrollBy(0,-24.5);
             }
             break;
         case "Enter":
             tracker.push('\n');
-            if(++newlinecount > 5)
-                window.scrollBy(0, 25);
+            if(++newlinecount > 2)
+                document.getElementById("toTypeBox").scrollBy(0, 25);
             break;
         case " ":
             keydownEvent.preventDefault();
@@ -103,7 +117,50 @@ function type(keydownEvent) {
                 tracker.push(keydownEvent.key);
             }
     }
-    makeText();
+    if(keydownEvent.key == "Backspace")
+        makeText();
+    else{
+        updateAccuracy();
+        addEntry();
+    }
+}
+
+/**
+ * updateAccuracy - calculates accuracy based on total entries/errors
+ */
+function updateAccuracy(){
+    entries++;
+    const pos = tracker.length-1;
+    if(tracker[pos] != typeRef[pos])
+        totalErrors++;
+    accuracy = ((entries - totalErrors) / entries) * 100;
+}
+
+/**
+ * addEntry - updates formatted representation of text 
+ *              typed so far after new entry
+ */
+function addEntry(){
+    let text = oldTyped;
+    let i = tracker.length-1;
+
+    text += checkCorrect(i);
+
+    oldTyped = text;
+    text = `<b>${text}</b>`
+
+    text += '<span style="color:gray">'
+    if (++i < typeRef.length) {
+        //underlines next character
+        text += `<u>${convertInvis(convertReserved(typeRef[i++]))}</u>`;
+    }
+
+    while (i < typeRef.length) {
+        text += convertReserved(typeRef[i++]);
+    }
+    text += '</span>'
+
+    displayText(text);
 }
 
 /**
@@ -116,22 +173,11 @@ function makeText() {
     errors = 0;
 
     //typed portion
-    text += '<b>';
     for (i = 0; i < tracker.length; i++) {
-        let c = tracker[i];
-        let correct = (c == typeRef[i]);
-        c = convertReserved(c);
-
-        if (!correct) {
-            errors++;
-            c = convertInvis(c);
-            c = `<mark>${c}</mark>`;
-            if (typeRef[i] == '\n')
-                c += '\n';
-        }
-        text += c;
+        text += checkCorrect(i);
     }
-    text += '</b>'
+    oldTyped = text;
+    text = `<b>${text}</b>`
 
     //untyped portion
     text += '<span style="color:gray">'
@@ -145,11 +191,41 @@ function makeText() {
     }
     text += '</span>'
 
+    displayText(text);
+}
+
+/**
+ * displayText - displays the text on screen
+ * @param {*} text The text to be displayed 
+ */
+function displayText(text){
     toType.innerHTML = text;
     if (tracker.length == typeRef.length)
         endLesson();
     else
-        stats.textContent = `Time: ${time} Errors: ${errors} WPM: ${wpm}`;
+        updateStats();
+}
+
+/**
+ * checkCorrect - compares the typed character at a given position to
+ *                  the correct character in the reference text, highlighting
+ *                  it if it's incorrect
+ * @param {*} pos the position of the typed character
+ * @returns the typed character at the given position, highlighted if incorrect
+ */
+function checkCorrect(pos){
+    let c = tracker[pos];
+    let correct = (c == typeRef[pos]);
+    c = convertReserved(c);
+
+    if (!correct) {
+        errors++;
+        c = convertInvis(c);
+        c = `<mark>${c}</mark>`;
+        if (typeRef[pos] == '\n')
+            c += '\n';
+    }
+    return c;
 }
 
 /**
@@ -199,8 +275,5 @@ function endLesson() {
     clearInterval(interval);
     document.removeEventListener("keydown", type);
     time = (end - start) / 1000;
-    wpm = Math.round((tracker.length / 5) / (time / 60))
-    const netwpm = wpm - errors;
-    alert(`Gross WPM: ${wpm}\nErrors: ${errors}\nNet WPM: ${netwpm}`);
-    stats.textContent = `Final time: ${time} Errors: ${errors} Net WPM: ${netwpm}`;
+    updateStats();
 }
