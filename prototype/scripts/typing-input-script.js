@@ -7,6 +7,9 @@ let start, end, interval; //timer
 
 const stats = document.getElementById("stats");
 const toType = document.getElementById("toType");
+const toTypeBox = document.getElementById("toTypeBox");
+const resetButton = document.getElementById("reset");
+const lineHeight = window.getComputedStyle(toType).lineHeight.replace("px", '');
 
 //determine lesson from url
 const urlParams = new URLSearchParams(window.location.search);
@@ -40,8 +43,8 @@ function init() {
     newlinecount = 0;
     typed = [];
     makeText();
-    document.getElementById("toTypeBox").scrollTo(0,0);
-    document.getElementById("reset").hidden = false;
+    toTypeBox.scrollTo(0,0);
+    resetButton.hidden = false;
     document.addEventListener("keydown", initType);
     window.clearInterval(interval);
 }
@@ -60,8 +63,8 @@ function timer() {
  */
 function updateStats() {
     const netwpm = Math.max(wpm-errors, 0);
-    stats.textContent = `Time: ${time} Errors: ${errors} `+
-                        `Net WPM: ${netwpm} Accuracy: ${accuracy}%`;
+    stats.textContent = `Time: ${time.toFixed(2)} Errors: ${errors} ` +
+                        `Net WPM: ${netwpm} Accuracy: ${accuracy.toFixed(2)}%`;
 }
 
 /**
@@ -72,7 +75,7 @@ function updateStats() {
     const pos = typed.length-1;
     if(typed[pos] != lessonText[pos])
         totalErrors++;
-    accuracy = (((entries - totalErrors) / entries) * 100).toFixed(2);
+    accuracy = (((entries - totalErrors) / entries) * 100);
 }
 
 /**
@@ -81,7 +84,7 @@ function updateStats() {
 function reset() {
     alert("Resetting!");
     document.removeEventListener("keydown", type);
-    document.getElementById("reset").blur();
+    resetButton.blur();
     init();
 }
 
@@ -93,9 +96,9 @@ function initType(keydownEvent) {
     if (keydownEvent.key.length == 1) {
         document.removeEventListener("keydown", initType);
         document.addEventListener("keydown", type);
-        type(keydownEvent);
-        interval = window.setInterval(timer, 250);
         start = Date.now();
+        interval = window.setInterval(timer, 250);
+        type(keydownEvent);
     }
 }
 
@@ -112,64 +115,71 @@ function type(keydownEvent) {
             typed.push('\t');
             break;
         case "Backspace":
-            if(typed.pop() == '\n'){
-                newlinecount--;
-                document.getElementById("toTypeBox").scrollBy(0,-24.5);
-            }
+            typed.pop();
             input = false;
+            if (lessonText[typed.length] == '\n'){
+                newlinecount--;
+                toTypeBox.scrollBy(0, -lineHeight);
+            }
             break;
         case "Enter":
             typed.push('\n');
-            if(++newlinecount > 2)
-                document.getElementById("toTypeBox").scrollBy(0, 25);
             break;
         case " ":
             keydownEvent.preventDefault();
             typed.push(' ');
             break;
         default:
-            if (keydownEvent.key.length == 1) {
+            if (keydownEvent.key.length == 1) 
                 typed.push(keydownEvent.key);
-            }
-            else { //unsupported key
+            else //unsupported key
                 return;
-            }
     }
-    if (input)
+    if (input) {
+        //new entry
         updateAccuracy();
+        if (lessonText[typed.length-1] == '\n' && ++newlinecount > 2)
+            toTypeBox.scrollBy(0, lineHeight);
+    }
     makeText(); 
 }
 
 /**
- * makeText - function to create representation of text typed 
+ * makeText - creates representation of text typed 
  *              so far w/ HTML formatting/colors
  */
 function makeText() {
     let text = ''; //typed portion
     let ref = ''; //reference portion
-    let i, nextChar;
+    let i;
 
     //create typed portion
     errors = 0;
     for (i = 0; i < typed.length; i++) {
-        let c = typed[i];
-        let correct = (c == lessonText[i]);
+        let c = typed[i], c2 = lessonText[i];
+        let correct = (c == c2);
         c = convertReserved(c);
 
         if (!correct) {
             errors++;
+            c = convertInvis(c);
+            if(c2 == '\n' || c2 == '\t')
+                c+=c2;
             c = `<mark>${convertInvis(c)}</mark>`; //highlights error
-            if (lessonText[i] == '\n')
-                c += '\n';
+            //if(c2 == '\n' || c2 == '\t')
+              //  c+=c2;
         }
         text += c;
     }
     text = `<b>${text}</b>`
 
     //underline next char
-    if (i < lessonText.length) {    
-        nextChar = convertReserved(lessonText[i++]);
+    if (i < lessonText.length) {
+        let c = lessonText[i++];
+        let nextChar = convertReserved(c);
         ref = `<u>${convertInvis(nextChar)}</u>`;
+        if(c == '\n' || c == '\t')
+                ref += c;
     }
 
     //create reference portion
@@ -207,25 +217,26 @@ function convertReserved(c) {
 }
 
 /**
- * convertInvis - converts nonvisible characters to a corresponding visible character.
- *              Visible characters are left unchanged.
+ * convertInvis - converts nonvisible characters to a corresponding visible character,
+ *                  removing any associated functionality in the process.
+ *                  Visible characters are left unchanged.
  * @param {*} c The character to convert.
  * @returns The converted character if nonvisible, the character itself otherwise.
  */
 function convertInvis(c) {
     switch (c) {
         case '\n':
-            c = '&#8629;\n'; //carrage return symbol
+            c = '&#8629;'; //carrage return symbol
             break;
         case '\t':
-            c = '&#8594;\t'; //right arrow symbol
+            c = '&#8594;'; //right arrow symbol
             break;
     }
     return c;
 }
 
 /**
- * endLesson - function that sets lesson to completed state
+ * endLesson - sets lesson to completed state
  */
 function endLesson() {
     end = Date.now();
