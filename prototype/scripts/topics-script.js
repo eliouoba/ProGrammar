@@ -5,6 +5,6 @@
  */
 function selectLevel(lesson) {
     let url = window.location.href;
-    url = "sample-lesson.html?lesson=" + lesson;
+    url = "lesson.html?lesson=" + lesson;
     window.location = url;
 }
