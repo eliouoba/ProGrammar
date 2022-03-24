@@ -1,27 +1,33 @@
 //Josiah Hsu
 
-let lessonText, typed, newlinecount; //input
-let time, errors, wpm, accuracy; //stats
-let entries, totalErrors; //accuracy
-let start, end, interval; //timer
-
+//quick element references
 const stats = document.getElementById("stats");
 const toType = document.getElementById("toType");
 const toTypeBox = document.getElementById("toTypeBox");
 const resetButton = document.getElementById("reset");
+const langSelect = document.getElementById("lang");
+const defaultOption = document.getElementById("defaultOption");
+
+//variables/constants
+let lessonText, typed, newlinecount; //input
+let time, errors, wpm, accuracy; //stats
+let entries, totalErrors; //accuracy
+let start, end, interval; //timer
 const lineHeight = window.getComputedStyle(toType).lineHeight.replace("px", '');
 
 //determine lesson from url
 const urlParams = new URLSearchParams(window.location.search);
-let lessonFile = urlParams.get("lesson");
+const lessonFile = urlParams.get("lesson");
+const extension = urlParams.get("lang");
 
 //load lesson into document
-let httpx = new XMLHttpRequest();
-httpx.open("GET", "files/" + lessonFile);
+const httpx = new XMLHttpRequest();
+httpx.open("GET", `files/${lessonFile}.${extension}`);
 httpx.onreadystatechange = function() {
     if (this.readyState == 4) {
         if (this.status == 200){
             lessonText = this.responseText.replace(/    /g, "\t").replace(/\r/g, '');
+            resetButton.hidden = false;
             init();
         }
         else if (this.status == 404)
@@ -29,6 +35,27 @@ httpx.onreadystatechange = function() {
     }
 };
 httpx.send();
+
+//set default option for langSelect
+const options = langSelect.options;
+for(var i = 0; i < options.length; i++){
+    if(options[i].value == extension){
+        defaultOption.textContent = options[i].text;
+        visible = true;
+    }
+}
+
+/**
+ * changeLanguage - changes programming language and reloads page
+ */
+function changeLanguage() {
+    const newExt = langSelect.value;
+    if(newExt != extension){
+        let url = window.location.href;
+        url = `lesson.html?lesson=${lessonFile}&lang=${newExt}`;
+        window.location = url;
+    }
+}
 
 /**
  * init - sets initial state
@@ -44,7 +71,7 @@ function init() {
     typed = [];
     makeText();
     toTypeBox.scrollTo(0,0);
-    resetButton.hidden = false;
+    langSelect.disabled = false;
     document.addEventListener("keydown", initType);
     window.clearInterval(interval);
 }
@@ -98,6 +125,7 @@ function initType(keydownEvent) {
         document.addEventListener("keydown", type);
         start = Date.now();
         interval = window.setInterval(timer, 250);
+        langSelect.disabled = true;
         type(keydownEvent);
     }
 }
@@ -243,5 +271,6 @@ function endLesson() {
     clearInterval(interval);
     document.removeEventListener("keydown", type);
     time = (end - start) / 1000;
+    langSelect.disabled = false;
     alert(stats.textContent);
 }

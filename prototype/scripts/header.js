@@ -3,7 +3,7 @@ document.body.innerHTML =
     `<nav class="nav_bar">
         <ul class="navlist">
             <a class="programmar nav_menu" href="index.html">ProGrammar</a>    
-            <a class="nav_menu" href='lesson.html?lesson=SampleText.txt'>Sample lesson</a>
+            <a class="nav_menu" href='lesson.html?lesson=SampleText&lang=txt'>Sample lesson</a>
             <span class="nav_dividers">|</span>
             <!--button class=sample_lesson onclick="location.href='lesson.html'" type="button">Sample Lesson</button-->
             <a class="nav_menu" href='topics.html'>Topics</a>
