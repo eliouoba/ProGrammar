@@ -3,8 +3,8 @@
 /* Param lesson: lesson code file
  * Will allow for loading different levels in the future
  */
-function selectLevel(lesson) {
+function selectLevel(lesson, lang) {
     let url = window.location.href;
-    url = "sample-lesson.html?lesson=" + lesson;
+    url = `lesson.html?lesson=${lesson}&lang=${lang}`;
     window.location = url;
 }

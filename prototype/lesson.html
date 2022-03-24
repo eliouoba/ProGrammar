@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProGrammar</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles/sample-lesson-style.css">
+    <link rel="stylesheet" href="styles/lesson-style.css">
     
     <!--header added automatically via script-->
     <script src="scripts/header.js" defer></script>
@@ -23,8 +23,15 @@
         <pre id="toType"></pre>
     </div>
 
-    <div>    
-        <button id="reset" type="button" onclick="reset()">Reset</button>
+    <div id="statBar">    
+        <button id="reset" type="button" hidden="true" onclick="reset()">Reset</button>
+        <label id="langLabel" for="lang">Language: </label>
+        <select id="lang" onchange="changeLanguage()">
+            <option hidden value='' id="defaultOption">Select Language</option>
+            <option value="java">Java</option>
+            <option value="py">Python</option>
+            <option value="c">C</option>
+        </select>
         <span id="stats"></span>
     </div>
 
