@@ -13,25 +13,11 @@
 
 <body>
     <div class="login">
-        <form id="login">
-            <label>Username<b>
-        </b>
-        </label>
-            <input type="text" name="uname" id="uname" placeholder="Enter Username Here">
-            <br><br>
-            <label>Password<b>
-        </b>
-        </label>
-            <input type="Password" name="Pass" id="Pass" placeholder="Enter Password Here">
-            <br><br>
-            <button id="log" onclick="location.href='index.html'" type="button">Log In</button>
-            <br><br>
-            <input type="button" name="create" id="create" value="Create New Account" onclick="location.href='create.html'">
-            <br><br>
-        </form>
+     <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>   
     </div>
+    
 </body>
-<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+
 <script>
   function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
