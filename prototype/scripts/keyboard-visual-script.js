@@ -40,10 +40,38 @@ function darken(event) {
 
 function getKey(event) {
     var keyPressed;
-    if (event.key == "Shift")
+    const key = convertKey(event.key);
+    if (key == "Shift")
         keyPressed = document.getElementById(event.code);
-    else keyPressed = document.getElementById(event.key);
+    else keyPressed = document.getElementById(key);
     if (keyPressed == null) //because caps lock is on
-        keyPressed = document.getElementById(event.key.toLowerCase());
+        keyPressed = document.getElementById(key.toLowerCase());
     return keyPressed;
+}
+
+function convertKey(k){
+    switch(k){
+        case '~': k = '`'; break;
+        case '!': k = '1'; break;
+        case '@': k = '2'; break;
+        case '#': k = '3'; break;
+        case '$': k = '4'; break;
+        case '%': k = '5'; break;
+        case '^': k = '6'; break;
+        case '&': k = '7'; break;
+        case '*': k = '8'; break;
+        case '(': k = '9'; break;
+        case ')': k = '0'; break;
+        case '_': k = '-'; break;
+        case '+': k = '='; break;
+        case '{': k = '['; break;
+        case '}': k = ']'; break;
+        case '|': k = '\\'; break;
+        case ':': k = ';'; break;
+        case '\"': k = '\''; break;
+        case '<': k = ','; break;
+        case '>': k = '.'; break;
+        case '?': k = '/'; break;
+    }
+    return k;
 }
