@@ -1,6 +1,6 @@
 //Josiah Hsu
 
-let lessonText, typed, prevTyped, prevRef, newlinecount; //input
+let lessonText, typed, newlinecount; //input
 let time, errors, wpm, accuracy; //stats
 let entries, totalErrors; //accuracy
 let start, end, interval; //timer
@@ -39,7 +39,7 @@ function init() {
     accuracy = 100;
     newlinecount = 0;
     typed = [];
-    makeText(false);
+    makeText();
     document.getElementById("toTypeBox").scrollTo(0,0);
     document.getElementById("reset").hidden = false;
     document.addEventListener("keydown", initType);
@@ -105,7 +105,7 @@ function initType(keydownEvent) {
  */
 function type(keydownEvent) {
     const key = keydownEvent.key;
-    let isInput = true;
+    let input = true;
     switch (key) {
         case "Tab":
             keydownEvent.preventDefault();
@@ -116,7 +116,7 @@ function type(keydownEvent) {
                 newlinecount--;
                 document.getElementById("toTypeBox").scrollBy(0,-24.5);
             }
-            isInput = false;
+            input = false;
             break;
         case "Enter":
             typed.push('\n');
@@ -135,52 +135,46 @@ function type(keydownEvent) {
                 return;
             }
     }
-    makeText(isInput); 
+    if (input)
+        updateAccuracy();
+    makeText(); 
 }
 
 /**
  * makeText - function to create representation of text typed 
  *              so far w/ HTML formatting/colors
- * @param {*} hasInput boolean - true if user has just inputted an entry
  */
-function makeText(hasInput) {
+function makeText() {
     let text = ''; //typed portion
-    let nextChar = convertReserved(lessonText[typed.length]); //current position
     let ref = ''; //reference portion
-    let i;
+    let i, nextChar;
 
-    if(hasInput) {
-        //input new entry
-        updateAccuracy();
-        i = typed.length-1;
-        text = prevTyped + makeChar(i++);
-        ref = prevRef.replace(nextChar, '');
-    }
-    else {
-        //recreate text after removed entry
-        errors = 0;
-        for (i = 0; i < typed.length; i++) {
-            text += makeChar(i);
-        }
-        
-        if(typed.length == 0){
-            //initializes prevRef when empty
-            while (i < lessonText.length-1) {
-                ref += convertReserved(lessonText[++i]);
-            }
-        }
-        else
-            ref = convertReserved(lessonText[++i]) + prevRef;
-    }
-    
-    //save components for reuse
-    prevTyped = text;
-    prevRef = ref;
+    //create typed portion
+    errors = 0;
+    for (i = 0; i < typed.length; i++) {
+        let c = typed[i];
+        let correct = (c == lessonText[i]);
+        c = convertReserved(c);
 
-    //add formatting
+        if (!correct) {
+            errors++;
+            c = `<mark>${convertInvis(c)}</mark>`; //highlights error
+            if (lessonText[i] == '\n')
+                c += '\n';
+        }
+        text += c;
+    }
     text = `<b>${text}</b>`
-    if (typed.length < lessonText.length) {
-        ref = `<u>${convertInvis(nextChar)}</u>${ref}`;
+
+    //underline next char
+    if (i < lessonText.length) {    
+        nextChar = convertReserved(lessonText[i++]);
+        ref = `<u>${convertInvis(nextChar)}</u>`;
+    }
+
+    //create reference portion
+    while (i < lessonText.length) {
+        ref += convertReserved(lessonText[i++]);
     }
     ref = `<span style="color:gray">${ref}</span>`;
 
@@ -189,27 +183,6 @@ function makeText(hasInput) {
     updateStats();
     if (typed.length == lessonText.length)
         endLesson();
-}
-
-/**
- * makeChar - compares the typed character at a given position to
- *              the correct character in the reference text, 
- *              highlighting it if it's incorrect
- * @param {*} pos the position of the typed character
- * @returns the typed character at the given position, highlighted if incorrect
- */
-function makeChar(pos){
-    let c = typed[pos];
-    let correct = (c == lessonText[pos]);
-    c = convertReserved(c);
-
-    if (!correct) {
-        errors++;
-        c = `<mark>${convertInvis(c)}</mark>`; //highlights error
-        if (lessonText[pos] == '\n')
-            c += '\n';
-    }
-    return c;
 }
 
 /**
