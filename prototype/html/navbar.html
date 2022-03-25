@@ -1,6 +1,6 @@
 <nav id="nav_bar">
     <ul class="navlist">
-        <a class="programmar nav_menu" href="index.html">ProGrammar</a>
+        <a class="programmar nav_menu" href="home.html">ProGrammar</a>
         <a class="nav_menu" href='lesson.html?lesson=SampleText&lang=txt'>Sample lesson</a>
         <span class="nav_dividers">|</span>
         <!--button class=sample_lesson onclick="location.href='lesson.html'" type="button">Sample Lesson</button-->
@@ -14,14 +14,13 @@
         <span class="nav_dividers">|</span>
         <a class="nav_menu" href='settings.html'>Settings</a>
         <span class="nav_dividers">|</span>
-        <a class="nav_menu" id="references" href='references.html'>References</a>
+        <a class="nav_menu" id="about" href='about.html'>About</a>
         <span class="nav_dividers">|</span>
         <a class="nav_menu" class="login nav_menu" href="login.html">Login</a>
     </ul>
     <style>
         #nav_bar {
             width: 100%;
-            background-color: lightgrey;
             display: inline-block;
         }
         
@@ -47,8 +46,13 @@
             margin-left: 20px;
         }
         
-        .nav_menu:hover {
-            color: white;
+        .nav_menu:not(.programmar):hover {
+            font-weight: 1000;
+            font-size: 2ex;
+        }
+        
+        .programmar:hover {
+            font-weight: 1000;
         }
         
         .login {

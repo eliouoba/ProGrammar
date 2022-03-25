@@ -1,7 +1,4 @@
-body {
-    background-color: #474e5d;
-}
-
+@import "page-style.css";
 .head {
     margin: auto;
     text-align: center;

@@ -2,7 +2,6 @@
 
 @import "https://fonts.googleapis.com/css2?family=Montserrat&display=swap";
 html {
-    background-color: lemonchiffon;
     font-family: 'Montserrat', sans-serif;
     color: black;
 }
@@ -11,6 +10,8 @@ body {
     margin: 0;
 }
 
+
+/*
 button {
     background-color: rgb(187, 194, 209);
     color: black;
@@ -26,4 +27,4 @@ button {
 
 button:hover {
     opacity: 70%;
-}
+}*/

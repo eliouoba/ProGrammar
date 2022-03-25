@@ -4,7 +4,7 @@ applyTheme(currentTheme);
 
 function applyTheme(newTheme) {
     const html = document.getElementsByTagName("html")[0];
-    const navbar = document.getElementById('nav_bar');
+    const navbar = document.getElementById("nav_bar");
     sessionStorage.setItem('theme', newTheme);
 
     switch (newTheme) {
@@ -16,10 +16,12 @@ function applyTheme(newTheme) {
         case 'light':
             html.style.backgroundColor = "white";
             html.style.color = "blue";
+            navbar.style.backgroundColor = "lightgrey";
             break;
         case 'dark':
             html.style.backgroundColor = "#222222";
             html.style.color = "white";
+            navbar.style.backgroundColor = "#222222";
             break;
         case 'bronze':
             //html.style.backgroundColor = "#222222";

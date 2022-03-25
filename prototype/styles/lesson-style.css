@@ -1,5 +1,4 @@
-/* Eli Ouoba */
-
+@import "page-style.css";
 html {
     font-size: 20px;
     font-family: 'Montserrat', sans-serif;
@@ -127,6 +126,7 @@ mark {
     overflow-y: auto;
     height: 8em;
     line-height: 1.2em;
+    overflow: hidden;
 }
 
 #statBar {

@@ -1,5 +1,5 @@
 body {
-    background-color: beige;
+    /*background-color: beige;*/
     margin: 0;
 }
 
@@ -13,7 +13,7 @@ h1 {
 
 .navbar {
     overflow: hidden;
-    background-color: #333;
+    /*background-color: #333;*/
     font-family: Arial;
 }
 
@@ -23,7 +23,7 @@ h1 {
 .navbar a {
     float: left;
     font-size: 16px;
-    color: white;
+    /*color: white;*/
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -44,7 +44,8 @@ h1 {
     font-size: 16px;
     border: none;
     outline: none;
-    color: white;
+    /*color: white;*/
+    color: inherit;
     padding: 14px 16px;
     background-color: inherit;
     font: inherit;
