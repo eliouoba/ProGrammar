@@ -6,7 +6,7 @@ int main(){
     int subtraction = 85 - b;
     int multiplication = b * a;
     int division = a / b;
-    print("Decrement: %d\n", a--);
-    print("Increment: %d\n", b++);
+    printf("Decrement: %d\n", a--);
+    printf("Increment: %d\n", b++);
     return 0;
 }

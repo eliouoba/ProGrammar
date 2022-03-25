@@ -7,3 +7,4 @@ public static void main(String[] args){
     int division = a / b;
     System.out.println("Decrement: " + a--);
     System.out.println("Increment: " + b++);
+}
