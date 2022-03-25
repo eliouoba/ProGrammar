@@ -1,9 +1,12 @@
-if __name__ == '__main__':
-    int a = 10
-    int b = 5
-    int addition = a + 6
-    int subtraction = 85 - b
-    int multiplication = b * a
-    int division = a / b
-    print("Decrement: " + str(a-=1) + "\n")
-    print("Increment: " + str(b+=1) + "\n")
+from tkinter.tix import INTEGER
+
+
+def basic_math():
+    a = 10
+    b = 5
+    addition = a + 6
+    subtraction = 85 - b
+    multiplication = b * a
+    division = a / b
+    print('Decrement: ', a, '\n')
+    print('Increment: ', b, '\n')
