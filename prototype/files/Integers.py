@@ -3,4 +3,4 @@ if __name__ == '__main__':
     a = 15
     int b = 17
     int c = a + b
-    print(a + " " + b + " " + c)
+    print(str(a) + " " + str(b) + " " + str(c))

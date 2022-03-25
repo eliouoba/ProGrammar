@@ -5,5 +5,5 @@ if __name__ == '__main__':
     int subtraction = 85 - b
     int multiplication = b * a
     int division = a / b
-    print("Decrement: " + a-=1 + "\n")
-    print("Increment: " + b+=1 + "\n")
+    print("Decrement: " + str(a-=1) + "\n")
+    print("Increment: " + str(b+=1) + "\n")
