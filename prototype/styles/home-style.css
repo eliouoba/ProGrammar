@@ -1,46 +1,28 @@
-img {
-    width: 100px;
-    border-radius: 50px;
-    border-color: black;
-    float: left;
-    margin-right: 20px;
+.welcome {
+    margin-left: 50px;
+    margin-top: 100px;
+    font-size: 300%
 }
 
-html {
-    background-color: beige;
+.options {
+    display: flex;
 }
 
-body {
-    margin: 0;
+.lessons,
+.gaming {
+    margin-left: 100px;
+    margin-top: 50px;
 }
 
-button {
-    background-color: rgb(187, 194, 209);
+.lesson-header,
+.gaming-header {
     color: black;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border-color: black;
-    cursor: pointer;
-    width: 35%;
-    border-radius: 10px;
-    align-items: center;
-    justify-content: center;
+    text-decoration: none;
+    font-size: 35px;
 }
 
-button:hover {
-    opacity: 70%;
-}
-
-.sample_lesson {
-    /*button, not needed rn */
-    padding: 14px 20px;
-    margin: 8px 0;
-    border-color: darkgray;
-    border-top-width: 0;
-    border-bottom-width: 0;
-    cursor: pointer;
-    width: 35%;
-    border-radius: 0px;
-    align-items: center;
-    justify-content: center;
+.lesson-header:hover,
+.gaming-header:hover {
+    font-weight: 1000;
+    color: darkred;
 }

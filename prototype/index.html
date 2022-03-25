@@ -6,16 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProGrammar - Home</title>
+    <link rel="stylesheet" href="styles/page-style.css">
     <link rel="stylesheet" href="styles/home-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <script src="scripts/import.js"></script>
 
-    <!--header added automatically via script-->
-    <script src="scripts/header.js" defer></script>
-    <script src="scripts/home-script.js"></script>
 </head>
 
 <body>
+    <import src="html/navbar.html"></import>
+    <h1 class=welcome>Welcome to Programmar.</h1>
 
+    <div class="options">
+        <div class="lessons">
+            <div class="card">
+                <a class=lesson-header href="topics.html">Lessons</a>
+                <p>Improve your speed, accuracy, and formatting skills</p>
+            </div>
+        </div>
+        <div class="gaming">
+            <div class="card">
+                <a class=gaming-header>Gaming</a>
+                <p>Compete with your friends to see who has the best typing skills</p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

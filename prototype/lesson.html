@@ -10,20 +10,20 @@
     <title>ProGrammar</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/lesson-style.css">
-    
-    <!--header added automatically via script-->
-    <script src="scripts/header.js" defer></script>
+
+    <script src="scripts/import.js"></script>
     <script src="scripts/typing-input-script.js" defer></script>
     <script src="scripts/keyboard-visual-script.js"></script>
 </head>
 
 <body>
+    <import src="html/navbar.html"></import>
     <h2>Type the text below! Aim for speed while maintaining accuracy.</h2>
     <div class=type_box id="toTypeBox">
         <pre id="toType"></pre>
     </div>
 
-    <div id="statBar">    
+    <div id="statBar">
         <button id="reset" type="button" hidden="true" onclick="reset()">Reset</button>
         <label id="langLabel" for="lang">Language: </label>
         <select id="lang" onchange="changeLanguage()">
