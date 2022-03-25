@@ -10,7 +10,7 @@ const defaultOption = document.getElementById("defaultOption");
 
 //variables/constants
 let lessonText, typed, newlinecount; //input
-let time, errors, wpm, accuracy; //stats
+let time, errors, netwpm, accuracy; //stats
 let entries, totalErrors; //accuracy
 let start, end, interval; //timer
 const lineHeight = window.getComputedStyle(toType).lineHeight.replace("px", '');
@@ -65,7 +65,7 @@ function init() {
     totalErrors = 0;
     time = 0;
     errors = 0;
-    wpm = 0;
+    netwpm = 0;
     accuracy = 100;
     newlinecount = 0;
     typed = [];
@@ -81,7 +81,9 @@ function init() {
  */
 function timer() {
     time = (Date.now() - start) / 1000;
-    wpm = Math.round((typed.length / 5) / (time / 60));
+    const mins = time / 60;
+    netwpm = ((typed.length / 5) - errors) / mins;
+    netwpm = Math.round(netwpm);
     updateStats();
 }
 
@@ -89,7 +91,6 @@ function timer() {
  * updateStats - updates wpm, errors, and time
  */
 function updateStats() {
-    const netwpm = Math.max(wpm-errors, 0);
     stats.textContent = `Time: ${time.toFixed(2)} Errors: ${errors} ` +
                         `Net WPM: ${netwpm} Accuracy: ${accuracy.toFixed(2)}%`;
 }
