@@ -31,7 +31,7 @@ document.body.innerHTML +=
             </div>
         </div>
         <style>
-            @import "page-style.css";
+            @import "styles/page-style.css";
             body {
                 font-family: Arial, Helvetica, sans-serif;
                 margin: 0;

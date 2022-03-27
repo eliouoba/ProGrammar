@@ -40,6 +40,7 @@ function applyTheme(t, colorScheme) {
     html.style.color = theme.html;
     //console.log(document.body);
     const navbar = document.getElementById("nav_bar");
+    console.log(navbar);
     navbar.style.backgroundColor = theme.navbarBackground;
 
 
@@ -76,7 +77,9 @@ function addVideo(video) {
                 position: fixed;
                 top: 0;
                 left: 0;
+                height: 100vh;
                 width: 100vw;
+                object-fit: fill;
                 z-index: -1;
             }
             </style>
