@@ -33,14 +33,16 @@
 #scroll-prompt {
   margin-left: 100px;
   margin-top: 50px;
+  margin-right: 50px;
   animation-name: fadeIn;
   animation-duration: 5s;
+  white-space: nowrap;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0%;
-    transform: translateY(550%)
+    transform: translateY(50%)
   }
   75% {
     opacity: 0%;
