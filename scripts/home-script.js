@@ -105,8 +105,8 @@ document.body.innerHTML +=
 
             .row {
                 position: relative;
-                margin-top:150px;
-                margin-top:150px;
+                margin-top:100px;
+                margin-bottom:100px;
                 transform: translateY(150px);
                 opacity: 0;
                 transition: 2s all ease;
