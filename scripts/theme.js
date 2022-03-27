@@ -8,8 +8,31 @@ if (currentTheme == null) currentTheme = 'default';
 // if (glowing == null) localStorage.setItem('glowing', false);
 
 setUpThemes();
-window.addEventListener("load", function() {
-    chooseTheme(currentTheme, true); });
+window.addEventListener("DOMContentLoaded", import1());
+
+//allows us to import html from another file.
+
+//Source of this script: 
+// https://unpkg.com/htmlimpjs@1.0.0/index.js
+function import1() {
+    let imports = document.getElementsByTagName('import');
+    for (var i = 0; i < imports.length; i++) {
+        let imp = imports[i];
+        load_file(imp.attributes.src.value, function(text) {
+            imp.insertAdjacentHTML('afterend', text);
+            if(imp.attributes.src.value == "html/navbar.html"){
+                //guarantee that theme applied only when navbar imported
+                chooseTheme(currentTheme, true)
+            }
+            imp.remove();
+        });
+
+        function load_file(filename, callback) {
+            fetch(filename).then(response => response.text()).then(text => callback(text));
+        }
+    }
+}
+
 //if (glowBoxExists) glowBox.addEventListener('change', handleglowBox);
 
 function chooseTheme(newTheme, initialize) {
@@ -40,7 +63,6 @@ function applyTheme(t, colorScheme) {
     html.style.color = theme.html;
     //console.log(document.body);
     const navbar = document.getElementById("nav_bar");
-    console.log(navbar);
     navbar.style.backgroundColor = theme.navbarBackground;
 
 
