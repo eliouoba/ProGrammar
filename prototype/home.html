@@ -9,30 +9,32 @@
     <link rel="stylesheet" href="styles/page-style.css">
     <link rel="stylesheet" href="styles/home-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <script src="scripts/import.js"></script>
-    <script src="scripts/theme.js"></script>
-
+    <script src="scripts/import.js" defer></script>
+    <script src="scripts/theme.js" defer></script>
+    <script src="scripts/home-script.js" defer></script>
 
 </head>
 
 <body>
     <import src="html/navbar.html"></import>
-    <h1 class=welcome>Welcome to Programmar.</h1>
+    <h1 id=welcome>Welcome to ProGrammar.</h1>
 
     <div class="options">
-        <div class="lessons">
+        <div id="lessons">
             <div class="card">
-                <a class=lesson-header href="topics.html">Lessons</a>
+                <a id=lesson-header href="topics.html">Lessons</a>
                 <p>Improve your speed, accuracy, and formatting skills</p>
             </div>
         </div>
-        <div class="gaming">
+        <div id="gaming">
             <div class="card">
-                <a class=gaming-header>Gaming</a>
+                <a id=gaming-header>Gaming</a>
                 <p>Compete with your friends to see who has the best typing skills</p>
             </div>
         </div>
+        <!--div id="scroll-prompt">↓ There's more to see</div-->
     </div>
+    <!---import src="html/footer.html"></import-->
 </body>
 
 </html>

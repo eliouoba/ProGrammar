@@ -6,6 +6,7 @@
 .theme {
     margin-left: 50px;
     margin-top: 100px;
+    
 }
 
 .choose {
@@ -16,3 +17,12 @@
     font-weight: 1000;
     color: darkred;
 }
+
+.themes:active {
+    color: white;
+}
+
+#darkmodeglow {
+    display:flex;
+}
+

@@ -3,7 +3,8 @@
 @import "https://fonts.googleapis.com/css2?family=Montserrat&display=swap";
 html {
     font-family: 'Montserrat', sans-serif;
-    color: black;
+    /*color: black;*/
+    background-color: black;
 }
 
 body {

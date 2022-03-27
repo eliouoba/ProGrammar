@@ -1,10 +1,12 @@
+@import "page-style.css";
+
 body {
     /*background-color: beige;*/
     margin: 0;
 }
 
 h1 {
-    font-family: "Times New Roman", 'Times New Roman', Times, serif;
+    /*font-family: "Times New Roman", 'Times New Roman', Times, serif;*/
     text-align: center;
 }
 
@@ -13,8 +15,12 @@ h1 {
 
 .navbar {
     overflow: hidden;
+    background-color: #8b8b8b5e;
+    margin-inline:30px;
+    border-radius: 10px;
     /*background-color: #333;*/
-    font-family: Arial;
+    /*font-family: Arial;*/
+
 }
 
 
@@ -49,6 +55,7 @@ h1 {
     padding: 14px 16px;
     background-color: inherit;
     font: inherit;
+
     /* Important for vertical align on mobile phones */
     margin: 0;
     /* Important for vertical align on mobile phones */

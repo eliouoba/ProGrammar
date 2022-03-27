@@ -23,7 +23,7 @@ html {
 
 .card {
     color: white;
-    background-color: #474e5d;
+    background-color: #474e5db2;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     margin: 8px;
     padding: 15%;
@@ -32,7 +32,7 @@ html {
 .about-section {
     padding: 50px;
     text-align: center;
-    background-color: #474e5d;
+    background-color: #474e5db2;
     color: white;
 }
 
