@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tug of War</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/tugowar-style.css">
+
+    <script src="scripts/tugowar.js" defer></script>
+    <script src="scripts/theme.js" defer></script>
+    <script src="scripts/tugbot.js"></script>
+</head>
+
+<body>
+    <import src="html/navbar.html"></import>
+    <br>
+    <br>
+    <div id="scorebar">
+        <span>You</span>
+        <span style="float: right;">Opponent</span>
+        <input type="range" min="0" max="100" value="50" id="score" disabled="true"></input>
+    </div>
+
+    <div class=type_box id="toTypeBox">
+        <pre id="toType"></pre>
+    </div>
+
+    <div id="statBar">
+        <span id="stats"></span>
+    </div>
+</body>
+</html>

@@ -4,74 +4,69 @@
 const stats = document.getElementById("stats");
 const toType = document.getElementById("toType");
 const toTypeBox = document.getElementById("toTypeBox");
-const resetButton = document.getElementById("reset");
-const langSelect = document.getElementById("lang");
-const defaultOption = document.getElementById("defaultOption");
+const score = document.getElementById("score");
 
 //variables/constants
-let lessonText, typed, newlinecount; //input
+let gameText, typed, newlinecount, currentline; //input
 let time, errors, netwpm, accuracy; //stats
 let entries, totalErrors; //accuracy
 let start, end, interval; //timer
+let charset;
+
+//turns out that this one line mandates that at least one script in the html be nondeferred.
 const lineHeight = window.getComputedStyle(toTypeBox).lineHeight.replace("px", '');
 
-//determine lesson from url
-const urlParams = new URLSearchParams(window.location.search);
-const lessonFile = urlParams.get("lesson");
-const extension = urlParams.get("lang");
+initCharset();
+init();
 
-//load lesson into document
-const httpx = new XMLHttpRequest();
-httpx.open("GET", `files/${lessonFile}.${extension}`);
-httpx.onreadystatechange = function() {
-    if (this.readyState == 4) {
-        if (this.status == 200){
-            lessonText = this.responseText.replace(/    /g, "\t").replace(/\r/g, '');
-            resetButton.hidden = false;
-            init();
-        }
-        else if (this.status == 404)
-            toType.textContent = "ERROR: The lesson you selected could not be found.";
-    }
-};
-httpx.send();
-
-//set default option for langSelect
-const options = langSelect.options;
-for(var i = 0; i < options.length; i++){
-    if(options[i].value == extension){
-        defaultOption.textContent = options[i].text;
-        visible = true;
-    }
+/**
+ * initCharset - initializes selection of characters that
+ *              will be used to generate stream
+ */
+function initCharset(){
+    /**
+     * this will likely change to keywords/phrases
+     * in the future, but for initial testing
+     * it's just random characters
+     */
+    const lowers = 'abcdefghijklmnopqrstuvwxyz';
+    const uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const nums = '1234567890';
+    charset = `${lowers}${uppers}${nums}`;
 }
 
 /**
- * changeLanguage - changes programming language and reloads page
+ * generate - appends new line of text to gameText
  */
-function changeLanguage() {
-    const newExt = langSelect.value;
-    if(newExt != extension){
-        let url = window.location.href;
-        url = `lesson.html?lesson=${lessonFile}&lang=${newExt}`;
-        window.location = url;
+function generate(){
+    const len = charset.length;
+    for(var i = 0; i < 50; i++){
+        const x = Math.floor(Math.random() * len);
+        gameText += charset[x];
     }
+    gameText+='\n';
+    newlinecount++;
 }
 
 /**
  * init - sets initial state
  */
 function init() {
+    score.value = 50;
     entries = 0;
     totalErrors = 0;
     time = 0;
     errors = 0;
     netwpm = 0;
     accuracy = 100;
+    currentline = 0;
     newlinecount = 0;
+    gameText='';
     typed = [];
+    for(var i = 0; i < 6; i++)
+        generate();
     makeText();
     toTypeBox.scrollTo(0,0);
-    langSelect.disabled = false;
     document.addEventListener("keydown", initType);
     window.clearInterval(interval);
 }
@@ -83,6 +78,7 @@ function timer() {
     time = (Date.now() - start) / 1000;
     updateWPM();
     displayStats();
+    checkEndGame();
 }
 
 /**
@@ -107,20 +103,19 @@ function displayStats() {
  */
  function updateAccuracy(){
     entries++;
+    let newScore = Number(score.value);
     const pos = typed.length-1;
-    if(typed[pos] != lessonText[pos])
+    if(typed[pos] != gameText[pos]){
         totalErrors++;
-    accuracy = (((entries - totalErrors) / entries) * 100);
-}
+        //newScore=Math.max(0, newScore-3);
+    }
+    else{
+        newScore=Math.min(100, newScore+1);
+    }
+    score.value = newScore;
+    accuracy = ((entries - totalErrors) / entries) * 100;
 
-/**
- * reset - reset to initial state
- */
-function reset() {
-    alert("Resetting!");
-    document.removeEventListener("keydown", type);
-    resetButton.blur();
-    init();
+    checkEndGame();
 }
 
 /**
@@ -133,7 +128,6 @@ function initType(keydownEvent) {
         document.addEventListener("keydown", type);
         start = Date.now();
         interval = window.setInterval(timer, 250);
-        langSelect.disabled = true;
         type(keydownEvent);
     }
 }
@@ -151,12 +145,14 @@ function type(keydownEvent) {
             typed.push('\t');
             break;
         case "Backspace":
-            typed.pop();
-            input = false;
-            if (lessonText[typed.length] == '\n'){
-                newlinecount--;
+            const pos = typed.length-1;
+            if(typed.pop() != gameText[pos])
+                score.value = Number(score.value)+3
+            if (gameText[typed.length] == '\n'){
+                currentline--;
                 toTypeBox.scrollBy(0, -lineHeight);
             }
+            input = false;
             break;
         case "Enter":
             typed.push('\n');
@@ -174,8 +170,11 @@ function type(keydownEvent) {
     if (input) {
         //new entry
         updateAccuracy();
-        if (lessonText[typed.length-1] == '\n' && ++newlinecount > 2)
+        if (gameText[typed.length-1] == '\n' && ++currentline > 2){
             toTypeBox.scrollBy(0, lineHeight);
+            if(newlinecount - currentline == 3)
+                generate();
+        }
     }
     makeText(); 
 }
@@ -192,7 +191,7 @@ function makeText() {
     //create typed portion
     errors = 0;
     for (i = 0; i < typed.length; i++) {
-        let c = typed[i], c2 = lessonText[i];
+        let c = typed[i], c2 = gameText[i];
         let correct = (c == c2);
         c = convertReserved(c);
 
@@ -208,8 +207,8 @@ function makeText() {
     text = `<b>${text}</b>`
 
     //outline next char
-    if (i < lessonText.length) {
-        let c = lessonText[i++];
+    if (i < gameText.length) {
+        let c = gameText[i++];
         let nextChar = convertInvis(convertReserved(c));
         if(c == '\n' || c == '\t')
             nextChar+=c;
@@ -217,17 +216,14 @@ function makeText() {
     }
 
     //create reference portion
-    while (i < lessonText.length) {
-        ref += convertReserved(lessonText[i++]);
+    while (i < gameText.length) {
+        ref += convertReserved(gameText[i++]);
     }
     ref = `<span style="color:gray">${ref}</span>`;
 
-    //displays updated text, checks for lesson completion
+    //displays updated text, checks for game completion
     toType.innerHTML = text + ref;
-    if (typed.length == lessonText.length)
-        endLesson();
-    else    
-        displayStats();
+    displayStats();
 }
 
 /**
@@ -271,15 +267,19 @@ function convertInvis(c) {
 }
 
 /**
- * endLesson - sets lesson to completed state
+ * checkEndGame - sets game to completed state
  */
-function endLesson() {
-    end = Date.now();
-    clearInterval(interval);
-    document.removeEventListener("keydown", type);
-    time = (end - start) / 1000;
-    langSelect.disabled = false;
-    updateWPM();
-    displayStats();
-    alert(stats.textContent);
+function checkEndGame() {
+    const win = score.value == 100;
+    const lose = score.value == 0;
+    if(win || lose){
+        end = Date.now();
+        clearInterval(interval);
+        document.removeEventListener("keydown", type);
+        time = (end - start) / 1000;
+        updateWPM();
+        displayStats();
+        const str =  win? 'win':'lose';
+        alert(`Game over. You ${str}!`);
+    }
 }

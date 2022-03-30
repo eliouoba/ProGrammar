@@ -1,0 +1,65 @@
+@import "page-style.css";
+html {
+    font-size: 20px;
+
+}
+
+body {
+    margin: 0;
+}
+h2 {
+    font-size: 25px;
+    text-align: center;
+}
+p {
+    font-size: 16px;
+    line-height: 2;
+    letter-spacing: 1px;
+}
+
+pre {
+    tab-size: 4;
+}
+
+mark {
+    background-color: lightcoral;
+}
+
+input[type=range]{
+    width: 100%;
+}
+
+#scorebar{
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.type_text {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.type_box {
+    background-color: lightgray;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding-left: 2em;
+    border-radius: 1em;
+    margin-bottom: 1em;
+    /* scrollable box instead of page*/
+    overflow-x: auto;
+    overflow-y: auto;
+    height: 8em;
+    line-height: 1.2;
+    overflow: hidden;
+}
+
+#statBar {
+    margin-left: 20%;
+    font-family: monospace;
+}
+
+#stats {
+    text-align: right;
+    margin-top: auto;
+}
