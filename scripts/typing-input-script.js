@@ -81,16 +81,23 @@ function init() {
  */
 function timer() {
     time = (Date.now() - start) / 1000;
-    const mins = time / 60;
-    netwpm = ((typed.length / 5) - errors) / mins;
-    netwpm = Math.round(netwpm);
-    updateStats();
+    updateWPM();
+    displayStats();
 }
 
 /**
- * updateStats - updates wpm, errors, and time
+ * updateWPM - calculates user's net wpm
  */
-function updateStats() {
+function updateWPM(){
+    const mins = time / 60;
+    netwpm = ((typed.length / 5) - errors) / mins;
+    netwpm = Math.round(netwpm);
+}
+
+/**
+ * displayStats - displays wpm, errors, and time
+ */
+function displayStats() {
     stats.textContent = `Time: ${time.toFixed(2)} Errors: ${errors} ` +
                         `Net WPM: ${netwpm} Accuracy: ${accuracy.toFixed(2)}%`;
 }
@@ -195,20 +202,18 @@ function makeText() {
             if(c2 == '\n' || c2 == '\t')
                 c+=c2;
             c = `<mark>${convertInvis(c)}</mark>`; //highlights error
-            //if(c2 == '\n' || c2 == '\t')
-              //  c+=c2;
         }
         text += c;
     }
     text = `<b>${text}</b>`
 
-    //underline next char
+    //outline next char
     if (i < lessonText.length) {
         let c = lessonText[i++];
-        let nextChar = convertReserved(c);
-        ref = `<u>${convertInvis(nextChar)}</u>`;
+        let nextChar = convertInvis(convertReserved(c));
         if(c == '\n' || c == '\t')
-                ref += c;
+            nextChar+=c;
+        ref = `<span style='border: 1px solid gray'>${nextChar}</span>`;
     }
 
     //create reference portion
@@ -219,9 +224,10 @@ function makeText() {
 
     //displays updated text, checks for lesson completion
     toType.innerHTML = text + ref;
-    updateStats();
     if (typed.length == lessonText.length)
         endLesson();
+    else    
+        displayStats();
 }
 
 /**
@@ -273,5 +279,7 @@ function endLesson() {
     document.removeEventListener("keydown", type);
     time = (end - start) / 1000;
     langSelect.disabled = false;
+    updateWPM();
+    displayStats();
     alert(stats.textContent);
 }
