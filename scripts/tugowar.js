@@ -106,11 +106,13 @@ function displayStats() {
     let newScore = Number(score.value);
     const pos = typed.length-1;
     if(typed[pos] != gameText[pos]){
+        //incorrect
         totalErrors++;
-        //newScore=Math.max(0, newScore-3);
+        newScore=Math.min(100, newScore+3);
     }
     else{
-        newScore=Math.min(100, newScore+1);
+        //correct
+        newScore=Math.max(0, newScore-1);
     }
     score.value = newScore;
     accuracy = ((entries - totalErrors) / entries) * 100;
@@ -146,8 +148,10 @@ function type(keydownEvent) {
             break;
         case "Backspace":
             const pos = typed.length-1;
-            if(typed.pop() != gameText[pos])
-                score.value = Number(score.value)+3
+            if(typed.pop() != gameText[pos]){
+                //correcting mistake - removes penalty
+                score.value = Number(score.value)-3
+            }
             if (gameText[typed.length] == '\n'){
                 currentline--;
                 toTypeBox.scrollBy(0, -lineHeight);
@@ -270,8 +274,8 @@ function convertInvis(c) {
  * checkEndGame - sets game to completed state
  */
 function checkEndGame() {
-    const win = score.value == 100;
-    const lose = score.value == 0;
+    const win = score.value == 0;
+    const lose = score.value == 100;
     if(win || lose){
         end = Date.now();
         clearInterval(interval);

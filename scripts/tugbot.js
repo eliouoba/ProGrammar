@@ -29,10 +29,12 @@ function botType(){
     
     let r = Math.round(Math.random() * 100);
     if(r > b_accuracy){
-        score = Math.min(100, score+3);
+        //corrent
+        score = Math.max(0, score-3);
     }
     else{
-        score = Math.max(0, score-1);
+        //incorrect
+        score = Math.min(100, score+1);
     }
     b_score.value = score;
 
