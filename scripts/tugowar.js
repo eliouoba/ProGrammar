@@ -4,6 +4,9 @@
 const stats = document.getElementById("stats");
 const toType = document.getElementById("toType");
 const toTypeBox = document.getElementById("toTypeBox");
+const resetButton = document.getElementById("reset");
+const langSelect = document.getElementById("lang");
+const defaultOption = document.getElementById("defaultOption");
 const score = document.getElementById("score");
 
 //variables/constants
@@ -11,41 +14,49 @@ let gameText, typed, newlinecount, currentline; //input
 let time, errors, netwpm, accuracy; //stats
 let entries, totalErrors; //accuracy
 let start, end, interval; //timer
-let charset;
+let wordlist;
 
 //turns out that this one line mandates that at least one script in the html be nondeferred.
 const lineHeight = window.getComputedStyle(toTypeBox).lineHeight.replace("px", '');
 
-initCharset();
-init();
+//determine language from URL
+const urlParams = new URLSearchParams(window.location.search);
+const lang = urlParams.get("lang");
 
-/**
- * initCharset - initializes selection of characters that
- *              will be used to generate stream
- */
-function initCharset(){
-    /**
-     * this will likely change to keywords/phrases
-     * in the future, but for initial testing
-     * it's just random characters
-     */
-    const lowers = 'abcdefghijklmnopqrstuvwxyz';
-    const uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const nums = '1234567890';
-    charset = `${lowers}${uppers}${nums}`;
+//load language's keywords into wordlist
+const httpx = new XMLHttpRequest();
+httpx.open("GET", `files/keywords/keywords_${lang}.txt`);
+httpx.onreadystatechange = function() {
+    if (this.readyState == 4) {
+        if (this.status == 200){
+            wordlist = this.responseText.replace(/\r/g, '').split("\n");
+            resetButton.hidden = false;
+            init();
+        }
+        else if (this.status == 404)
+            toType.textContent = "ERROR: The language you selected could not be found.";
+    }
+};
+httpx.send();
+
+//set default option for langSelect
+const options = langSelect.options;
+for(var i = 0; i < options.length; i++){
+    if(options[i].value == lang){
+        defaultOption.textContent = options[i].text;
+    }
 }
 
 /**
- * generate - appends new line of text to gameText
+ * changeLanguage - changes programming language and reloads page
  */
-function generate(){
-    const len = charset.length;
-    for(var i = 0; i < 50; i++){
-        const x = Math.floor(Math.random() * len);
-        gameText += charset[x];
+ function changeLanguage() {
+    const newLang = langSelect.value;
+    if(newLang != lang){
+        let url = window.location.href;
+        url = `tugowar.html?&lang=${newLang}`;
+        window.location = url;
     }
-    gameText+='\n';
-    newlinecount++;
 }
 
 /**
@@ -69,6 +80,33 @@ function init() {
     toTypeBox.scrollTo(0,0);
     document.addEventListener("keydown", initType);
     window.clearInterval(interval);
+}
+
+/**
+ * generate - appends new line of text to gameText
+ */
+ function generate(){
+    const len = wordlist.length;
+    for(var i = 0; i < 8; i++){
+        const x = Math.floor(Math.random() * len);
+        gameText += wordlist[x] + ' ';
+    }
+
+    //temporary stuff for vertical scroll - will
+    //eventually replace w/ horizontal scroll
+    gameText = gameText.trim();
+    gameText += '\n';
+    newlinecount++;
+}
+
+/**
+ * reset - reset to initial state
+ */
+ function reset() {
+    alert("Resetting!");
+    document.removeEventListener("keydown", type);
+    resetButton.blur();
+    init();
 }
 
 /**
@@ -139,6 +177,7 @@ function initType(keydownEvent) {
  * @param {*} keydownEvent the keydownEvent 
  */
 function type(keydownEvent) {
+    if (checkEndGame()) return;
     const key = keydownEvent.key;
     let input = true;
     switch (key) {
@@ -272,6 +311,7 @@ function convertInvis(c) {
 
 /**
  * checkEndGame - sets game to completed state
+ * @returns true if the game is over, false otherwise
  */
 function checkEndGame() {
     const win = score.value == 0;
@@ -286,4 +326,5 @@ function checkEndGame() {
         const str =  win? 'win':'lose';
         alert(`Game over. You ${str}!`);
     }
+    return win || lose;
 }

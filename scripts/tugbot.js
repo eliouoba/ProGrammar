@@ -7,7 +7,7 @@ let b_score, b_accuracy, b_wpm, bot;
 function initBot(){
     b_score = document.getElementById("score");
     b_accuracy = 100;
-    b_wpm = 20;
+    b_wpm = 50;
     document.addEventListener("keydown", startGame);
 }
 

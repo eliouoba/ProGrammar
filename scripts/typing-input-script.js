@@ -41,7 +41,6 @@ const options = langSelect.options;
 for(var i = 0; i < options.length; i++){
     if(options[i].value == extension){
         defaultOption.textContent = options[i].text;
-        visible = true;
     }
 }
 
