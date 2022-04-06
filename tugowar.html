@@ -9,20 +9,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles/tugowar-style.css">
 
-    <script src="scripts/tugowar.js" defer></script>
+    <script src="scripts/Input-Class.js"></script>
+    <script src="scripts/TugOWar-Input-Class.js"></script>
+    <script src="scripts/Tugbot-Class.js"></script>
+    <script src="scripts/tugowar-driver.js" defer></script>
     <script src="scripts/theme.js" defer></script>
-    <script src="scripts/tugbot.js"></script>
 </head>
 
 <body>
     <import src="html/navbar.html"></import>
     <br>
     <br>
-    <div id="scorebar">
-        <span>You</span>
-        <span style="float: right;">Opponent</span>
-        <input type="range" min="0" max="100" value="50" id="score" disabled="true"></input>
+    <div>
+        <div id="scorebar">
+            <span>You</span>
+            <span style="float: right;">Opponent</span>
+            <input type="range" min="0" max="100" value="50" id="score" disabled="true"></input>        
+        </div>
     </div>
+
 
     <div class=type_box id="toTypeBox">
         <pre id="toType"></pre>
@@ -38,6 +43,16 @@
             <option value="c">C</option>
         </select>
         <span id="stats"></span>
+    </div>
+
+    <div id="botconfig">
+        <span>Tug-of-war Settings: </span>
+        <br>
+        <input onchange="tugbot.setwpm(value)"type="range" min="20" max="100" value="60" id="setwpm"></input>
+        Bot WPM = <span id="botwpm">60</span>
+        <br>
+        <input onchange="tugbot.setacc(value)"type="range" min="80" max="100" value="100" id="setacc"></input>
+        Bot Accuracy = <span id="botacc">100%</span>
     </div>
 </body>
 </html>

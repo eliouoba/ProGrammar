@@ -34,6 +34,20 @@ input[type=range]{
     margin-right: 20%;
 }
 
+#botconfig{
+    margin-left: 20%;
+    margin-right: 20%;
+    font-family: monospace;
+}
+
+#setwpm{
+    width: 10%;
+}
+
+#setacc{
+    width: 10%;
+}
+
 .type_text {
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
@@ -56,6 +70,7 @@ input[type=range]{
 
 #statBar {
     margin-left: 20%;
+    margin-right: 20%;
     font-family: monospace;
 }
 
@@ -72,9 +87,4 @@ input[type=range]{
 
 #reset:hover {
     background-color: lightgrey;
-}
-
-#stats {
-    text-align: right;
-    margin-top: auto;
 }
