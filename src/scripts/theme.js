@@ -8,11 +8,30 @@ if (currentTheme == null) currentTheme = 'default';
 // if (glowing == null) localStorage.setItem('glowing', false);
 
 
-window.addEventListener("load", function() {
-    chooseTheme(currentTheme, true);
-    //const observer = new MutationObserver(chooseTheme(currentTheme, true));
-//observer.observe(document.body, {childList: true});
- });
+window.addEventListener("DOMContentLoaded", import1());
+
+//allows us to import html from another file.
+
+//Source of this script: 
+// https://unpkg.com/htmlimpjs@1.0.0/index.js
+function import1() {
+    let imports = document.getElementsByTagName('import');
+    for (var i = 0; i < imports.length; i++) {
+        let imp = imports[i];
+        load_file(imp.attributes.src.value, function(text) {
+            imp.insertAdjacentHTML('afterend', text);
+            if(imp.attributes.src.value == "../html/navbar.html"){
+                //guarantee that theme applied only when navbar imported
+                chooseTheme(currentTheme, true)
+            }
+            imp.remove();
+        });
+
+        function load_file(filename, callback) {
+            fetch(filename).then(response => response.text()).then(text => callback(text));
+        }
+    }
+}
     
 
 setUpThemes();

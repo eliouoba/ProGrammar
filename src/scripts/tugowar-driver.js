@@ -18,7 +18,7 @@ const lang = urlParams.get("lang");
 
 //load language's keywords into wordlist
 const httpx = new XMLHttpRequest();
-httpx.open("GET", `files/keywords/keywords_${lang}.txt`);
+httpx.open("GET", `../files/keywords/keywords_${lang}.txt`);
 httpx.onreadystatechange = function() {
     if (httpx.readyState == 4) {
         if (httpx.status == 200){
