@@ -1,10 +1,14 @@
 @import "page-style.css";
+
 #welcome {
     margin-left: 50px;
     margin-top: 100px;
     font-size: 300%;
     animation-duration: 2.5s;
     animation-name: titleSlide;
+    /*why is this necessary? should be imported*/
+    font-family: 'Montserrat', sans-serif;
+
 }
 
 @keyframes titleSlide {
@@ -20,6 +24,8 @@
 
 .options {
     display: flex;
+    /*why is this necessary? should be imported*/
+    font-family: 'Montserrat', sans-serif;
 }
 
 #lessons,

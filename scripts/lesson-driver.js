@@ -17,7 +17,7 @@ const extension = urlParams.get("lang");
 
 //load lesson into document
 httpx = new XMLHttpRequest();
-httpx.open("GET", `files/${lessonFile}.${extension}`);
+httpx.open("GET", `../files/${lessonFile}.${extension}`);
 httpx.onreadystatechange = function() {
     if (httpx.readyState == 4) {
         if (httpx.status == 200){

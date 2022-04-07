@@ -7,7 +7,8 @@
     padding: 20px;
     width: 500px;
     border-radius: 10px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.308);
+    
 }
 
 .panel {
@@ -15,7 +16,7 @@
     justify-content: center;
     margin: auto;
     padding: 80px;
-    background-color: lightgrey;
+    background-color: rgba(211, 211, 211, 0.703);
     border-radius: 15px;
     top: 25%;
 }

@@ -7,31 +7,16 @@ if (currentTheme == null) currentTheme = 'default';
 // var glowing = localStorage.getItem('glowing');
 // if (glowing == null) localStorage.setItem('glowing', false);
 
+
+window.addEventListener("load", function() {
+    chooseTheme(currentTheme, true);
+    //const observer = new MutationObserver(chooseTheme(currentTheme, true));
+//observer.observe(document.body, {childList: true});
+ });
+    
+
 setUpThemes();
-window.addEventListener("DOMContentLoaded", import1());
 
-//allows us to import html from another file.
-
-//Source of this script: 
-// https://unpkg.com/htmlimpjs@1.0.0/index.js
-function import1() {
-    let imports = document.getElementsByTagName('import');
-    for (var i = 0; i < imports.length; i++) {
-        let imp = imports[i];
-        load_file(imp.attributes.src.value, function(text) {
-            imp.insertAdjacentHTML('afterend', text);
-            if(imp.attributes.src.value == "html/navbar.html"){
-                //guarantee that theme applied only when navbar imported
-                chooseTheme(currentTheme, true)
-            }
-            imp.remove();
-        });
-
-        function load_file(filename, callback) {
-            fetch(filename).then(response => response.text()).then(text => callback(text));
-        }
-    }
-}
 
 //if (glowBoxExists) glowBox.addEventListener('change', handleglowBox);
 
@@ -90,7 +75,7 @@ function removeExistingVideo() {
 
 function addVideo(video) {
     removeExistingVideo();
-    const path = "files/video-backgrounds/" + localStorage.getItem('theme') + ".mp4";
+    const path = "../files/video-backgrounds/" + localStorage.getItem('theme') + ".mp4";
     const vid =
         `<video autoplay muted loop id="background-video">
             <source src=` + path + ` id="select" type="video/mp4">

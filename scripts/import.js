@@ -1,7 +1,7 @@
 //allows us to import html from another file.
 
 //Source of this script: 
-// https://unpkg.com/htmlimpjs@1.0.0/index.js
+//https://unpkg.com/htmlincludejs@1.0.0/index.js
 
 document.addEventListener("DOMContentLoaded", import1);
 //document.addEventListener("readystatechange", import1);
