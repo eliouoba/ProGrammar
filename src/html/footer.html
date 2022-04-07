@@ -1,0 +1,37 @@
+<div id="footer">
+    <a id="ll" href="">&lt Last Lesson</a>
+    <a id="nl" href="">Next Lesson ></a>
+    <script>
+        let nextLesson = document.body.getElementbyId("nl");
+        let next = localStorage.getItem("nextLesson");
+        console.log(nextLesson);
+        if (nextLesson == null) next = "lesson.html?lesson=HelloWorld&lang=java";
+        nextLesson.setAttribute("href", nextLesson);
+    </script>
+    <style>
+        #footer {
+            width: 100%;
+            display: inline-block;
+            position: absolute;
+            bottom: 0;
+            background-color: #2e2e2e4d;
+        }
+        
+        #nl, #ll {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            margin-right: 50px;
+            font-size: 20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        #nl {
+            float:right;
+        }
+        #ll {
+            float:left;
+        }
+    </style>
+
+</div>

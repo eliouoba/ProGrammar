@@ -1,0 +1,154 @@
+@import "page-style.css";
+html {
+    font-size: 20px;
+
+}
+
+body {
+    margin: 0;
+}
+
+h1 {
+    font-size: 50px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 25px;
+    text-align: center;
+}
+
+p {
+    font-size: 16px;
+    line-height: 2;
+    letter-spacing: 1px;
+}
+
+pre {
+    tab-size: 4;
+}
+
+mark {
+    background-color: lightcoral;
+}
+
+.keyboard {
+    background-color: gainsboro;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3px;
+    width: fit-content;
+    border-radius: 7px;
+    margin-top: 1em;
+}
+
+.keys {
+    display: block;
+    padding: 3px;
+    background-color: gainsboro;
+}
+
+.row {
+    width: 100%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+}
+
+.regular_keys {
+    display: flex;
+    background-color: white;
+    color: black;
+    width: 60px;
+    height: 60px;
+    font-size: medium;
+    margin: 3px;
+    border-radius: 7px;
+    align-items: center;
+    justify-content: center;
+}
+
+.special_keys {
+    font-size: small;
+}
+
+.space {
+    width: 400px;
+    margin-left: 25%;
+}
+
+.tab {
+    width: 90px;
+}
+
+.shift_l {
+    width: 140px
+}
+
+.shift_r {
+    width: 185px;
+}
+
+.caps_lock {
+    width: 105px
+}
+
+.enter {
+    width: 155px;
+}
+
+.backspace {
+    width: 135px;
+}
+
+.backslash {
+    width: 105px;
+}
+
+
+/*delete this */
+
+.type_text {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.type_box {
+    background-color: lightgray;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding-left: 2em;
+    border-radius: 1em;
+    margin-bottom: 1em;
+    /* scrollable box instead of page*/
+    overflow-x: auto;
+    overflow-y: auto;
+    height: 8em;
+    line-height: 1.2em;
+    overflow: hidden;
+}
+
+#statBar {
+    margin-left: 20%;
+    font-family: monospace;
+}
+
+#reset {
+    background-color: gray;
+    width: 80px;
+    height: 30px;
+    border-color: transparent;
+    border-radius: 7px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    font-size: large;
+}
+
+#reset:hover {
+    background-color: lightgrey;
+}
+
+#stats {
+    text-align: right;
+    margin-top: auto;
+}

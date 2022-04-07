@@ -1,0 +1,32 @@
+@import "page-style.css";
+.head {
+    margin: auto;
+    text-align: center;
+    justify-content: center;
+    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    padding: 20px;
+    width: 500px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.308);
+    
+}
+
+.panel {
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    padding: 80px;
+    background-color: rgba(211, 211, 211, 0.703);
+    border-radius: 15px;
+    top: 25%;
+}
+
+.stats {
+    text-align: center;
+    justify-content: center;
+    margin: auto;
+    padding: 10px;
+    background-color: gray;
+    border-radius: 15px;
+    top: 25%;
+}

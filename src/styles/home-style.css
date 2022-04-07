@@ -1,0 +1,73 @@
+@import "page-style.css";
+
+#welcome {
+    margin-left: 50px;
+    margin-top: 100px;
+    font-size: 300%;
+    animation-duration: 2.5s;
+    animation-name: titleSlide;
+    /*why is this necessary? should be imported*/
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+@keyframes titleSlide {
+  from {
+    transform: translate(-30%);
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
+}
+ 
+
+.options {
+    display: flex;
+    /*why is this necessary? should be imported*/
+    font-family: 'Montserrat', sans-serif;
+}
+
+#lessons,
+#gaming {
+    margin-left: 100px;
+    margin-top: 50px;
+    animation-name: fadeIn;
+    animation-duration: 3s;
+}
+
+#scroll-prompt {
+  margin-left: 100px;
+  margin-top: 50px;
+  margin-right: 50px;
+  animation-name: fadeIn;
+  animation-duration: 5s;
+  white-space: nowrap;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+    transform: translateY(50%)
+  }
+  75% {
+    opacity: 0%;
+    transform: translateY(50%);
+  }
+  to {
+    opacity: 100%;
+  }
+}
+
+#lesson-header,
+#gaming-header {
+    color: inherit;
+    text-decoration: none;
+    font-size: 35px;
+}
+
+#lesson-header:hover,
+#gaming-header:hover {
+    font-weight: 1000;
+    color: darkred;
+}

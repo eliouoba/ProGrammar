@@ -1,0 +1,86 @@
+@import "page-style.css";
+
+/* body {
+    background-color: gray;
+    font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}  */
+
+.login {
+    text-align: center;
+    width: 115px;
+    overflow: hidden;
+    margin: auto;
+    margin: 20 0 0 570px;
+    padding: 80px;
+    background-color: gainsboro;
+    border-radius: 15px;
+    position: absolute;
+    top: 25%;
+}
+
+h2 {
+    text-align: center;
+    color: #277582;
+    padding: 20px;
+}
+
+label {
+    color: black;
+    font-size: 17px;
+}
+
+#Uname {
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+
+#Pass {
+    width: 300px;
+    height: 30px;
+    border: none;
+    border-radius: 3px;
+    padding-left: 8px;
+}
+
+#log {
+    width: 300px;
+    height: 30px;
+    margin: 0;
+    border: none;
+    border-radius: 17px;
+    padding-left: 7px;
+    color: black;
+    position: absolute;
+    left: 25%;
+    -ms-transform: translateY(-50%, -50%);
+    transform: translateY(-50%, -50%);
+}
+
+#log:hover,
+#create:hover {
+    color: white;
+    background-color: darkgray;
+}
+
+#create {
+    width: 300px;
+    height: 30px;
+    margin: 0;
+    border: none;
+    border-radius: 17px;
+    padding-left: 7px;
+    color: black;
+    position: absolute;
+    left: 25%;
+    -ms-transform: translateY(-50%, -50%);
+    transform: translateY(-50%, -50%);
+}
+
+
+/*span {
+    color: white;
+    font-size: 17px;
+}*/
