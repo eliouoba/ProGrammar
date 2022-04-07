@@ -1,3 +1,15 @@
+<head>
+<link rel="stylesheet" type="text/css" href="styles/login-style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+
+    <script src="scripts/import.js"></script>
+
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="555912416256-keblh8lhhfsg009l3hjjnnrahls9i79a.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="scripts/theme.js"></script>
+</head>
+
 <nav id="nav_bar">
     <ul class="navlist">
         <a class="programmar nav_menu" href="index.html">ProGrammar</a>
@@ -16,7 +28,9 @@
         <span class="nav_dividers">|</span>
         <a class="nav_menu" id="references" href='references.html'>References</a>
         <span class="nav_dividers">|</span>
-        <a class="nav_menu" class="login nav_menu" href="login.html">Login</a>
+        <div class="login">
+            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+        </div>
     </ul>
     <style>
         #nav_bar {
@@ -52,6 +66,7 @@
         }
         
         .login {
+            margin-right: 50px;
             float: right;
         }
         
