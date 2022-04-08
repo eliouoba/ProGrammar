@@ -6,9 +6,12 @@ const langSelect = document.getElementById("lang");
 const defaultOption = document.getElementById("defaultOption");
 const resetButton = document.getElementById("reset");
 const toType = document.getElementById("toType");
+const nextLessonButton = document.getElementById("nextLesson");
 
 let interval, start, end; //timer
 let typer = new Input();
+
+const lessons = ["HelloWorld", "Integers", "BasicMath", "Strings", "Concatenation", "IfStatements", "WhileLoops", "ForLoops"];
 
 //determine lesson from url
 const urlParams = new URLSearchParams(window.location.search);
@@ -23,6 +26,7 @@ httpx.onreadystatechange = function() {
         if (httpx.status == 200){
             typer.toTypeText = httpx.responseText.replace(/    /g, "\t").replace(/\r/g, '');
             resetButton.hidden = false;
+            nextLessonButton.hidden = false;
             typer.init();
         }
         else if (httpx.status == 404)
@@ -113,6 +117,21 @@ function endLesson() {
     typer.updateWPM();
     typer.displayStats();
     alert(stats.textContent);
+    nextLessonButton.hidden = false;
+}
+
+function getNextLesson() {
+    n = lessons.findIndex((element) => element == lessonFile) + 1;
+    if (n <= lessons.length)
+        selectLevel(lessons[n], 'java');
+    else
+        alert("Sorry, that lesson doesn't exist yet...");
+}
+
+function selectLevel(lesson, lang) {
+    let url = window.location.href;
+    url = `lesson.html?lesson=${lesson}&lang=${lang}`;
+    window.location = url;
 }
 
 document.addEventListener("keydown", initType);

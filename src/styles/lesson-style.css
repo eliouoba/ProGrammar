@@ -148,6 +148,21 @@ mark {
     background-color: lightgrey;
 }
 
+#nextLesson {
+    background-color: gray;
+    width: 160px;
+    height: 30px;
+    border-color: transparent;
+    border-radius: 7px;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    font-size: large;
+}
+
+#nextLesson:hover {
+    background-color: lightgrey;
+}
+
 #stats {
     text-align: right;
     margin-top: auto;
