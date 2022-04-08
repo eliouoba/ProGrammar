@@ -5,4 +5,3 @@ def if_statements():
         print("Equal!")
     else:
         print("Not equal!")
-    
