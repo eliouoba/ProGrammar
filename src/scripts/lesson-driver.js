@@ -26,7 +26,7 @@ httpx.onreadystatechange = function() {
         if (httpx.status == 200){
             typer.toTypeText = httpx.responseText.replace(/    /g, "\t").replace(/\r/g, '');
             resetButton.hidden = false;
-            nextLessonButton.hidden = false;
+            nextLessonButton.hidden = true;
             typer.init();
         }
         else if (httpx.status == 404)
