@@ -42,9 +42,14 @@ const passwordBox = document.getElementById("passw");
 const loginEmailPassword = async () => {
     const loginEmail = usernameBox.value;
     const loginPassword = passwordBox.value;
-    const userCredential = 
-        await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
-        console.log(userCredential.user);
+    
+    try {
+      const userCredential = 
+          await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+          console.log(userCredential.user);
+    } catch(error) {
+      console.log(error);
+    }
 }
 
 const login = document.getElementById("login");
