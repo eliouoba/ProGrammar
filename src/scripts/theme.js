@@ -40,11 +40,15 @@ function import1() {
 
                 let googleScript = document.createElement("script");
                 googleScript.src = "https://apis.google.com/js/platform.js"
+
+                let loginScript = document.createElement("script");
+                loginScript.src = "../scripts/login-script.js";
                             
                 document.head.appendChild(googleFont);
                 document.head.appendChild(googleMeta1);
                 document.head.appendChild(googleMeta2);
                 document.head.appendChild(googleScript);
+                document.head.appendChild(loginScript);
             }
             imp.remove();
         });
