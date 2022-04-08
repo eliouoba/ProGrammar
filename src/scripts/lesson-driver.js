@@ -123,7 +123,7 @@ function endLesson() {
 function getNextLesson() {
     n = lessons.findIndex((element) => element == lessonFile) + 1;
     if (n <= lessons.length)
-        selectLevel(lessons[n], 'java');
+        selectLevel(lessons[n], extension);
     else
         alert("Sorry, that lesson doesn't exist yet...");
 }
