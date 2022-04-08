@@ -16,8 +16,9 @@
         <a class="nav_menu" id="about" href='../webpages/about.html'>About</a>
         <span class="nav_dividers">|</span>
         <a class="nav_menu" id="login" href='../webpages/login.html'>Login</a>
-        
-    
+        <div class="login">
+            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
+        </div>
     </ul>
     <style>
         #nav_bar {
@@ -65,10 +66,4 @@
             font-size: 30px;
         }
     </style>
-    <script>
-        document.head.innerHTML += 
-        `<meta name="google-signin-scope" content="profile email">
-        <meta name="google-signin-client_id" content="555912416256-keblh8lhhfsg009l3hjjnnrahls9i79a.apps.googleusercontent.com">
-        <script src="https://apis.google.com/js/platform.js" async defer><\/script>`;
-    </script>
 </nav>

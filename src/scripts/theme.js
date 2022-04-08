@@ -22,7 +22,29 @@ function import1() {
             imp.insertAdjacentHTML('afterend', text);
             if(imp.attributes.src.value == "../html/navbar.html"){
                 //guarantee that theme applied only when navbar imported
-                chooseTheme(currentTheme, true)
+                chooseTheme(currentTheme, true);
+
+                //add necessary headers to html head for google button
+                //to display in the navbar now that it's been imported
+                let googleFont = document.createElement("link");
+                googleFont.href = "https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
+                googleFont.rel="stylesheet";
+
+                let googleMeta1 = document.createElement("meta");
+                googleMeta1.name = "google-signin-scope";
+                googleMeta1.content = "profile email";
+
+                let googleMeta2 = document.createElement("meta");
+                googleMeta1.name = "google-signin-client_id";
+                googleMeta1.content="555912416256-keblh8lhhfsg009l3hjjnnrahls9i79a.apps.googleusercontent.com";
+
+                let googleScript = document.createElement("script");
+                googleScript.src = "https://apis.google.com/js/platform.js"
+                            
+                document.head.appendChild(googleFont);
+                document.head.appendChild(googleMeta1);
+                document.head.appendChild(googleMeta2);
+                document.head.appendChild(googleScript);
             }
             imp.remove();
         });
