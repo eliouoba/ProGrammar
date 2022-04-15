@@ -1,7 +1,6 @@
 //Josiah Hsu
 
 //quick element references
-const loadDest = document.getElementById("toType");
 const langSelect = document.getElementById("lang");
 const defaultOption = document.getElementById("defaultOption");
 const resetButton = document.getElementById("reset");

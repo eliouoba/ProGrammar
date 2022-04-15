@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="../styles/lesson-style.css">
 
     <script src="../scripts/Input-Class.js"></script>
-    <script src="../scripts/lesson-driver.js" defer></script>
+    <script src="../scripts/custom-lesson-driver.js" defer></script>
     <script src="../scripts/keyboard-visual-script.js"></script>
     <script src="../scripts/theme.js" defer></script>
     <link rel="icon" href="../files/logos/logo2.png">
@@ -20,22 +20,15 @@
 
 <body>
     <import src="../html/navbar.html"></import>
-    <h2>Type the text below! Aim for speed while maintaining accuracy.</h2>
+    <h2>Upload your lesson here!</h2>
     <div class=type_box id="toTypeBox">
         <pre id="toType"></pre>
     </div>
 
     <div id="statBar">
         <button id="reset" type="button" hidden="true" onclick="reset()">Reset</button>
-        <label id="langLabel" for="lang">Language: </label>
-        <select id="lang" onchange="changeLanguage()">
-            <option hidden value='' id="defaultOption">Select Language</option>
-            <option value="java">Java</option>
-            <option value="py">Python</option>
-            <option value="c">C</option>
-        </select>
         <span id="stats"></span>
-        <button id="nextLesson" type="button" hidden="true" onclick="getNextLesson()">Next Lesson</button>
+        <input type="file" id="uploader" accept=".c, .java, .py" oninput="setText()"></input>
     </div>
 
     <import src="../html/keyboard.html"></import>
