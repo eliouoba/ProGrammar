@@ -133,10 +133,8 @@ mark {
     font-family: monospace;
 }
 
-#reset {
+.button{
     background-color: gray;
-    width: 80px;
-    height: 30px;
     border-color: transparent;
     border-radius: 7px;
     font-weight: bold;
@@ -144,23 +142,18 @@ mark {
     font-size: large;
 }
 
-#reset:hover {
+.button:hover {
     background-color: lightgrey;
+}
+
+#reset {
+    width: 80px;
+    height: 30px;
 }
 
 #nextLesson {
-    background-color: gray;
     width: 160px;
     height: 30px;
-    border-color: transparent;
-    border-radius: 7px;
-    font-weight: bold;
-    font-family: 'Montserrat', sans-serif;
-    font-size: large;
-}
-
-#nextLesson:hover {
-    background-color: lightgrey;
 }
 
 #stats {

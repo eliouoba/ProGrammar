@@ -20,15 +20,17 @@
 
 <body>
     <import src="../html/navbar.html"></import>
-    <h2>Upload your lesson here!</h2>
+    <h2>Upload and play a custom lesson!</h2>
     <div class=type_box id="toTypeBox">
-        <pre id="toType"></pre>
+        <pre id="toType">Your custom lesson will appear here once you upload it.</pre>
     </div>
 
     <div id="statBar">
-        <button id="reset" type="button" hidden="true" onclick="reset()">Reset</button>
+        <input type="file" id="uploader" accept=".java, .c, .py" oninput="setText()"></input>
+        <span id="help"></span>
+        <br>
+        <button class=button id="reset" hidden="true" onclick="reset()">Reset</button>
         <span id="stats"></span>
-        <input type="file" id="uploader" accept=".c, .java, .py" oninput="setText()"></input>
     </div>
 
     <import src="../html/keyboard.html"></import>

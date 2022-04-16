@@ -9,10 +9,27 @@ const uploader = document.getElementById('uploader');
 let interval, start, end; //timer
 let typer = new Input();
 
+let allowed = ['java', 'c', 'py']; //defines allowed files - can expand list as needed
+
+let allowedMsg = "Allowed file formats: ";
+for(var i = 0; i < allowed.length; i++)
+        allowedMsg += `${(i > 0?', ':'')}.${allowed[i]}`;
+document.getElementById("help").innerHTML += allowedMsg;
+
 const reader = new FileReader();
 
 function setText(){
     let selectedFile = uploader.files[0];
+
+    if(selectedFile == null) return;
+
+    //check file extension to see if selected file is valid
+    let extension = selectedFile.name.split('.').pop();
+    if(!allowed.includes(extension)){
+        alert(`Invalid input. Please use a supported file.\n${allowedMsg}`)
+        return;
+    }
+
     toType.textContent = reader.readAsText(selectedFile);
     reader.addEventListener("load", ()=>{
         typer.toTypeText = reader.result;

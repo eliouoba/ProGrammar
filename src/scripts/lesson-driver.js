@@ -115,19 +115,19 @@ function endLesson() {
     typer.time = (end - start) / 1000;
     typer.updateWPM();
     typer.displayStats();
-    alert(stats.textContent);
+    alert(document.getElementById("stats").textContent);
     nextLessonButton.hidden = false;
 }
 
 function getNextLesson() {
     n = lessons.findIndex((element) => element == lessonFile) + 1;
     if (n <= lessons.length)
-        selectLevel(lessons[n], extension);
+        selectLesson(lessons[n], extension);
     else
         alert("Sorry, that lesson doesn't exist yet...");
 }
 
-function selectLevel(lesson, lang) {
+function selectLesson(lesson, lang) {
     let url = window.location.href;
     url = `lesson.html?lesson=${lesson}&lang=${lang}`;
     window.location = url;

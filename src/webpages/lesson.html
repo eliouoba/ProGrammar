@@ -26,7 +26,7 @@
     </div>
 
     <div id="statBar">
-        <button id="reset" type="button" hidden="true" onclick="reset()">Reset</button>
+        <button id="reset" class="button" hidden="true" onclick="reset()">Reset</button>
         <label id="langLabel" for="lang">Language: </label>
         <select id="lang" onchange="changeLanguage()">
             <option hidden value='' id="defaultOption">Select Language</option>
@@ -35,7 +35,7 @@
             <option value="c">C</option>
         </select>
         <span id="stats"></span>
-        <button id="nextLesson" type="button" hidden="true" onclick="getNextLesson()">Next Lesson</button>
+        <button class=button id="nextLesson" hidden="true" onclick="getNextLesson()">Next Lesson</button>
     </div>
 
     <import src="../html/keyboard.html"></import>
