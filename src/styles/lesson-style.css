@@ -101,31 +101,9 @@ mark {
 }
 
 .space {
-    background-color: lightcyan;
     width: 400px;
     margin-left: 25%;
 }
-
-.p{
-    background-color: lightpink;
-}
-
-.r{
-    background-color: palegoldenrod;
-}
-
-.m{
-    background-color: palegreen;
-}
-
-.li{
-    background-color: lightblue;
-}
-
-.ri{
-    background-color: lightsteelblue;
-}
-
 
 .type_text {
     font-family: 'Courier New', Courier, monospace;

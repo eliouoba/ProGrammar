@@ -1,5 +1,15 @@
 /* Eli Ouoba */
 
+//determine keyboard color theme
+var keyboardTheme = localStorage.getItem('keyboardTheme');
+if(keyboardTheme == 'color'){
+    var link = document.createElement('link');
+    link.rel = "stylesheet";    
+    link.type = "text/css";
+    link.href = "../styles/keyboard-style.css";
+    document.head.appendChild(link);
+}
+
 var capsLockDown = false;
 
 //darken key when pressed

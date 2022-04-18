@@ -15,6 +15,18 @@
 
 <body>
     <import src="../html/navbar.html"></import>
+    <h1 class="theme">Toggle keyboard colors</h1> 
+    <input class="themes" id="keyboardTheme" type="checkBox" onclick="keyboardThemeToggle()">Enable Colored Keyboard</input>
+    <script> 
+        var keyboardTheme = localStorage.getItem('keyboardTheme');
+        document.getElementById("keyboardTheme").checked = keyboardTheme == 'color';
+        function keyboardThemeToggle(){
+            var keyboardTheme = localStorage.getItem('keyboardTheme');
+            keyboardTheme = (keyboardTheme == 'b/w'? 'color' : 'b/w');
+            localStorage.setItem('keyboardTheme', keyboardTheme);
+        }
+    </script>
+
     <h1 class="theme">Theme</h1>
     <p class="choose">Choose a regular theme:</p>
     <p class="themes" onclick="chooseTheme('default')">Default</p>
