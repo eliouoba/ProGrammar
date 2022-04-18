@@ -72,11 +72,6 @@ mark {
     font-size: small;
 }
 
-.space {
-    width: 400px;
-    margin-left: 25%;
-}
-
 .tab {
     width: 90px;
 }
@@ -105,8 +100,32 @@ mark {
     width: 105px;
 }
 
+.space {
+    background-color: lightcyan;
+    width: 400px;
+    margin-left: 25%;
+}
 
-/*delete this */
+.p{
+    background-color: lightpink;
+}
+
+.r{
+    background-color: palegoldenrod;
+}
+
+.m{
+    background-color: palegreen;
+}
+
+.li{
+    background-color: lightblue;
+}
+
+.ri{
+    background-color: lightsteelblue;
+}
+
 
 .type_text {
     font-family: 'Courier New', Courier, monospace;
@@ -115,21 +134,20 @@ mark {
 
 .type_box {
     background-color: lightgray;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 15%;
+    margin-right: 15%;
     padding-left: 2em;
     border-radius: 1em;
     margin-bottom: 1em;
     /* scrollable box instead of page*/
-    overflow-x: auto;
-    overflow-y: auto;
     height: 8em;
     line-height: 1.2em;
     overflow: hidden;
 }
 
 #statBar {
-    margin-left: 20%;
+    margin-left: 15%;
+    margin-right: 15%;
     font-family: monospace;
 }
 

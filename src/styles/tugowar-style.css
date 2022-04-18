@@ -30,13 +30,13 @@ input[type=range]{
 }
 
 #scorebar{
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 15%;
+    margin-right: 15%;
 }
 
 #botconfig{
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 15%;
+    margin-right: 15%;
     font-family: monospace;
 }
 
@@ -55,22 +55,20 @@ input[type=range]{
 
 .type_box {
     background-color: lightgray;
-    margin-left: 10%;
-    margin-right: 10%;
+    margin-left: 15%;
+    margin-right: 15%;
     padding-left: 2em;
     border-radius: 1em;
     margin-bottom: 1em;
     /* scrollable box instead of page*/
-    overflow-x: auto;
-    overflow-y: auto;
     height: 8em;
     line-height: 1.2;
     overflow: hidden;
 }
 
 #statBar {
-    margin-left: 20%;
-    margin-right: 20%;
+    margin-left: 15%;
+    margin-right: 15%;
     font-family: monospace;
 }
 

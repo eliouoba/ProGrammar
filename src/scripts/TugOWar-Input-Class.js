@@ -46,11 +46,9 @@ class TugOWarInput extends Input{
     input(key){
         const pos = this.typed.length-1;
         const before = this.totalErrors;
-        if(key == "Backspace"){
-            if(this.typed[pos] != this.toTypeText[pos]){
-                //correcting mistake - removes penalty from scorebar
-                this.score.value = Number(this.score.value)-3
-            }
+        if(key == "Backspace" && this.typed[pos] != this.toTypeText[pos]){
+            //correcting mistake - removes penalty from scorebar
+            this.score.value = Number(this.score.value)-3
         }
         let input = super.input(key);
         if(input){

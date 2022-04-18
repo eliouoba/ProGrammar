@@ -17,23 +17,6 @@ const urlParams = new URLSearchParams(window.location.search);
 const lessonFile = urlParams.get("lesson");
 const extension = urlParams.get("lang");
 
-//load lesson into document
-httpx = new XMLHttpRequest();
-httpx.open("GET", `../files/${lessonFile}.${extension}`);
-httpx.onreadystatechange = function() {
-    if (httpx.readyState == 4) {
-        if (httpx.status == 200){
-            typer.toTypeText = httpx.responseText.replace(/    /g, "\t").replace(/\r/g, '');
-            resetButton.hidden = false;
-            nextLessonButton.hidden = true;
-            typer.init();
-        }
-        else if (httpx.status == 404)
-            toType.textContent = "ERROR: The lesson you selected could not be found.";
-    }
-};
-httpx.send();
-
 //set default option for langSelect
 const options = langSelect.options;
 for(var i = 0; i < options.length; i++){
@@ -41,6 +24,27 @@ for(var i = 0; i < options.length; i++){
         defaultOption.textContent = options[i].text;
     }
 };
+
+/**
+ * loadLesson - loads a lesson based on URL parameters
+ */
+function loadLesson(){
+    httpx = new XMLHttpRequest();
+    httpx.open("GET", `../files/${lessonFile}.${extension}`);
+    httpx.onreadystatechange = function() {
+        if (httpx.readyState == 4) {
+            if (httpx.status == 200){
+                typer.toTypeText = httpx.responseText.replace(/    /g, "\t").replace(/\r/g, '');
+                resetButton.hidden = false;
+                nextLessonButton.hidden = true;
+                typer.init();
+            }
+            else if (httpx.status == 404)
+                toType.textContent = "ERROR: The lesson you selected could not be found.";
+        }
+    };
+    httpx.send();
+}
 
 /**
  * changeLanguage - changes programming language and reloads page
@@ -62,7 +66,7 @@ function reset() {
     resetButton.blur();
     window.clearInterval(interval);
     document.removeEventListener("keydown", type);
-    document.addEventListener("keydown", initType);
+    document.addEventListener("keydown", startLesson);
     langSelect.disabled = false;
     typer.init();
 }
@@ -77,12 +81,12 @@ function timer() {
 }
 
 /**
- * initType - special event for first input
+ * startLesson - special event for first input
  * @param {*} keydownEvent the first key entered
  */
-function initType(keydownEvent) {
+function startLesson(keydownEvent) {
     if (keydownEvent.key.length == 1) {
-        document.removeEventListener("keydown", initType);
+        document.removeEventListener("keydown", startLesson);
         document.addEventListener("keydown", type);
         start = Date.now();
         interval = window.setInterval(timer, 250);
@@ -93,7 +97,7 @@ function initType(keydownEvent) {
 
 /**
  * type - records input from keyboard in tracker
- * @param {*} key the key entered
+ * @param {*} keydownEvent the key entered
  */
 function type(keydownEvent) {
     const key = keydownEvent.key;
@@ -133,4 +137,5 @@ function selectLesson(lesson, lang) {
     window.location = url;
 }
 
-document.addEventListener("keydown", initType);
+loadLesson();
+document.addEventListener("keydown", startLesson);

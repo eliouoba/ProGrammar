@@ -10,13 +10,14 @@ document.addEventListener("keyup", keyReleased);
 
 function keyPressed(e) {
     if (e.key == "CapsLock") {
-        if (capsLockDown) lighten(e);
-        else darken(e);
+        capsLockDown? lighten(e) : darken(e);
         capsLockDown = !capsLockDown;
-    } else if (e.key == "Tab") {
-        e.preventDefault();
+    }
+    else {
+        if (e.key == "Tab" || e.key == " ")
+            e.preventDefault();
         darken(e);
-    } else darken(e);
+    }
 }
 
 function keyReleased(e) {
@@ -25,25 +26,21 @@ function keyReleased(e) {
 }
 
 function lighten(event) {
-    keyPressed = getKey(event);
-    if (keyPressed == null) return;
-    keyPressed.style.backgroundColor = "white";
-    keyPressed.style.color = "black";
+    let key = getKey(event);
+    if (key != null)
+        key.style.filter = "brightness(100%)";
 }
 
 function darken(event) {
-    keyPressed = getKey(event);
-    if (keyPressed == null) return;
-    keyPressed.style.backgroundColor = "silver";
-    keyPressed.style.color = "white";
+    let key = getKey(event);
+    if (key != null)
+        key.style.filter = "brightness(70%)";
 }
 
 function getKey(event) {
     var keyPressed;
     const key = convertKey(event.key);
-    if (key == "Shift")
-        keyPressed = document.getElementById(event.code);
-    else keyPressed = document.getElementById(key);
+    keyPressed = document.getElementById(key=="Shift"? event.code : key);
     if (keyPressed == null) //because caps lock is on
         keyPressed = document.getElementById(key.toLowerCase());
     return keyPressed;

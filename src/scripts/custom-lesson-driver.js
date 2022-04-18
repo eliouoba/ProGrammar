@@ -34,7 +34,7 @@ function setText(){
     reader.addEventListener("load", ()=>{
         typer.toTypeText = reader.result;
         typer.init();
-        document.addEventListener("keydown", initType);
+        document.addEventListener("keydown", startLesson);
         resetButton.hidden = false;
         uploader.blur();
         reader.removeEventListener("load", this);
@@ -50,7 +50,7 @@ function reset() {
     uploader.disabled = false;
     window.clearInterval(interval);
     document.removeEventListener("keydown", type);
-    document.addEventListener("keydown", initType);
+    document.addEventListener("keydown", startLesson);
     typer.init();
 }
 
@@ -67,9 +67,9 @@ function timer() {
  * initType - special event for first input
  * @param {*} keydownEvent the first key entered
  */
-function initType(keydownEvent) {
+function startLesson(keydownEvent) {
     if (keydownEvent.key.length == 1) {
-        document.removeEventListener("keydown", initType);
+        document.removeEventListener("keydown", startLesson);
         document.addEventListener("keydown", type);
         start = Date.now();
         interval = window.setInterval(timer, 250);

@@ -83,10 +83,9 @@ class Input{
                 this.typed.push('\n');
                 break;
             default:
-                if (key.length == 1) 
-                    this.typed.push(key);
-                else //unsupported key
-                    return;
+                if (key.length != 1)
+                    return; //unsupported key
+                this.typed.push(key);
         }
         if (input) {
             //new entry
