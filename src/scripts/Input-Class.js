@@ -29,6 +29,7 @@ class Input{
         this.entries = 0;
         this.totalErrors = 0;
 
+        this.toTypeBox.style.overflowY = "hidden";
         this.toTypeBox.scrollTo(0,0);
         this.makeText();
     }
@@ -190,6 +191,9 @@ class Input{
      * @returns true if lesson is complete
      */
     checkEnd(){
-        return this.typed.length == this.toTypeText.length
+        let end = this.typed.length == this.toTypeText.length
+        if(end)
+            this.toTypeBox.style.overflowY = "auto";
+        return end;
     }
 }
