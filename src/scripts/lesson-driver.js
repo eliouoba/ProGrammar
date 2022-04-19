@@ -69,6 +69,7 @@ function reset() {
     document.removeEventListener("keydown", type);
     document.addEventListener("keydown", startLesson);
     langSelect.disabled = false;
+    twitter.hidden = true;
     typer.init();
 }
 
@@ -92,7 +93,6 @@ function startLesson(keydownEvent) {
         start = Date.now();
         interval = window.setInterval(timer, 250);
         langSelect.disabled = true;
-        twitter.hidden = true;
         typer.input(keydownEvent.key);
     }
 }
