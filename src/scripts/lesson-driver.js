@@ -6,6 +6,7 @@ const defaultOption = document.getElementById("defaultOption");
 const resetButton = document.getElementById("reset");
 const toType = document.getElementById("toType");
 const nextLessonButton = document.getElementById("nextLesson");
+const twitter = document.getElementById("twitter");
 
 let interval, start, end; //timer
 let typer = new Input();
@@ -91,6 +92,7 @@ function startLesson(keydownEvent) {
         start = Date.now();
         interval = window.setInterval(timer, 250);
         langSelect.disabled = true;
+        twitter.hidden = true;
         typer.input(keydownEvent.key);
     }
 }
@@ -121,6 +123,13 @@ function endLesson() {
     typer.displayStats();
     alert(document.getElementById("stats").textContent);
     nextLessonButton.hidden = false;
+    twitter.hidden = false;
+
+    let sts = typer.getStats();
+    let tweet = "https://twitter.com/intent/tweet?text=";
+    tweet += `I just completed the ${lessonFile} ${defaultOption.textContent} lesson in ProGrammar!`;
+    tweet += `%0aTime: ${sts[0]}%0aErrors: ${sts[1]}%0aNet WPM: ${sts[2]}%0aAccuracy: ${sts[3]}%25`
+    twitter.href = tweet;
 }
 
 function getNextLesson() {

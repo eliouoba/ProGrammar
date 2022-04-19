@@ -43,11 +43,19 @@ class Input{
     }
 
     /**
+     * getStats - returns array of stats
+     */
+    getStats(){
+        return [this.time.toFixed(2), this.errors, this.netwpm, this.accuracy.toFixed(2)];
+    }
+
+    /**
      * displayStats - displays wpm, errors, and time
      */
     displayStats() {
-        this.stats.textContent = `Time: ${this.time.toFixed(2)} Errors: ${this.errors} ` +
-                            `Net WPM: ${this.netwpm} Accuracy: ${this.accuracy.toFixed(2)}%`;
+        let sts = this.getStats();
+        let txt = `Time: ${sts[0]} Errors: ${sts[1]} Net WPM: ${sts[2]} Accuracy: ${sts[3]}%`;
+        this.stats.textContent = txt;
     }
 
     /**
