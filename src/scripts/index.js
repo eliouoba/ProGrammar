@@ -43,8 +43,8 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
 /* authentication functions */
-const auth = getAuth(app);
-connectAuthEmulator(auth, "http://localhost:9099");
+//const auth = getAuth(app);
+//connectAuthEmulator(auth, "http://localhost:9099");
 
 
 //login
