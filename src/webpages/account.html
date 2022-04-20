@@ -11,14 +11,32 @@
 </head>
 <body>
     <!--button onclick="googleLogin()">Login with Google</button-->
-         
-    <div class="container">
-        <label for="username"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="username" id="user" required>
-        <label for="password"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="password" id="passw" required>
-        <button id="login" type="submit">Login</button>
-    </div>
+        <div class="u">
+            <label>Username</label>
+            <input type="text" placeholder="Enter Username" id="usernameBox" required>
+        </div> 
+        <div class="p">
+            <label>Password</label>
+            <input type="password" placeholder="Enter Password" id="passwordBox" required>
+        </div>
+        <div id="divLoginError" class="group">
+            <div id="lblLoginErrorMessage" class="errorlabel">Error message</div>
+          </div>
+        <div class="b">
+            <button id="login" type="submit">Login</button>
+            <button id="signup" type="submit">Sign up</button>
+            <button id="logoutButton" type="submit">Log out</button>
+            <div id="lblAuthState" class="authlabel"></div>
+        </div>
+        <style>
+            .u, .p, button {
+                margin: 30px;
+            }
+
+        </style>
+        
+        
+
 
 
 </body>

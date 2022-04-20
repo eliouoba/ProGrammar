@@ -4,6 +4,18 @@ import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.10/firebase
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js';
 */
 
+import { 
+  hideLoginError, 
+  showLoginState, 
+  showLoginForm, 
+  //showApp, 
+  showLoginError, 
+  btnLogin,
+  btnSignup,
+  btnLogout,
+  lblAuthState
+} from './account-ui.js'
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 import { initializeApp } from 'firebase/app';
@@ -30,15 +42,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-
-
 /* authentication functions */
 const auth = getAuth(app);
 connectAuthEmulator(auth, "http://localhost:9099");
 
-const usernameBox = document.getElementById("user");
-const passwordBox = document.getElementById("passw");
 
+//login
 const loginEmailPassword = async () => {
     const loginEmail = usernameBox.value;
     const loginPassword = passwordBox.value;
@@ -49,48 +58,46 @@ const loginEmailPassword = async () => {
           console.log(userCredential.user);
     } catch(error) {
       console.log(error);
+      showLoginError(error);
     }
 }
-
-const login = document.getElementById("login");
 login.addEventListener("click", loginEmailPassword);
 
 
-createUserWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
-  });
-
-signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-  });
-
-signOut(auth).then(() => {
-  // Sign-out successful.
-}).catch((error) => {
-  // An error happened.
-});
-
-//detect auth state
-onAuthStateChanged(auth, user=> {
-    if(user != null) {
-        console.log('logged in!');  
-    } else {
-        console.log('No user!');
+//create account
+const createEmailPassword = async () => {
+    const loginEmail = usernameBox.value;
+    const loginPassword = passwordBox.value;
+    
+    try {
+      const userCredential = 
+          await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
+          console.log(userCredential.user);
+    } catch(error) {
+      console.log(error);
+      showLoginError(error);
     }
-});
+}
+signup.addEventListener("click", createEmailPassword);
 
+//detect authentication state
+const monitorAuthState = async () => {
+  onAuthStateChanged(auth, user=> {
+      if(user != null) {
+          console.log(user);  
+          // showApp();
+          showLoginState(user);
+          hideLoginError();
+      } else {
+        lblAuthState.innerHTML = "You're not logged in.";
+      }
+  }); 
+}
+
+//log out
+const logout = async () => {
+  await signOut(auth);
+  lblAuthState.innerHTML = "Logged out!";
+}
+
+logoutButton.addEventListener("click", logout);
