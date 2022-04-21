@@ -50,7 +50,7 @@ class TugOWarInput extends Input{
         let input = super.input(key);
         if(input){
             //appends text if near end
-            if(this.newlinecount - this.currentline == 3)
+            if(this.newlinecount - this.currentline == 4)
                 this.generate();   
 
             //updates scorebar
