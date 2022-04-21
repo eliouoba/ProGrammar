@@ -1,3 +1,5 @@
+console.log("account ui script called");
+
 import { AuthErrorCodes } from 'firebase/auth';
 
 export const usernameBox = document.getElementById("usernameBox");

@@ -2,7 +2,11 @@ const path = require('path');
 
 module.exports = {
   // The entry point file described above
-  entry: './src/scripts/index.js',
+  entry: [
+    './src/scripts/account-script.js',
+    './src/scripts/account-ui.js',
+    './src/scripts/user-script.js'
+  ],
   // The location of the build folder described above
   output: {
     path: path.resolve(__dirname, 'dist'),
