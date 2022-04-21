@@ -12,15 +12,12 @@ class TugOWarInput extends Input{
      */
     generate(){
         const len = this.wordlist.length;
-        for(var i = 0; i < 8; i++){
+        let str = "";
+        while(str.length < 60){ //keep generated lines roughly the same length
             const x = Math.floor(Math.random() * len);
-            this.toTypeText += this.wordlist[x] + ' ';
+            str += this.wordlist[x] + ' ';
         }
-
-        //temporary stuff for vertical scroll - will
-        //eventually replace w/ horizontal scroll
-        this.toTypeText = this.toTypeText.trim();
-        this.toTypeText += '\n';
+        this.toTypeText += str.trim() + '\n';
         this.newlinecount++;
     }
 
@@ -53,7 +50,7 @@ class TugOWarInput extends Input{
         let input = super.input(key);
         if(input){
             //appends text if near end
-            if(this.newlinecount - this.currentline == 3)
+            if(this.newlinecount - this.currentline == 4)
                 this.generate();   
 
             //updates scorebar
