@@ -4,9 +4,8 @@
 <head>
     <link rel="stylesheet" href="../styles/user-styles.css">
     <link rel="icon" href="../files/logos/logo2.png">
-
     <script src="../scripts/theme.js" defer></script>
-
+    <script type="module" src="../../dist/bundle.js"></script>
 </head>
 
 <body>
@@ -15,11 +14,20 @@
     <div class="head">
         <h1 class="title">User Statistics</h1>
         <div class="panel">
-            <div class="lesson stats">Lessons Completed: 0 </div><br></br>
-            <div class="topic stats">Topics Completed: 0</div> <br></br>
-            <div class="GameP stats">Games Played: 0</div><br></br>
-            <div class="GameW stats">Games Won: 0</div><br></br>
-            <div class="wpm stats">Average WPM: 0</div> <br></br>
-            <div class="accuracy stats">Average Accuracy: 0</div>
+            <div id="lessons" class="stats">
+                Lessons Completed:
+            </div><br><br>
+            <div id="topics" class="stats">Topics Completed:</div><br><br>
+            <div id="played" class="stats">Games Played:</div><br><br>
+            <div id="won" class="stats">Games Won:</div><br><br>
+            <div id="wpm" class="stats">Average WPM:</div> <br><br>
+            <div id="acc" class="stats">Average Accuracy:</div>
         </div>
     </div>
+    <script>
+        //showStats();
+    </script>
+
+</body>
+
+</html>

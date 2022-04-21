@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Account</title>
     <script type="module" src="../../dist/bundle.js"></script>
-    <!--script src="../scripts/index.js"></script-->
-    
+    <link rel="icon" href="../files/logos/logo2.png">
+    <script src="../scripts/theme.js" defer></script>
+    <link rel="stylesheet" href="../styles/page-style.css">
 </head>
 <body>
+    <import src="../html/navbar.html"></import>
+
     <!--button onclick="googleLogin()">Login with Google</button-->
         <div class="u">
             <label>Username</label>
@@ -27,18 +30,13 @@
             <button id="signup" type="submit">Sign up</button>
             <button id="logoutButton" type="submit">Log out</button>
             <div id="lblAuthState" class="authlabel"></div>
+            <style>
+                .u, .p, button {
+                    margin: 30px;
+                }
+    
+            </style>
         </div>
-        <style>
-            .u, .p, button {
-                margin: 30px;
-            }
-
-        </style>
-        
-        
-
-
-
 </body>
 </html>
 
