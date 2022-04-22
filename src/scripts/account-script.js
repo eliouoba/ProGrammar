@@ -10,8 +10,7 @@ import { connectAuthEmulator,
           signInWithEmailAndPassword,
           createUserWithEmailAndPassword,
           signOut,
-          setPersistence,
-          browserSessionPersistence
+          currentUser
 } from 'firebase/auth';
 
 import { connectDatabaseEmulator, 
@@ -42,9 +41,14 @@ if (window.location.href.includes("account")) {
 
     //authentication functions 
     const auth = getAuth(app);
-    auth.setPersistence(browserSessionPersistence);
-    console.log("current user: " + auth.currentUser.uid);
-    console.log(auth);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("current user: " + user.uid);
+      } else {
+        console.log("not logged in");
+      }
+    });
 
     //connectAuthEmulator(auth, "http://localhost:9099");
     //connectDatabaseEmulator(database, "http://localhost:9000"); 
@@ -73,6 +77,7 @@ if (window.location.href.includes("account")) {
             console.log("signed in as " + u.uid);
             lblAuthState.innerHTML = 
             "logged in as user id " + u.uid;
+            //initializeUser();
         } catch(error) {
           console.log(error);
           showLoginError(error);
