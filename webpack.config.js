@@ -1,19 +1,30 @@
 const path = require('path');
+const glob = require('glob');
 
 module.exports = {
-  // The entry point file described above
+  //All the js files
   entry: [
-    './src/scripts/account-script.js',
-    './src/scripts/account-ui.js',
-    './src/scripts/user-script.js'
+    "./src/scripts/user-script.js",
+    "./src/scripts/account-script.js",
+    "./src/scripts/account-ui.js",
   ],
-  // The location of the build folder described above
+    
+  //glob.sync("./src/scripts/*.js"),  
+  //glob.sync('.src/scripts/**.js').reduce(function(obj, el) {
+    //  obj[path.parse(el).name] = el;
+    //  return obj
+   // },{}),
+
+  //Build folder
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
+
   // Optional and for development only. This provides the ability to
   // map the built code back to the original source format when debugging.
   devtool: 'eval-source-map',
-  watch: true //for automatic npm run build
+
+   //for automatic npm run build
+  watch: true
 };
