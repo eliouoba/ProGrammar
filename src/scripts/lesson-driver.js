@@ -1,5 +1,33 @@
 //Josiah Hsu
 
+
+/* Initializing Firebase */
+
+/*
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getDatabase, ref, get } from "firebase/database";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyC8TjMHSCAqxaqlIW2MNdbWWLp_vyWUBHA",
+    authDomain: "programmar-d33e8.firebaseapp.com",
+    databaseURL: "https://programmar-d33e8-default-rtdb.firebaseio.com",
+    projectId: "programmar-d33e8",
+    storageBucket: "programmar-d33e8.appspot.com",
+    messagingSenderId: "1017841820021",
+    appId: "1:1017841820021:web:943e79503ad7292bb6b33c",
+    measurementId: "G-6QTSB873J8"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const auth = getAuth(app);
+import {Input} from "./Input-Class";
+
+//also need to makesure all of the below code is attached to a DOMContentLoaded listener 
+
+*/
+
 //quick element references
 const langSelect = document.getElementById("lang");
 const defaultOption = document.getElementById("defaultOption");
@@ -130,6 +158,15 @@ function endLesson() {
     tweet += `I just completed the ${lessonFile} ${defaultOption.textContent} lesson in ProGrammar!`;
     tweet += `%0aTime: ${sts[0]}%0aErrors: ${sts[1]}%0aNet WPM: ${sts[2]}%0aAccuracy: ${sts[3]}%25`
     twitter.href = tweet;
+
+    /*const user = auth.currentUser.uid;
+    const lessonReference = ref(database, `users/${user}/stats/lesson`);
+    get(lessonReference).then((snapshot) => {
+        const newLessons = snapshot.val() + 1;
+        set(ref(database, `users/${user}/stats/lessons`, newLessons));
+    }).catch((error) => {
+        console.error(error);
+    })*/
 }
 
 function getNextLesson() {

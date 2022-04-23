@@ -1,11 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, ref, get, child, onValue, on } from "firebase/database";
-console.log("user script called");
+import { getDatabase, ref, get, set } from "firebase/database";
 
-if (window.location.href.includes("user"))
+if (window.location.href.includes("user")) {
     document.addEventListener("DOMContentLoaded", setup);
+    console.log("user script called");
+}
 
 function setup() {
     const firebaseConfig = {
@@ -21,7 +21,6 @@ function setup() {
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
     const database = getDatabase(app);
     const auth = getAuth(app);
 
@@ -41,6 +40,22 @@ function setup() {
             statsPanel.innerHTML = `Login to view stats`;
         }
     });
+
+    const lessonIncrementButton = document.getElementById("lesson_increment");
+    const emailBox = document.getElementById("email_box");
+
+    lessonIncrementButton.addEventListener("click", increase);
+    function increase() {
+        const user = auth.currentUser.uid;
+        const lessonReference = ref(database, `users/${user}/stats/lessons`);
+        get(lessonReference).then((snapshot) => {
+            const newLessons = snapshot.val() + 1;
+            set(ref(database, `users/${user}/stats/lessons`), newLessons);
+            showStats(database, auth.currentUser);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
 }  
         
 //read from database and update html
@@ -49,12 +64,12 @@ function showStats(database, user) {
     get(statsReference).then((snapshot) => {
         if (snapshot.exists()) {
             const stats = snapshot.val();
-            lessons.innerHTML += stats.lessons;
-            topics.innerHTML += stats.topics;
-            played.innerHTML += stats.played;
-            won.innerHTML += stats.won;
-            wpm.innerHTML += stats.wpm;
-            acc.innerHTML += stats.acc;
+            lessons.innerHTML = stats.lessons;
+            topics.innerHTML = stats.topics;
+            played.innerHTML = stats.played;
+            won.innerHTML = stats.won;
+            wpm.innerHTML = stats.wpm;
+            acc.innerHTML = stats.acc;
         } else {
             console.log("No data available");
         }

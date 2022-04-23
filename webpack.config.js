@@ -6,7 +6,9 @@ module.exports = {
   entry: [
     "./src/scripts/user-script.js",
     "./src/scripts/account-script.js",
-    "./src/scripts/account-ui.js",
+    //"./src/scripts/lesson-driver.js",
+    //"./src/scripts/tugowar-driver.js",
+    //"./src/scripts/Input-Class.js",
   ],
     
   //glob.sync("./src/scripts/*.js"),  

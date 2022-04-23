@@ -1,5 +1,6 @@
 //Josiah Hsu
 
+//add export statement when bundled later
 class Input{
     constructor(){
         //quick element references

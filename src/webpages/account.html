@@ -16,29 +16,33 @@
     <import src="../html/navbar.html"></import>
 
     <!--button onclick="googleLogin()">Login with Google</button-->
-        <div class="u">
-            <label>Username</label>
-            <input type="text" placeholder="Enter Username" id="usernameBox" required>
-        </div> 
-        <div class="p">
-            <label>Password</label>
-            <input type="password" placeholder="Enter Password" id="passwordBox" required>
-        </div>
-        <div id="divLoginError" class="group">
-            <div id="lblLoginErrorMessage" class="errorlabel">Error message</div>
-        </div>
-        <div class="b">
-            <button id="login" type="submit">Login</button>
-            <button id="signup" type="submit">Sign up</button>
-            <button id="logoutButton" type="submit">Log out</button>
-            <div id="lblAuthState" class="authlabel"></div>
-            <style>
-                .u, .p, button {
-                    margin: 30px;
-                }
-    
-            </style>
-        </div>
+    <div id="email">
+        <label>Email</label>
+        <input type="text" placeholder="Enter email" id="email_box">
+    </div> 
+    <div id="password">
+        <label>Password</label>
+        <input type="password" placeholder="Enter Password" id="password_box">
+    </div>
+    <div id="error_label"></div></div>
+    <div id="b">
+        <button id="login_button" type="submit">Login</button>
+        <button id="signup_button" type="submit">Sign up</button>
+        <button id="logout_button" type="submit">Log out</button>
+    </div>
+    <div id="auth_state_label"></div>
+    <style>
+        #email, 
+        #password, 
+        button, 
+        #error_label,
+        #auth_state_label {
+            margin: 30px;
+        }
+        #error_label {
+            color: red;
+        }
+    </style>
 </body>
 </html>
 
