@@ -20,7 +20,7 @@ function import1() {
         let imp = imports[i];
         load_file(imp.attributes.src.value, function(text) {
             imp.insertAdjacentHTML('afterend', text);
-            if(imp.attributes.src.value == "../html/navbar.html"){
+            if (imp.attributes.src.value == "../html/navbar.html") {
                 //guarantee that theme applied only when navbar imported
                 chooseTheme(currentTheme, true);
 
@@ -28,7 +28,7 @@ function import1() {
                 //to display in the navbar now that it's been imported
                 let googleFont = document.createElement("link");
                 googleFont.href = "https://fonts.googleapis.com/css2?family=Montserrat&display=swap"
-                googleFont.rel="stylesheet";
+                googleFont.rel = "stylesheet";
 
                 let googleMeta1 = document.createElement("meta");
                 googleMeta1.name = "google-signin-scope";
@@ -36,14 +36,14 @@ function import1() {
 
                 let googleMeta2 = document.createElement("meta");
                 googleMeta1.name = "google-signin-client_id";
-                googleMeta1.content="555912416256-keblh8lhhfsg009l3hjjnnrahls9i79a.apps.googleusercontent.com";
+                googleMeta1.content = "555912416256-keblh8lhhfsg009l3hjjnnrahls9i79a.apps.googleusercontent.com";
 
                 let googleScript = document.createElement("script");
                 googleScript.src = "https://apis.google.com/js/platform.js"
 
                 let loginScript = document.createElement("script");
                 loginScript.src = "../scripts/login-script.js";
-                            
+
                 document.head.appendChild(googleFont);
                 document.head.appendChild(googleMeta1);
                 document.head.appendChild(googleMeta2);
@@ -58,7 +58,7 @@ function import1() {
         }
     }
 }
-    
+
 
 setUpThemes();
 
@@ -96,10 +96,10 @@ function applyTheme(t, colorScheme) {
     navbar.style.backgroundColor = theme.navbarBackground;
 
 
-   // console.log(navbar);
-   // if (glowing) navbar.style.boxShadow = "0px -30px 70px 20px " + themes.get("dark").glow;
+    // console.log(navbar);
+    // if (glowing) navbar.style.boxShadow = "0px -30px 70px 20px " + themes.get("dark").glow;
     //if (glowBoxExists) handleglowBox();
-   
+
     //no idea why this is necessary 
     const navitems = document.getElementsByClassName("nav_menu");
     for (let i = 0; i < navitems.length; i++)
@@ -108,7 +108,7 @@ function applyTheme(t, colorScheme) {
     if (lessonHeader != null) {
         lessonHeader.style.color = theme.html;
     }
-        //document.getElementById("nav_bar").style.boxShadow = "0px -30px 70px 20px " + theme.glow
+    //document.getElementById("nav_bar").style.boxShadow = "0px -30px 70px 20px " + theme.glow
     if (theme.videoTheme == true) addVideo(theme);
     else removeExistingVideo();
 }
