@@ -16,7 +16,7 @@
     <import src="../html/navbar.html"></import>
     <h1 class="theme">Toggle keyboard colors</h1>
     <p class="choose">Choose whether the keyboard is colored to indicate finger positions:</p>
-    <input class="themes" id="keyboardTheme" type="checkBox" onclick="ToggleTheme()">Colored Keyboard</input>
+    <input class="themes" id="keyboardTheme" type="checkBox" onclick="toggleTheme()">Colored Keyboard</input>
     <script>
         var keyboardTheme = localStorage.getItem('keyboardTheme');
         document.getElementById("keyboardTheme").checked = keyboardTheme == 'color';

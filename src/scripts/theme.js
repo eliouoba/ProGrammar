@@ -69,6 +69,8 @@ function chooseTheme(newTheme, initialize) {
     //the calls from HTML pass false for initialize by default
     if (!initialize && newTheme == localStorage.getItem('theme')) return;
     localStorage.setItem('theme', newTheme);
+    localStorage.setItem(
+        'themeTextColor', themes.get(currentTheme).html);
     currentTheme = newTheme;
     applyTheme(newTheme, colorSchemes.get(currentTheme));
     /*switch (newTheme) {

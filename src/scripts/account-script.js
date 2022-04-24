@@ -49,7 +49,8 @@ function main() {
     const authStateLabel = document.getElementById('auth_state_label');
     const or = document.getElementById("or");
     const googleButton = document.getElementById("google_button");
-
+    if (localStorage.getItem('themeTextColor') == "white")
+        document.getElementById("container").style.backgroundColor = "rgb(60,60,60)";
 
     loginButton.addEventListener("click", loginEmailPassword);
     signupButton.addEventListener("click", signupConfiguration);
@@ -61,27 +62,22 @@ function main() {
     const signupHeader = document.getElementById("signup_header");
     const signupWith = document.getElementById("su_with");
     signinConfiguration();
-    initialAuthCheck();
 
     /* Notify the user if they are logged in already */
     var initial = true;
-
-    function initialAuthCheck() {
-        if (initial == false) return;
-        onAuthStateChanged(auth, (user) => {
-            if (user && initial) {
-                usernameBox.style.display = "none";
-                emailBox.style.display = "none";
-                passwordBox.style.display = "none";
-                loginButton.style.display = "none";
-                or.style.display = "none";
-                authStateLabel.innerHTML =
-                    `You're currently logged in, ${user.displayName}`;
-                authStateLabel.style.display = "flex";
-                initial = false;
-            }
-        });
-    }
+    onAuthStateChanged(auth, (user) => {
+        if (user && initial) {
+            usernameBox.style.display = "none";
+            emailBox.style.display = "none";
+            passwordBox.style.display = "none";
+            loginButton.style.display = "none";
+            or.style.display = "none";
+            authStateLabel.innerHTML =
+                `You're currently logged in, ${user.displayName}`;
+            authStateLabel.style.display = "flex";
+            initial = false;
+        }
+    });
 
     /** login with email and password */
     async function loginEmailPassword() {
