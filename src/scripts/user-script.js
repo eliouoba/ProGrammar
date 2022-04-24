@@ -45,6 +45,7 @@ function setup() {
     const emailBox = document.getElementById("email_box");
 
     lessonIncrementButton.addEventListener("click", increase);
+
     function increase() {
         const user = auth.currentUser.uid;
         const lessonReference = ref(database, `users/${user}/stats/lessons`);
@@ -56,20 +57,20 @@ function setup() {
             console.error(error);
         });
     }
-}  
-        
+}
+
 //read from database and update html
 function showStats(database, user) {
     const statsReference = ref(database, `users/${user.uid}/stats`);
     get(statsReference).then((snapshot) => {
         if (snapshot.exists()) {
             const stats = snapshot.val();
-            lessons.innerHTML = stats.lessons;
-            topics.innerHTML = stats.topics;
-            played.innerHTML = stats.played;
-            won.innerHTML = stats.won;
-            wpm.innerHTML = stats.wpm;
-            acc.innerHTML = stats.acc;
+            lessons.innerHTML = `Lessons played: ${stats.lessons}`;
+            topics.innerHTML = `Topics completed: ${stats.topics}`;
+            played.innerHTML = `Games played: ${stats.played}`;
+            won.innerHTML = `Games won: ${stats.won}`;
+            wpm.innerHTML = `Average WPM: ${stats.wpm}`;
+            acc.innerHTML = `Average Accuracy: ${stats.acc}`;
         } else {
             console.log("No data available");
         }

@@ -5,7 +5,8 @@ import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     signOut,
-    AuthErrorCodes
+    AuthErrorCodes,
+    updateProfile
 } from 'firebase/auth';
 
 import { getDatabase, ref, set, } from "firebase/database";
@@ -34,6 +35,7 @@ function main() {
     const auth = getAuth(app);
 
     /* Initializing the UI */
+    const usernameBox = document.getElementById("username_box");
     const emailBox = document.getElementById("email_box");
     const passwordBox = document.getElementById("password_box");
     const loginButton = document.getElementById("login_button");
@@ -41,16 +43,37 @@ function main() {
     const logoutButton = document.getElementById("logout_button");
     const errorLabel = document.getElementById('error_label');
     const authStateLabel = document.getElementById('auth_state_label');
+    const or = document.getElementById("or");
 
     loginButton.addEventListener("click", loginEmailPassword);
-    signupButton.addEventListener("click", createEmailPassword);
+    signupButton.addEventListener("click", signupConfiguration);
     logoutButton.addEventListener("click", logOut);
+    const signinHeader = document.getElementById("signin_header");
+    const signinWith = document.getElementById("si_with");
+    const signupHeader = document.getElementById("signup_header");
+    const signupWith = document.getElementById("su_with");
+    signinConfiguration();
+    initialAuthCheck();
 
     /* Notify the user if they are logged in already */
-    onAuthStateChanged(auth, (user) => {
-        if (user) authStateLabel.innerHTML =
-            `You're currently logged in, ${user.email}`;
-    });
+    var initial = true;
+
+    function initialAuthCheck() {
+        if (initial == false) return;
+        onAuthStateChanged(auth, (user) => {
+            if (user && initial) {
+                usernameBox.style.display = "none";
+                emailBox.style.display = "none";
+                passwordBox.style.display = "none";
+                loginButton.style.display = "none";
+                or.style.display = "none";
+                authStateLabel.innerHTML =
+                    `You're currently logged in, ${user.displayName}`;
+                authStateLabel.style.display = "flex";
+                initial = false;
+            }
+        });
+    }
 
     /** login with email and password */
     async function loginEmailPassword() {
@@ -61,9 +84,10 @@ function main() {
             const userCredential =
                 await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
             authStateLabel.innerHTML =
-                `Welcome, ${userCredential.user.email}`;
+                `Welcome, ${userCredential.user.displayName}`;
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
+            errorLabel.style.display = "flex";
             showLoginError(error);
         }
     }
@@ -75,15 +99,47 @@ function main() {
         try {
             const userCredential =
                 await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
+            signupButton.style.display = "none";
             initializeUser(userCredential.user);
+            let username = usernameBox.value;
+            authStateLabel.innerHTML =
+                `Welcome, ${username}`;
         } catch (error) {
             console.log(error);
+            errorLabel.style.display = "flex";
             showLoginError(error);
         }
     }
 
+    /** Showing the options for signing in */
+    function signinConfiguration() {
+        signupHeader.style.display = "none";
+        signupWith.style.display = "none";
+        usernameBox.style.display = "none";
+        errorLabel.style.display = "none";
+        authStateLabel.style.display = "none";
+    }
+
+    /** Showing the options for creating an account */
+    function signupConfiguration() {
+        signinHeader.style.display = "none";
+        signinWith.style.display = "none";
+        signupHeader.style.display = "flex";
+        signupWith.style.display = "flex";
+        usernameBox.style.display = "flex";
+        emailBox.style.display = "flex";
+        passwordBox.style.display = "flex";
+        signupButton.style.display = "inline";
+        loginButton.style.display = "none";
+        or.style.display = "none";
+        authStateLabel.style.display = "none";
+        errorLabel.innerHTML = "";
+        signupButton.addEventListener("click", createEmailPassword);
+    }
+
     /** add user to database with initial stats */
     function initializeUser(user) {
+        updateProfile(user, { displayName: usernameBox.value });
         set(ref(database, `users/${user.uid}/email`), user.email);
         set(ref(database, `users/${user.uid}/stats`), {
             lessons: 0,
@@ -93,12 +149,16 @@ function main() {
             wpm: 0,
             acc: 0
         });
+        console.log(user);
     }
 
     /** Log out */
     async function logOut() {
+        if (auth.currentUser == null) return;
         await signOut(auth);
         authStateLabel.innerHTML = "Logged out!";
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        window.location.reload();
     }
 
     /** Show login failure information */
@@ -120,7 +180,7 @@ function main() {
                 errorMessage = "Too many attempts. Try again later.";
                 break;
             case AuthErrorCodes.WEAK_PASSWORD:
-                errorMessage = "Please choose a stronger password.";
+                errorMessage = "Password should be at least 6 characters.";
                 break;
             default:
                 errorMessage = "Error. Please try again.";
@@ -128,4 +188,14 @@ function main() {
         errorLabel.innerHTML = errorMessage;
     }
 
+    /** Get the current user's username 
+    const user = auth.currentUser.uid;
+    const lessonReference = ref(database, `users/${user}/stats/lessons`);
+    get(lessonReference).then((snapshot) => {
+        const newLessons = snapshot.val() + 1;
+        set(ref(database, `users/${user}/stats/lessons`), newLessons);
+        showStats(database, auth.currentUser);
+    }).catch((error) => {
+        console.error(error);
+    });*/
 }

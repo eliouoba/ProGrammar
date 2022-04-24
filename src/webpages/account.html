@@ -8,7 +8,7 @@
     <title>Account</title>
     <link rel="icon" href="../files/logos/logo2.png">
     <script src="../scripts/theme.js" defer></script>
-    <link rel="stylesheet" href="../styles/page-style.css">
+    <link rel="stylesheet" href="../styles/account-style.css">
 
     <script src="../../dist/bundle.js"></script>
     <!--script type="module" src="../../dist/bundle.js"></script-->
@@ -16,37 +16,32 @@
 
 <body>
     <import src="../html/navbar.html"></import>
+    <button id="logout_button" type="submit">Sign out</button>
 
-    <!--button onclick="googleLogin()">Login with Google</button-->
-    <div id="email">
-        <label>Email</label>
-        <input type="text" placeholder="Enter email" id="email_box">
-    </div>
-    <div id="password">
-        <label>Password</label>
-        <input type="password" placeholder="Enter Password" id="password_box">
-    </div>
-    <div id="error_label"></div>
-    </div>
-    <div id="b">
-        <button id="login_button" type="submit">Login</button>
-        <button id="signup_button" type="submit">Sign up</button>
-        <button id="logout_button" type="submit">Log out</button>
-    </div>
-    <div id="auth_state_label"></div>
-    <style>
-        #email,
-        #password,
-        button,
-        #error_label,
-        #auth_state_label {
-            margin: 30px;
-        }
-        
-        #error_label {
-            color: red;
-        }
-    </style>
+    <div id="container">
+        <h1 id="signin_header">Sign in</h1>
+        <p id="si_with">with email and password </p>
+        <h1 id="signup_header">Sign up</h1>
+        <p id="su_with">with email and password </p>
+        <!--button onclick="googleLogin()">Login with Google</button-->
+        <div id="username">
+            <input type="text" placeholder="Enter username" id="username_box">
+        </div>
+        <div id="email">
+            <input type="text" placeholder="Enter email" id="email_box">
+        </div>
+        <div id="password">
+            <input type="password" placeholder="Enter Password" id="password_box">
+        </div>
+        <button id="login_button" type="submit">Sign in</button>
+        <div id="auth_state_label"></div>
+
+        <div id="error_label"></div>
+        <span id="or">or</span>
+        <div id="b">
+            <button id="signup_button" type="submit">Sign up</button><br>
+        </div>
+
 </body>
 
 </html>

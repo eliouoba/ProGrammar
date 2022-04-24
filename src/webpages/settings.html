@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
-    <link rel="stylesheet" href="../styles/page-style.css">
     <link rel="stylesheet" href="../styles/settings-style.css">
     <script src="../scripts/theme.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,15 +14,16 @@
 
 <body>
     <import src="../html/navbar.html"></import>
-    <h1 class="theme">Toggle keyboard colors</h1> 
-    <p class = "choose">Choose whether the keyboard is colored to indicate finger positions:</p>
+    <h1 class="theme">Toggle keyboard colors</h1>
+    <p class="choose">Choose whether the keyboard is colored to indicate finger positions:</p>
     <input class="themes" id="keyboardTheme" type="checkBox" onclick="ToggleTheme()">Colored Keyboard</input>
-    <script> 
+    <script>
         var keyboardTheme = localStorage.getItem('keyboardTheme');
         document.getElementById("keyboardTheme").checked = keyboardTheme == 'color';
-        function toggleTheme(){
+
+        function toggleTheme() {
             var keyboardTheme = localStorage.getItem('keyboardTheme');
-            keyboardTheme = (keyboardTheme == 'color'? 'b/w' : 'color');
+            keyboardTheme = (keyboardTheme == 'color' ? 'b/w' : 'color');
             localStorage.setItem('keyboardTheme', keyboardTheme);
         }
     </script>
