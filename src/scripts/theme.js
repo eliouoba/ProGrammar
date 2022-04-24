@@ -59,9 +59,7 @@ function import1() {
     }
 }
 
-
 setUpThemes();
-
 
 //if (glowBoxExists) glowBox.addEventListener('change', handleglowBox);
 
@@ -69,19 +67,17 @@ function chooseTheme(newTheme, initialize) {
     //the calls from HTML pass false for initialize by default
     if (!initialize && newTheme == localStorage.getItem('theme')) return;
     localStorage.setItem('theme', newTheme);
-    localStorage.setItem(
-        'themeTextColor', themes.get(currentTheme).html);
+
+    /* allow all pages to know the current primary text 
+    color (usually white or black) so they can style accordingly */
+    let textColor;
+    let check = themes.get(newTheme);
+    if (check == undefined) //meaning this is a video theme
+        textColor = colorSchemes.get(currentTheme) ? "black" : "white";
+    else textColor = themes.get(newTheme).html;
+    localStorage.setItem('themeTextColor', textColor);
     currentTheme = newTheme;
     applyTheme(newTheme, colorSchemes.get(currentTheme));
-    /*switch (newTheme) {
-        case 'default': applyTheme("default"); break;
-        case 'light': applyTheme("light"); break;
-        case 'dark': applyTheme("dark"); break;
-        case 'bronze': applyTheme("bronze"); break;
-        case 'crimson': applyTheme("crimson"); break;
-        case 'mist': applyTheme("mist"); break;
-        default: break;
-     }*/
 }
 
 function applyTheme(t, colorScheme) {
@@ -93,10 +89,8 @@ function applyTheme(t, colorScheme) {
     const html = document.documentElement; // like document.body
     html.style.backgroundColor = theme.htmlBackground;
     html.style.color = theme.html;
-    //console.log(document.body);
     const navbar = document.getElementById("nav_bar");
     navbar.style.backgroundColor = theme.navbarBackground;
-
 
     // console.log(navbar);
     // if (glowing) navbar.style.boxShadow = "0px -30px 70px 20px " + themes.get("dark").glow;
@@ -210,6 +204,8 @@ function setUpThemes() {
     themes.set("lightVideo", lightVideoTheme);
     themes.set("darkVideo", darkVideoTheme);
 
+    /* True means it will need dark text 
+    and false means it will use white text */
     colorSchemes.set("aqua", true);
     colorSchemes.set("atlantic", false);
     colorSchemes.set("breakthrough", false);
