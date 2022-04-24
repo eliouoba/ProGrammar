@@ -6,7 +6,9 @@ import {
     createUserWithEmailAndPassword,
     signOut,
     AuthErrorCodes,
-    updateProfile
+    updateProfile,
+    GoogleAuthProvider,
+    signInWithPopup
 } from 'firebase/auth';
 
 import { getDatabase, ref, set, } from "firebase/database";
@@ -33,6 +35,8 @@ function main() {
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
     const auth = getAuth(app);
+    const google = new GoogleAuthProvider();
+
 
     /* Initializing the UI */
     const usernameBox = document.getElementById("username_box");
@@ -44,10 +48,14 @@ function main() {
     const errorLabel = document.getElementById('error_label');
     const authStateLabel = document.getElementById('auth_state_label');
     const or = document.getElementById("or");
+    const googleButton = document.getElementById("google_button");
+
 
     loginButton.addEventListener("click", loginEmailPassword);
     signupButton.addEventListener("click", signupConfiguration);
     logoutButton.addEventListener("click", logOut);
+    googleButton.addEventListener("click", googleSignin);
+
     const signinHeader = document.getElementById("signin_header");
     const signinWith = document.getElementById("si_with");
     const signupHeader = document.getElementById("signup_header");
@@ -111,7 +119,16 @@ function main() {
         }
     }
 
-    /** Showing the options for signing in */
+    /** Sign in with Google */
+    function googleSignin() {
+        signInWithPopup(auth, google)
+            .catch((error) => {
+                console.log(error.message);
+            });
+    }
+
+
+    /** Showing the UI options for signing in */
     function signinConfiguration() {
         signupHeader.style.display = "none";
         signupWith.style.display = "none";
@@ -187,15 +204,4 @@ function main() {
         }
         errorLabel.innerHTML = errorMessage;
     }
-
-    /** Get the current user's username 
-    const user = auth.currentUser.uid;
-    const lessonReference = ref(database, `users/${user}/stats/lessons`);
-    get(lessonReference).then((snapshot) => {
-        const newLessons = snapshot.val() + 1;
-        set(ref(database, `users/${user}/stats/lessons`), newLessons);
-        showStats(database, auth.currentUser);
-    }).catch((error) => {
-        console.error(error);
-    });*/
 }

@@ -1,16 +1,17 @@
 @import "page-style.css";
 html {
     font-size: 20px;
-
 }
 
 body {
     margin: 0;
 }
+
 h2 {
     font-size: 25px;
     text-align: center;
 }
+
 p {
     font-size: 16px;
     line-height: 2;
@@ -25,26 +26,26 @@ mark {
     background-color: lightcoral;
 }
 
-input[type=range]{
+input[type=range] {
     width: 100%;
 }
 
-#scorebar{
+#scorebar {
     margin-left: 15%;
     margin-right: 15%;
 }
 
-#botconfig{
+#botconfig {
     margin-left: 15%;
     margin-right: 15%;
     font-family: monospace;
 }
 
-#setwpm{
+#setwpm {
     width: 10%;
 }
 
-#setacc{
+#setacc {
     width: 10%;
 }
 
