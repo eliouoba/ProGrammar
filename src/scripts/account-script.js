@@ -8,7 +8,8 @@ import {
     AuthErrorCodes,
     updateProfile,
     GoogleAuthProvider,
-    signInWithPopup
+    signInWithPopup,
+    getAdditionalUserInfo
 } from 'firebase/auth';
 
 import { getDatabase, ref, set, } from "firebase/database";
@@ -18,7 +19,6 @@ if (window.location.href.includes("account")) {
 }
 
 function main() {
-    console.log("account script called");
 
     /* Initializing Firebase */
     const firebaseConfig = {
@@ -109,7 +109,7 @@ function main() {
             authStateLabel.innerHTML =
                 `Welcome, ${username}`;
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
             errorLabel.style.display = "flex";
             showLoginError(error);
         }
@@ -118,7 +118,13 @@ function main() {
     /** Sign in with Google */
     function googleSignin() {
         signInWithPopup(auth, google)
-            .catch((error) => {
+            .then((result) => {
+                const newUser =
+                    getAdditionalUserInfo(result).isNewUser;
+                if (newUser)
+                    googleInitializeUser(result.user);
+                errorLabel.style.display = "none";
+            }).catch((error) => {
                 console.log(error.message);
             });
     }
@@ -162,7 +168,19 @@ function main() {
             wpm: 0,
             acc: 0
         });
-        console.log(user);
+    }
+
+    /** Initialization is handled differently with Google sign-in */
+    function googleInitializeUser(user) {
+        set(ref(database, `users/${user.uid}/username`), user.displayName);
+        set(ref(database, `users/${user.uid}/stats`), {
+            lessons: 0,
+            topics: 0,
+            played: 0,
+            won: 0,
+            wpm: 0,
+            acc: 0
+        });
     }
 
     /** Log out */

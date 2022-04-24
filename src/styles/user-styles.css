@@ -3,12 +3,11 @@
     margin: auto;
     text-align: center;
     justify-content: center;
-    font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
     padding: 20px;
     width: 500px;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.308);
-    
+    font-weight: bold;
 }
 
 .panel {

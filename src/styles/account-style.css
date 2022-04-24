@@ -12,7 +12,9 @@
     }
     
     #error_label {
-        color: red;
+        color: rgb(255, 71, 71);
+        font-weight: bold;
+        justify-content: center;
     }
     
     #container {
@@ -52,7 +54,7 @@
         width: 200px;
         height: 40px;
         color: white;
-        background-color: gray;
+        background-color: slategray;
         border-width: 0px;
         border-radius: 20px;
     }
@@ -89,9 +91,9 @@
         margin-right: -50%;
     }
     
-    #error,
     #auth_state_label {
-        color: rgb(38, 26, 172);
+        color: rgb(38, 201, 16);
+        justify-content: center;
     }
     
     #logout_button {
@@ -119,4 +121,5 @@
     
     #google_button:hover {
         background-color: gainsboro;
+        border-width: 3px;
     }

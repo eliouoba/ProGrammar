@@ -38,6 +38,8 @@ function setup() {
         } else {
             const statsPanel = document.getElementById("stats-panel");
             statsPanel.innerHTML = `Login to view stats`;
+            lessonIncrementButton.style.display = "none";
+
         }
     });
 
