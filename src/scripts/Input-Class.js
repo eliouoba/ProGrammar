@@ -46,7 +46,7 @@ export default class Input{
      * getStats - returns array of stats
      */
     getStats(){
-        return [this.time.toFixed(2), this.errors, this.netwpm, this.accuracy.toFixed(2)];
+        return [this.time.toFixed(2), this.errors, this.netwpm, Number(this.accuracy.toFixed(2))];
     }
 
     /**
