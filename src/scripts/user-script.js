@@ -52,7 +52,7 @@ function setup() {
         const user = auth.currentUser.uid;
         const lessonReference = ref(database, `users/${user}/stats/lessons`);
         get(lessonReference).then((snapshot) => {
-            const newLessons = snapshot.val() + 1;
+            const newLessons = snapshot.val()+1;
             set(ref(database, `users/${user}/stats/lessons`), newLessons);
             showStats(database, auth.currentUser);
         }).catch((error) => {

@@ -124,6 +124,8 @@ function main() {
                 if (newUser)
                     googleInitializeUser(result.user);
                 errorLabel.style.display = "none";
+                authStateLabel.innerHTML =
+                    `Welcome, ${result.user.displayName}`;
             }).catch((error) => {
                 console.log(error.message);
             });

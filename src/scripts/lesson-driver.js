@@ -157,15 +157,19 @@ function endLesson() {
     tweet += `%0aTime: ${sts[0]}%0aErrors: ${sts[1]}%0aNet WPM: ${sts[2]}%0aAccuracy: ${sts[3]}%25`
     twitter.href = tweet;
 
-    /*
     const user = auth.currentUser.uid;
-    const lessonReference = ref(database, `users/${user}/stats/lessons`);
-    get(lessonReference).then((snapshot) => {
-        const newLessons = snapshot.val() + 1;
-        set(ref(database, `users/${user}/stats/lessons`, newLessons));
+    const statsReference = ref(database, `users/${user}/stats`);
+    get(statsReference).then((snapshot) => {
+        const stats = snapshot.val();
+        let newLessons = stats.lessons + 1;
+        let newAccuracy = (stats.acc + sts[3])/2; 
+        let newWPM = (stats.wpm +sts[2])/2; 
+        set(ref(database, `users/${user}/stats/lessons`), newLessons);
+        set(ref(database, `users/${user}/stats/acc`), newAccuracy);
+        set(ref(database, `users/${user}/stats/wpm`), newWPM);
     }).catch((error) => {
         console.error(error);
-    })*/
+    });
 }
 
 function getNextLesson() {
