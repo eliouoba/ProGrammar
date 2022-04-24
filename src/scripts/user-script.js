@@ -72,7 +72,7 @@ function showStats(database, user) {
             played.innerHTML = `Games played: ${stats.played}`;
             won.innerHTML = `Games won: ${stats.won}`;
             wpm.innerHTML = `Average WPM: ${stats.wpm}`;
-            acc.innerHTML = `Average Accuracy: ${stats.acc}`;
+            acc.innerHTML = `Average Accuracy: ${stats.acc}%`;
         } else {
             console.log("No data available");
         }

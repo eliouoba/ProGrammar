@@ -1,7 +1,25 @@
 //Josiah Hsu
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getDatabase, ref, get, set} from "firebase/database";
 
 import TugOWarInput from './TugOWar-Input-Class.js';
 import Tugbot from './Tugbot-Class.js';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyC8TjMHSCAqxaqlIW2MNdbWWLp_vyWUBHA",
+    authDomain: "programmar-d33e8.firebaseapp.com",
+    databaseURL: "https://programmar-d33e8-default-rtdb.firebaseio.com",
+    projectId: "programmar-d33e8",
+    storageBucket: "programmar-d33e8.appspot.com",
+    messagingSenderId: "1017841820021",
+    appId: "1:1017841820021:web:943e79503ad7292bb6b33c",
+    measurementId: "G-6QTSB873J8"
+};
+
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+const auth = getAuth(app);
 
 //quick element references
 const langSelect = document.getElementById("lang");
@@ -151,6 +169,29 @@ function endGame() {
     typer.displayStats();
     const str =  typer.score.value==0? 'win':'lose';
     alert(`Game over. You ${str}!`);
+
+    let sts = typer.getStats();
+    const user = auth.currentUser.uid;
+    const statsReference = ref(database, `users/${user}/stats`);
+    get(statsReference).then((snapshot) => {
+        const stats = snapshot.val();
+        //for calculating average
+        let prevTotal = stats.lessons+stats.played;
+        let newTotal = prevTotal + 1;
+
+        let newPlayed = stats.played + 1;
+        let newAccuracy = ((stats.acc * prevTotal) + sts[3])/newTotal;
+        newAccuracy = Number(newAccuracy.toFixed(2)); 
+        let newWPM = ((stats.wpm * prevTotal) +sts[2])/newTotal; 
+        newWPM = Math.round(newWPM);
+        let newWins = stats.won + (typer.score.value==0? 1:0);
+        set(ref(database, `users/${user}/stats/played`), newPlayed);
+        set(ref(database, `users/${user}/stats/acc`), newAccuracy);
+        set(ref(database, `users/${user}/stats/wpm`), newWPM);
+        set(ref(database, `users/${user}/stats/won`), newWins);
+    }).catch((error) => {
+        console.error(error);
+    });
 }
 
 document.addEventListener("keydown", initType);

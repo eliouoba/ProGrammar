@@ -161,9 +161,15 @@ function endLesson() {
     const statsReference = ref(database, `users/${user}/stats`);
     get(statsReference).then((snapshot) => {
         const stats = snapshot.val();
+        //for calculating average
+        let prevTotal = stats.lessons+stats.played;
+        let newTotal = prevTotal + 1;
+
         let newLessons = stats.lessons + 1;
-        let newAccuracy = (stats.acc + sts[3])/2; 
-        let newWPM = (stats.wpm +sts[2])/2; 
+        let newAccuracy = ((stats.acc * prevTotal) + sts[3])/newTotal;
+        newAccuracy = Number(newAccuracy.toFixed(2)); 
+        let newWPM = ((stats.wpm * prevTotal) +sts[2])/newTotal; 
+        newWPM = Math.round(newWPM);
         set(ref(database, `users/${user}/stats/lessons`), newLessons);
         set(ref(database, `users/${user}/stats/acc`), newAccuracy);
         set(ref(database, `users/${user}/stats/wpm`), newWPM);
