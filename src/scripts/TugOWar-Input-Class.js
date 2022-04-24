@@ -1,6 +1,7 @@
 //Josiah Hsu
 
-class TugOWarInput extends Input{
+import Input from "./Input-Class.js";
+export default class TugOWarInput extends Input{
     constructor(){
         super();
         this.newlinecount = 0;

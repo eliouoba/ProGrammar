@@ -10,14 +10,8 @@
     <title>ProGrammar</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/lesson-style.css">
-
-    <!--Comment these two out later in favor of the bundle script-->
-    <script src="../scripts/Input-Class.js"></script>
-    <script src="../scripts/lesson-driver.js" defer></script>
-
-
-    <script src="../scripts/keyboard-visual-script.js"></script>
-    <script src="../scripts/theme.js" defer></script>
+    
+    <script src="../../dist/bundle.js" webpack-entry = "lesson" defer></script>
     <link rel="icon" href="../files/logos/logo2.png">
 </head>
 
@@ -29,16 +23,16 @@
     </div>
 
     <div id="statBar">
-        <button id="reset" class="button" hidden="true" onclick="reset()">Reset</button>
+        <button id="reset" class="button" hidden="true">Reset</button>
         <label id="langLabel" for="lang">Language: </label>
-        <select id="lang" onchange="changeLanguage()">
+        <select id="lang">
             <option hidden value='' id="defaultOption">Select Language</option>
             <option value="java">Java</option>
             <option value="py">Python</option>
             <option value="c">C</option>
         </select>
         <span id="stats"></span>
-        <button class=button id="nextLesson" hidden="true" onclick="getNextLesson()">Next Lesson</button>
+        <button class=button id="nextLesson" hidden="true">Next Lesson</button>
         <a href="" id="twitter" hidden="true" target="_blank">
             <img src="../files/logos/Twitter social icons - circle - blue.png" width="32px" height="32px">
         </a>

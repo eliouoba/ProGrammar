@@ -1,10 +1,20 @@
 //Josiah Hsu
 
+import TugOWarInput from './TugOWar-Input-Class.js';
+import Tugbot from './Tugbot-Class.js';
+
 //quick element references
 const langSelect = document.getElementById("lang");
 const defaultOption = document.getElementById("defaultOption");
 const resetButton = document.getElementById("reset");
 const toType = document.getElementById("toType");
+const setwpm = document.getElementById("setwpm");
+const setacc = document.getElementById("setacc");
+
+langSelect.onchange=changeLanguage;
+resetButton.onclick = reset;
+setwpm.onchange=()=>{tugbot.setwpm(setwpm.value)};
+setacc.onchange=()=>{tugbot.setacc(setacc.value)};
 
 let interval, start, end; //timer
 let bot;
@@ -56,8 +66,8 @@ function changeLanguage() {
  * @param {*} disable true to disable, false to enable
  */
 function setConfigDisabled(disable){
-    document.getElementById("setwpm").disabled = disable;
-    document.getElementById("setacc").disabled = disable;
+    setwpm.disabled = disable;
+    setacc.disabled = disable;
     langSelect.disabled = disable;
 }
 

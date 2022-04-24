@@ -2,18 +2,14 @@ const path = require('path');
 const glob = require('glob');
 
 module.exports = {
-    entry: [
-        "./src/scripts/user-script.js",
-        "./src/scripts/account-script.js",
-        //"./src/scripts/theme.js"
-        //"./src/scripts/lesson-driver.js",
-        //"./src/scripts/tugowar-driver.js",
-        //"./src/scripts/Input-Class.js",
-    ],
-
-    //All the js files
-    //glob.sync("./src/scripts/*.js"),  
-    //glob.sync('.src/scripts/**.js').reduce(function(obj, el) {
+  entry: [
+    "./src/scripts/theme.js", //always want theme
+    "./webpack-entry-module.js" //select modules based on page
+  ],
+    
+  //All the js files
+  //glob.sync("./src/scripts/*.js"),  
+  //glob.sync('.src/scripts/**.js').reduce(function(obj, el) {
     //  obj[path.parse(el).name] = el;
     //  return obj
     // },{}),
@@ -29,5 +25,7 @@ module.exports = {
     devtool: 'eval-source-map',
 
     //for automatic npm run build
-    watch: true
+    //uncomment for local development
+    //recomment when committing to GitHub
+    //watch: true
 };

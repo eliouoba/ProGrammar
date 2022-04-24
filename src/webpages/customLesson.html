@@ -11,10 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/lesson-style.css">
 
-    <script src="../scripts/Input-Class.js"></script>
-    <script src="../scripts/custom-lesson-driver.js" defer></script>
-    <script src="../scripts/keyboard-visual-script.js"></script>
-    <script src="../scripts/theme.js" defer></script>
+    <script src="../../dist/bundle.js" webpack-entry = "custom-lesson" defer></script>
     <link rel="icon" href="../files/logos/logo2.png">
 </head>
 
@@ -26,10 +23,10 @@
     </div>
 
     <div id="statBar">
-        <input type="file" id="uploader" accept=".java, .c, .py" oninput="setText()"></input>
+        <input type="file" id="uploader" accept=".java, .c, .py"></input>
         <span id="help"></span>
         <br>
-        <button class=button id="reset" hidden="true" onclick="reset()">Reset</button>
+        <button class=button id="reset" hidden="true">Reset</button>
         <span id="stats"></span>
     </div>
 
