@@ -170,6 +170,16 @@ function main() {
             wpm: 0,
             acc: 0
         });
+        //so we can easily look through stats
+        /**not working yet 
+        set(ref(database, `stats`), {
+            lessons: { value: 0, user: user.uid },
+            topics: { value: 0, user: user.uid },
+            played: { value: 0, user: user.uid },
+            won: { value: 0, user: user.uid },
+            wpm: { value: 0, user: user.uid },
+            acc: { value: 0, user: user.uid },
+        }); */
     }
 
     /** Initialization is handled differently with Google sign-in */
