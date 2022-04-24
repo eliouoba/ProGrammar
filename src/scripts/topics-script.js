@@ -8,3 +8,7 @@ function selectLevel(lesson, lang) {
     url = `lesson.html?lesson=${lesson}&lang=${lang}`;
     window.location = url;
 }
+
+module.exports = {
+    selectLevel: selectLevel
+}

@@ -1,6 +1,6 @@
 //Josiah Hsu
 
-class Tugbot{
+export default class Tugbot{
     constructor(){
         this.score = document.getElementById("score");
         this.botacc = document.getElementById("setacc");

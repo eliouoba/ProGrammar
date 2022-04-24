@@ -1,10 +1,13 @@
 //Josiah Hsu
 
+import Input from "./Input-Class.js";
+
 //quick element references
 const resetButton = document.getElementById("reset");
 const toType = document.getElementById("toType");
-const nextLessonButton = document.getElementById("nextLesson");
 const uploader = document.getElementById('uploader');
+uploader.oninput=setText;
+resetButton.onclick=reset;
 
 let interval, start, end; //timer
 let typer = new Input();
@@ -19,6 +22,7 @@ document.getElementById("help").innerHTML += allowedMsg;
 const reader = new FileReader();
 
 function setText(){
+    console.log(uploader);
     let selectedFile = uploader.files[0];
 
     if(selectedFile == null) return;

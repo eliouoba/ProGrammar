@@ -7,17 +7,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
     <link rel="stylesheet" href="../styles/settings-style.css">
-    <script src="../scripts/theme.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="../files/logos/logo2.png">
+
+    <script src="../../dist/bundle.js" webpack-entry="settings" defer></script>
 </head>
 
 <body>
     <import src="../html/navbar.html"></import>
-    <h1 class="theme">Toggle keyboard colors</h1>
-    <p class="choose">Choose whether the keyboard is colored to indicate finger positions:</p>
-    <input class="themes" id="keyboardTheme" type="checkBox" onclick="ToggleTheme()">Colored Keyboard</input>
-    <script>
+    <h1 class="theme">Toggle keyboard colors</h1> 
+    <p class = "choose">Choose whether the keyboard is colored to indicate finger positions:</p>
+    <input class="themes" id="keyboardTheme" type="checkBox" onclick="toggleTheme()">Colored Keyboard</input>
+    <script> 
         var keyboardTheme = localStorage.getItem('keyboardTheme');
         document.getElementById("keyboardTheme").checked = keyboardTheme == 'color';
 

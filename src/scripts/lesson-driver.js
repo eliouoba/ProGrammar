@@ -2,11 +2,10 @@
 
 
 /* Initializing Firebase */
-
-/*
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getDatabase, ref, get } from "firebase/database";
+import { getDatabase, ref, get, set} from "firebase/database";
+import Input from "./Input-Class.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC8TjMHSCAqxaqlIW2MNdbWWLp_vyWUBHA",
@@ -22,11 +21,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
-import {Input} from "./Input-Class";
-
-//also need to makesure all of the below code is attached to a DOMContentLoaded listener 
-
-*/
 
 //quick element references
 const langSelect = document.getElementById("lang");
@@ -35,6 +29,10 @@ const resetButton = document.getElementById("reset");
 const toType = document.getElementById("toType");
 const nextLessonButton = document.getElementById("nextLesson");
 const twitter = document.getElementById("twitter");
+
+langSelect.onchange=changeLanguage;
+resetButton.onclick=reset;
+nextLessonButton.onclick=getNextLesson;
 
 let interval, start, end; //timer
 let typer = new Input();
@@ -58,7 +56,7 @@ for(var i = 0; i < options.length; i++){
  * loadLesson - loads a lesson based on URL parameters
  */
 function loadLesson(){
-    httpx = new XMLHttpRequest();
+    const httpx = new XMLHttpRequest();
     httpx.open("GET", `../files/${lessonFile}.${extension}`);
     httpx.onreadystatechange = function() {
         if (httpx.readyState == 4) {
@@ -159,8 +157,9 @@ function endLesson() {
     tweet += `%0aTime: ${sts[0]}%0aErrors: ${sts[1]}%0aNet WPM: ${sts[2]}%0aAccuracy: ${sts[3]}%25`
     twitter.href = tweet;
 
-    /*const user = auth.currentUser.uid;
-    const lessonReference = ref(database, `users/${user}/stats/lesson`);
+    /*
+    const user = auth.currentUser.uid;
+    const lessonReference = ref(database, `users/${user}/stats/lessons`);
     get(lessonReference).then((snapshot) => {
         const newLessons = snapshot.val() + 1;
         set(ref(database, `users/${user}/stats/lessons`, newLessons));
@@ -170,7 +169,7 @@ function endLesson() {
 }
 
 function getNextLesson() {
-    n = lessons.findIndex((element) => element == lessonFile) + 1;
+    let n = lessons.findIndex((element) => element == lessonFile) + 1;
     if (n <= lessons.length)
         selectLesson(lessons[n], extension);
     else

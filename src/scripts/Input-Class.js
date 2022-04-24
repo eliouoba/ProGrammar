@@ -1,13 +1,12 @@
 //Josiah Hsu
 
-//add export statement when bundled later
-class Input{
+export default class Input{
     constructor(){
         //quick element references
         this.stats = document.getElementById("stats");
         this.toType = document.getElementById("toType");
         this.toTypeBox = document.getElementById("toTypeBox");
-    
+
         //variables/constants
         this.toTypeText; this.typed; this.currentline; //input
         this.time; this.errors; this.netwpm; this.accuracy; //stats
