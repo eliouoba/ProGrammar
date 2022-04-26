@@ -147,7 +147,6 @@ function endLesson() {
     typer.time = (end - start) / 1000;
     typer.updateWPM();
     typer.displayStats();
-    alert(document.getElementById("stats").textContent);
     nextLessonButton.hidden = false;
     twitter.hidden = false;
 

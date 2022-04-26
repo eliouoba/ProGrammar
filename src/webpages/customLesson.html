@@ -23,10 +23,12 @@
     </div>
 
     <div id="statBar">
-        <input type="file" id="fileSelect" accept=".java, .c, .py"></input>
-        <button class=button id="uploader" disabled = true>Save Lesson</button>
-        <button class=button id="downloader">Load Lesson</button>
-        <span id="help"></span>
+        <label for="fileSelect">Upload a lesson: </label>
+        <input type="file" id="fileSelect"></input>
+        <button id="saveButton" disabled="true">Save Lesson</button>
+        <select id="loadMenu">
+            <option id='default' disabled selected>Load Lesson</option>
+        </select>
         <br>
         <button class=button id="reset" hidden="true">Reset</button>
         <span id="stats"></span>
