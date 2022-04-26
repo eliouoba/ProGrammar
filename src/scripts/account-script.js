@@ -214,12 +214,12 @@ function main() {
         });
         //so we can easily look through stats 
         set(ref(database, `stats`), {
-            lessons: {entry: {user: user.uid,  value: 0 } },
-            topics: { entry: {user: user.uid,  value: 0 } },
-            played: { entry: {user: user.uid,  value: 0 } },
-            won: { entry: {user: user.uid,  value: 0 } },
-            wpm: { entry: {user: user.uid,  value: 0 } },
-            acc: { entry: {user: user.uid,  value: 0 } },
+            lessons: { [user.uid]: { value: 0 }},
+            topics: { [user.uid]: { value: 0 }},
+            played: { [user.uid]: { value: 0 }},
+            won: { [user.uid]: { value: 0 }},
+            wpm: { [user.uid]: { value: 0 }},
+            acc: { [user.uid]: { value: 0 }},
         });
     }
 
@@ -233,6 +233,14 @@ function main() {
             won: 0,
             wpm: 0,
             acc: 0
+        });
+        set(ref(database, `stats`), {
+            lessons: { [user.uid]: { value: 0 }},
+            topics: { [user.uid]: { value: 0 }},
+            played: { [user.uid]: { value: 0 }},
+            won: { [user.uid]: { value: 0 }},
+            wpm: { [user.uid]: { value: 0 }},
+            acc: { [user.uid]: { value: 0 }},
         });
     }
 
@@ -261,12 +269,12 @@ function main() {
                 });
                 remove(ref(database, `users/${user.uid}`));
                 remove(ref(database, `stats`), {
-                    lessons: {entry: {user: user.uid,  value: 0 } },
-                    topics: { entry: {user: user.uid,  value: 0 } },
-                    played: { entry: {user: user.uid,  value: 0 } },
-                    won: { entry: {user: user.uid,  value: 0 } },
-                    wpm: { entry: {user: user.uid,  value: 0 } },
-                    acc: { entry: {user: user.uid,  value: 0 } },
+                    lessons: { [user.uid]: { value: 0 }},
+                    topics: { [user.uid]: { value: 0 }},
+                    played: { [user.uid]: { value: 0 }},
+                    won: { [user.uid]: { value: 0 }},
+                    wpm: { [user.uid]: { value: 0 }},
+                    acc: { [user.uid]: { value: 0 }},
                 });
             //} 
         }

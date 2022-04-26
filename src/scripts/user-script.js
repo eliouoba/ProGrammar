@@ -1,13 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, currentUser} from 'firebase/auth';
 import { getDatabase, ref, get, set } from "firebase/database";
 
 if (window.location.href.includes("user")) {
-    document.addEventListener("DOMContentLoaded", setup);
-    console.log("user script called");
+    document.addEventListener("DOMContentLoaded", main);
 }
 
-function setup() {
+function main() {
     const firebaseConfig = {
         apiKey: "AIzaSyC8TjMHSCAqxaqlIW2MNdbWWLp_vyWUBHA",
         authDomain: "programmar-d33e8.firebaseapp.com",
@@ -24,59 +23,91 @@ function setup() {
     const database = getDatabase(app);
     const auth = getAuth(app);
 
-    const lessons = document.getElementById("lessons");
-    const topics = document.getElementById("topics");
-    const played = document.getElementById("played");
-    const won = document.getElementById("won");
-    const wpm = document.getElementById("wpm");
-    const acc = document.getElementById("acc");
+    const lessonsLabel = document.getElementById("lessons");
+    const topicsLabel = document.getElementById("topics");
+    const playedLabel = document.getElementById("played");
+    const wonLabel = document.getElementById("won");
+    const wpmLabel = document.getElementById("wpm");
+    const accLabel = document.getElementById("acc");
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            console.log("current user: " + user.uid);
             showStats(database, user);
         } else {
             const statsPanel = document.getElementById("stats-panel");
             statsPanel.innerHTML = `Login to view stats`;
             lessonIncrementButton.style.display = "none";
-
         }
     });
 
-    const lessonIncrementButton = document.getElementById("lesson_increment");
-    const emailBox = document.getElementById("email_box");
-
-    lessonIncrementButton.addEventListener("click", increase);
+    const incrementButton = document.getElementById("increment");
+    incrementButton.addEventListener("click", increase);
 
     function increase() {
         const user = auth.currentUser.uid;
-        const lessonReference = ref(database, `users/${user}/stats/lessons`);
-        get(lessonReference).then((snapshot) => {
-            const newLessons = snapshot.val()+1;
-            set(ref(database, `users/${user}/stats/lessons`), newLessons);
-            showStats(database, auth.currentUser);
+        const userStatsReference = ref(database, `users/${user}/stats`);
+        get(userStatsReference).then((snapshot) => {
+            const stats = snapshot.val();
+            let lessons = parseInt(stats.lessons);
+            let topics = parseInt(stats.topics);
+            let played = parseInt(stats.lessons);
+            let won = parseInt(stats.won);
+            let wpm = parseInt(stats.wpm);
+            let acc = parseInt(stats.acc);
+
+            set(ref(database, `users/${user}/stats/lessons`), lessons + 1);
+            set(ref(database, `users/${user}/stats/topics`), topics + 1);
+            set(ref(database, `users/${user}/stats/played`), played + 1);
+            set(ref(database, `users/${user}/stats/won`), won + 1);
+            set(ref(database, `users/${user}/stats/wpm`), wpm + 1);
+            set(ref(database, `users/${user}/stats/acc`), acc + 1);
+
+            showStats();
+        }).catch((error) => {
+            console.error(error);
+        });
+        const statsReference = ref(database, `stats`);
+        get(statsReference).then((snapshot) => {
+            const stats = snapshot.val();
+            //for calculating average
+            //syntax: just "lessons[user]" not "lessons.[user]"
+            let lessons = parseInt(stats.lessons[user].value);
+            let topics = parseInt(stats.topics[user].value);
+            let played = parseInt(stats.played[user].value);
+            let won= parseInt(stats.won[user].value);
+            let wpm = parseInt(stats.wpm[user].value);
+            let acc = parseInt(stats.acc[user].value);
+
+            set(ref(database, `stats/lessons/${user}/value`), lessons + 1);
+            set(ref(database, `stats/topics/${user}/value`), topics + 1);
+            set(ref(database, `stats/played/${user}/value`), played + 1);
+            set(ref(database, `stats/won/${user}/value`), won + 1);
+            set(ref(database, `stats/wpm/${user}/value`), wpm + 1);
+            set(ref(database, `stats/acc/${user}/value`), acc + 1);
         }).catch((error) => {
             console.error(error);
         });
     }
-}
 
-//read from database and update html
-function showStats(database, user) {
-    const statsReference = ref(database, `users/${user.uid}/stats`);
-    get(statsReference).then((snapshot) => {
-        if (snapshot.exists()) {
-            const stats = snapshot.val();
-            lessons.innerHTML = `Lessons played: ${stats.lessons}`;
-            topics.innerHTML = `Topics completed: ${stats.topics}`;
-            played.innerHTML = `Games played: ${stats.played}`;
-            won.innerHTML = `Games won: ${stats.won}`;
-            wpm.innerHTML = `Average WPM: ${stats.wpm}`;
-            acc.innerHTML = `Average Accuracy: ${stats.acc}%`;
-        } else {
-            console.log("No data available");
-        }
-    }).catch((error) => {
-        console.error(error);
-    })
+    
+    //read from database and update html
+    function showStats() {
+        const user = auth.currentUser;
+        const statsReference = ref(database, `users/${user.uid}/stats`);
+        get(statsReference).then((snapshot) => {
+            if (snapshot.exists()) {
+                const stats = snapshot.val();
+                lessonsLabel.innerHTML = `Lessons played: ${stats.lessons}`;
+                topicsLabel.innerHTML = `Topics completed: ${stats.topics}`;
+                playedLabel.innerHTML = `Games played: ${stats.played}`;
+                wonLabel.innerHTML = `Games won: ${stats.won}`;
+                wpmLabel.innerHTML = `Average WPM: ${stats.wpm}`;
+                accLabel.innerHTML = `Average Accuracy: ${stats.acc}%`;
+            } else {
+                console.log("No data available");
+            }
+        }).catch((error) => {
+            console.error(error);
+        })
+    }
 }
