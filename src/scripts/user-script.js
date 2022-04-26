@@ -71,19 +71,11 @@ function main() {
             const stats = snapshot.val();
             //for calculating average
             //syntax: just "lessons[user]" not "lessons.[user]"
-            let lessons = parseInt(stats.lessons[user].value);
-            let topics = parseInt(stats.topics[user].value);
-            let played = parseInt(stats.played[user].value);
-            let won= parseInt(stats.won[user].value);
-            let wpm = parseInt(stats.wpm[user].value);
-            let acc = parseInt(stats.acc[user].value);
-
-            set(ref(database, `stats/lessons/${user}/value`), lessons + 1);
-            set(ref(database, `stats/topics/${user}/value`), topics + 1);
-            set(ref(database, `stats/played/${user}/value`), played + 1);
-            set(ref(database, `stats/won/${user}/value`), won + 1);
-            set(ref(database, `stats/wpm/${user}/value`), wpm + 1);
-            set(ref(database, `stats/acc/${user}/value`), acc + 1);
+            let pathName = ["lessons", "topics", "played", "won", "wpm", "acc"];
+            pathName.forEach((path)=>{
+                let value = parseInt(snapshot.child(`${path}/${user}/value`).val());
+                set(ref(database, `stats/${path}/${user}/value`), value + 1);
+            });
         }).catch((error) => {
             console.error(error);
         });

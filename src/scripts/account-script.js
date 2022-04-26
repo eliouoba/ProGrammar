@@ -216,15 +216,8 @@ function main() {
             wpm: 0,
             acc: 0
         });
-        //so we can easily look through stats 
-        set(ref(database, `stats`), {
-            lessons: { [user.uid]: { value: 0 }},
-            topics: { [user.uid]: { value: 0 }},
-            played: { [user.uid]: { value: 0 }},
-            won: { [user.uid]: { value: 0 }},
-            wpm: { [user.uid]: { value: 0 }},
-            acc: { [user.uid]: { value: 0 }},
-        });
+        
+        initStats(user.uid);
     }
 
     /** Initialization is handled differently with Google sign-in */
@@ -238,13 +231,18 @@ function main() {
             wpm: 0,
             acc: 0
         });
-        set(ref(database, `stats`), {
-            lessons: { [user.uid]: { value: 0 }},
-            topics: { [user.uid]: { value: 0 }},
-            played: { [user.uid]: { value: 0 }},
-            won: { [user.uid]: { value: 0 }},
-            wpm: { [user.uid]: { value: 0 }},
-            acc: { [user.uid]: { value: 0 }},
+
+        initStats(user.uid);
+    }
+
+    /**
+     * initStats - initialize stats for a given user
+     * @param {*} uid User ID to initialize stats for
+     */
+    function initStats(uid){
+        let pathNames = ["lessons", "topics", "played", "won", "wpm", "acc"];
+        pathNames.forEach( (path)=>{
+            set(ref(database, `stats/${path}/${uid}/value`), 0 );
         });
     }
 
@@ -272,15 +270,11 @@ function main() {
                     console.log(error.message);
                 });
                 remove(ref(database, `users/${user.uid}`));
-                remove(ref(database, `stats`), {
-                    lessons: { [user.uid]: { value: 0 }},
-                    topics: { [user.uid]: { value: 0 }},
-                    played: { [user.uid]: { value: 0 }},
-                    won: { [user.uid]: { value: 0 }},
-                    wpm: { [user.uid]: { value: 0 }},
-                    acc: { [user.uid]: { value: 0 }},
+
+                let pathNames = ["lessons", "topics", "played", "won", "wpm", "acc"];
+                pathNames.forEach( (path)=>{
+                    remove(ref(database, `stats/${path}/${user.uid}`));
                 });
-            //} 
         }
     }
 
