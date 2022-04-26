@@ -14,7 +14,26 @@
 
 <body>
     <import src="../html/navbar.html"></import>
-    <button id="logout_button" type="submit">Sign out</button>
+    <button id="logout_button">Sign out</button>
+    <button id="delete_button">Delete account</button>
+    <button id="dummy" onclick="fill()">Dummy user test
+        <style>
+           #dummy {
+                position: absolute;
+                top: 350px;
+                right: 50px;
+           }
+        </style>
+        <script>
+            function fill() {
+                document.getElementById('signup_button').click();
+                document.getElementById('username_box').value = "test99";
+                document.getElementById('email_box').value = "test99@test.com";
+                document.getElementById('password_box').value = "test99";
+                document.getElementById('signup_button').click();
+            }
+        </script>
+    </button>
 
     <div id="container">
         <h1 id="signin_header">Sign in</h1>
@@ -33,8 +52,10 @@
             <img src="../files/logos/google-logo.png" id="google_logo">
             Sign in with Google
         </button>
-
+        <p id="back">« Back</p>
     </div>
+    <import src="../html/footer.html"></import>
+
 </body>
 
 </html>

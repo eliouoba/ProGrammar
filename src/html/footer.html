@@ -1,8 +1,10 @@
+<div style="height:50px;" ></div>
+
 <div id="footer">
-    <a id="ll" href="">&lt Last Lesson</a>
-    <a id="nl" href="">Next Lesson ></a>
+    <a id="last" href="">« Last Lesson</a>
+    <a id="next" href="">Next Lesson »</a>
     <script>
-        let nextLesson = document.body.getElementbyId("nl");
+        let nextLesson = document.body.getElementbyId("next");
         let next = localStorage.getItem("nextLesson");
         console.log(nextLesson);
         if (nextLesson == null) next = "lesson.html?lesson=HelloWorld&lang=java";
@@ -12,13 +14,13 @@
         #footer {
             width: 100%;
             display: inline-block;
-            position: absolute;
+            position: fixed;
             bottom: 0;
-            background-color: #2e2e2e4d;
+            margin-top: 500px;
         }
         
-        #nl, #ll {
-            color: white;
+        #next, #last {
+            color:inherit;
             text-decoration: none;
             margin-left: 20px;
             margin-right: 50px;
@@ -26,10 +28,10 @@
             padding-top: 20px;
             padding-bottom: 20px;
         }
-        #nl {
+        #next {
             float:right;
         }
-        #ll {
+        #last {
             float:left;
         }
     </style>

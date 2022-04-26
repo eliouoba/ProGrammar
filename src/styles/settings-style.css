@@ -1,16 +1,16 @@
 @import "page-style.css";
 .themes {
-    margin-left: 150px;
+    margin-left: 300px;
 }
 
 .theme {
-    margin-left: 50px;
+    margin-left: 200px;
     margin-top: 100px;
     
 }
 
 .choose {
-    margin-left: 100px;
+    margin-left: 250px;
 }
 
 .themes:hover {

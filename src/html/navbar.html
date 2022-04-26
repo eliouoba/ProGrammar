@@ -1,3 +1,4 @@
+<script src="../../dist/bundle.js" webpack-entry = "navbar" defer></script>
 <nav id="nav_bar">
     <ul id="navlist">
         <a class="programmar nav_menu" href="../webpages/home.html">ProGrammar</a>
@@ -17,15 +18,20 @@
         <span class="nav_dividers">|</span>
         <a class="nav_menu" id="leader" href='../webpages/leader.html'>Leaderboard</a>
         <span class="nav_dividers">|</span>
-        <a class="nav_menu" id="account" href='../webpages/account.html'>Sign in</a>
-        <!--div class=" nav_menu login">
-            <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div-->
+        <div id="options">
+            <a class="nav_menu" id="account" href='../webpages/account.html'>Account</a>
+            <div id="options-content">
+                <a id=signoutButton>Sign out</a>
+            </div>
         </div>
     </ul>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Akshar:wght@500&display=swap');
+
         #nav_bar {
             width: 100%;
             display: inline-block;
+            font-family: 'Montserrat', sans-serif;
         }
         
         #navlist {
@@ -44,9 +50,9 @@
         }
         
         .programmar {
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-family: 'Akshar', sans-serif;
             float: left;
-            font-size: 30px;
+            font-size: 35px;
             margin-right: 30px;
             margin-left: 20px;
         }
@@ -68,5 +74,47 @@
         .nav_dividers {
             font-size: 30px;
         }
+
+        #account {
+            color: inherit;
+            padding: 16px;
+            size: 16px;
+        }
+
+        #options {
+            position: relative;
+            display: inline-block;
+        }
+
+        #options-content {
+            margin-top: 10px;
+            display: none;
+            position: absolute;
+            background-color: #ababab;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        #signoutButton {
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            color:inherit;
+        }
+
+        #signoutButton:hover {
+            background-color: rgb(184, 184, 184);
+            font-weight: 1000;
+            color: darkred;
+        }
+
+        #options:hover #options-content {display: block;}
+
+        #options:hover #account {
+            background-color: #86868682;
+            font-size: 2ex;
+        }
     </style>
+
 </nav>

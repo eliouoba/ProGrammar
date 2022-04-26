@@ -9,10 +9,11 @@ import {
     updateProfile,
     GoogleAuthProvider,
     signInWithPopup,
-    getAdditionalUserInfo
+    getAdditionalUserInfo,
+    deleteUser
 } from 'firebase/auth';
 
-import { getDatabase, ref, set, } from "firebase/database";
+import { getDatabase, ref, set, remove } from "firebase/database";
 
 if (window.location.href.includes("account")) {
     document.addEventListener("DOMContentLoaded", main);
@@ -49,14 +50,26 @@ function main() {
     const authStateLabel = document.getElementById('auth_state_label');
     const or = document.getElementById("or");
     const googleButton = document.getElementById("google_button");
+    const deleteButton = document.getElementById("delete_button");
+    const container = document.getElementById("container");
+    const back = document.getElementById("back");
+    
     if (localStorage.getItem('themeTextColor') == "white")
-        document.getElementById("container").style.backgroundColor = "rgb(60,60,60)";
+        container.style.backgroundColor = "rgb(60,60,60)";
+    if (localStorage.getItem('themeTextColor') == "blue")
+        container.style.backgroundColor = "lightgray";
 
     loginButton.addEventListener("click", loginEmailPassword);
     signupButton.addEventListener("click", signupConfiguration);
     logoutButton.addEventListener("click", logOut);
     googleButton.addEventListener("click", googleSignin);
-
+    deleteButton.addEventListener("click", deleteAccount);
+    back.addEventListener("click", signinConfiguration);
+    
+    //Enter to submit
+    document.onkeydown = (e) => {
+        if (e.key == "Enter") loginEmailPassword()};
+    
     const signinHeader = document.getElementById("signin_header");
     const signinWith = document.getElementById("si_with");
     const signupHeader = document.getElementById("signup_header");
@@ -71,6 +84,7 @@ function main() {
             emailBox.style.display = "none";
             passwordBox.style.display = "none";
             loginButton.style.display = "none";
+            googleButton.style.display = "none";
             or.style.display = "none";
             authStateLabel.innerHTML =
                 `You're currently logged in, ${user.displayName}`;
@@ -108,6 +122,8 @@ function main() {
             let username = usernameBox.value;
             authStateLabel.innerHTML =
                 `Welcome, ${username}`;
+            errorLabel.style.display = "none";
+
         } catch (error) {
             console.log(error.message);
             errorLabel.style.display = "flex";
@@ -139,22 +155,48 @@ function main() {
         usernameBox.style.display = "none";
         errorLabel.style.display = "none";
         authStateLabel.style.display = "none";
+        back.style.display = "none";
+        signinHeader.style.display = "grid";
+        signinWith.style.display = "grid";
+        or.style.display = "flex";
+        googleButton.style.display="inline-flex";
+        signupButton.style.display="inline";
+        loginButton.style.display="inline";
+
+        document.onkeydown = (e) => {
+            if (e.key == "Enter") {
+                createEmailPassword();
+                let boxes = document.getElementsByTagName("input");
+                for (let i = 0; i < boxes.length; i++) 
+                    boxes[i].blur();
+            }
+        };
     }
 
     /** Showing the options for creating an account */
     function signupConfiguration() {
         signinHeader.style.display = "none";
         signinWith.style.display = "none";
-        signupHeader.style.display = "flex";
-        signupWith.style.display = "flex";
-        usernameBox.style.display = "flex";
-        emailBox.style.display = "flex";
-        passwordBox.style.display = "flex";
+        signupHeader.style.display = "grid";
+        signupWith.style.display = "grid";
+        usernameBox.style.display = "inline";
+        emailBox.style.display = "inline";
+        passwordBox.style.display = "inline";
         signupButton.style.display = "inline";
         loginButton.style.display = "none";
+        googleButton.style.display = "none";
         or.style.display = "none";
         authStateLabel.style.display = "none";
         errorLabel.innerHTML = "";
+        back.style.display = "flex";
+        document.onkeydown = (e) => {
+            if (e.key == "Enter") {
+                let boxes = document.getElementsByTagName("input");
+                for (let i = 0; i < boxes.length; i++) 
+                    boxes[i].blur();
+                createEmailPassword();
+            }
+        }
         signupButton.addEventListener("click", createEmailPassword);
     }
 
@@ -170,16 +212,15 @@ function main() {
             wpm: 0,
             acc: 0
         });
-        //so we can easily look through stats
-        /**not working yet 
+        //so we can easily look through stats 
         set(ref(database, `stats`), {
-            lessons: { value: 0, user: user.uid },
-            topics: { value: 0, user: user.uid },
-            played: { value: 0, user: user.uid },
-            won: { value: 0, user: user.uid },
-            wpm: { value: 0, user: user.uid },
-            acc: { value: 0, user: user.uid },
-        }); */
+            lessons: {entry: {user: user.uid,  value: 0 } },
+            topics: { entry: {user: user.uid,  value: 0 } },
+            played: { entry: {user: user.uid,  value: 0 } },
+            won: { entry: {user: user.uid,  value: 0 } },
+            wpm: { entry: {user: user.uid,  value: 0 } },
+            acc: { entry: {user: user.uid,  value: 0 } },
+        });
     }
 
     /** Initialization is handled differently with Google sign-in */
@@ -200,8 +241,35 @@ function main() {
         if (auth.currentUser == null) return;
         await signOut(auth);
         authStateLabel.innerHTML = "Logged out!";
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        window.location.reload();
+        setTimeout(window.location.reload(), 1500);
+        //await new Promise(resolve => setTimeout(resolve, 1500));
+        //window.location.reload();
+    }
+
+    /** Delete account and clear info from database. */
+    function deleteAccount() {
+        let user = auth.currentUser;
+        if (user == null) alert("No user logged in!");
+        else {
+            //let msg = 'Are you sure you want to delete your account? This action is permanent.'
+            //if (confirm(msg)) {
+                deleteUser(user).then(() => {
+                    //alert("Your account has been deleted.");
+                   // setTimeout(window.location.reload(), 500);
+                }).catch((error) => {
+                    console.log(error.message);
+                });
+                remove(ref(database, `users/${user.uid}`));
+                remove(ref(database, `stats`), {
+                    lessons: {entry: {user: user.uid,  value: 0 } },
+                    topics: { entry: {user: user.uid,  value: 0 } },
+                    played: { entry: {user: user.uid,  value: 0 } },
+                    won: { entry: {user: user.uid,  value: 0 } },
+                    wpm: { entry: {user: user.uid,  value: 0 } },
+                    acc: { entry: {user: user.uid,  value: 0 } },
+                });
+            //} 
+        }
     }
 
     /** Show login failure information */

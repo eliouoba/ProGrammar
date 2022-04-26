@@ -25,8 +25,10 @@ function import1() {
         let imp = imports[i];
         load_file(imp.attributes.src.value, function(text) {
             imp.insertAdjacentHTML('afterend', text);
-            if(/navbar.html/.test(imp.attributes.src.value)) {
-                //guarantee that theme applied only when navbar imported
+            if(/navbar.html/.test(imp.attributes.src.value)
+            //&& /footer.html/.test(imp.attributes.src.value)
+            ) {
+                //guarantee that theme applied only when navbar and footer imported
                 chooseTheme(currentTheme, true);
             }
             imp.remove();
@@ -68,6 +70,22 @@ function applyTheme(t, colorScheme) {
     html.style.color = theme.html;
     const navbar = document.getElementById("nav_bar");
     navbar.style.backgroundColor = theme.navbarBackground;
+    
+    //temp race condition fix
+    setTimeout(() =>{
+        const footer = document.getElementById("footer");
+        footer.style.backgroundColor = theme.footerBackground;   
+        
+        if (!theme.videoTheme) {
+            navbar.style.boxShadow="0px 5px 10px 2px rgba(0, 0, 0, 0.205)";
+            footer.style.boxShadow="0px -5px 10px 2px rgba(0, 0, 0, 0.205)";
+        } else { 
+            navbar.style.removeProperty("box-shadow");
+            footer.style.removeProperty("box-shadow");
+        }
+        document.getElementById("next").style.color = theme.html;
+        document.getElementById("last").style.color = theme.html;
+    }, 3000);
 
     // if (glowing) navbar.style.boxShadow = "0px -30px 70px 20px " + themes.get("dark").glow;
     //if (glowBoxExists) handleglowBox();
@@ -76,7 +94,9 @@ function applyTheme(t, colorScheme) {
     const navitems = document.getElementsByClassName("nav_menu");
     for (let i = 0; i < navitems.length; i++)
         navitems[i].style.color = theme.html;
-        
+
+  
+    
     const lessonHeader = document.getElementById("lesson-header");
     if (lessonHeader != null) {
         lessonHeader.style.color = theme.html;
@@ -136,7 +156,8 @@ function setUpThemes() {
     const defaultTheme = {
         "htmlBackground": "lemonchiffon",
         "html": "black",
-        "navbarBackground": "lightgrey",
+        "navbarBackground": "lightgray",
+        "footerBackground": "lightgray",
         "videoTheme": false
     }
 
@@ -144,6 +165,7 @@ function setUpThemes() {
         "htmlBackground": "white",
         "html": "blue",
         "navbarBackground": "lightgray",
+        "footerBackground": "lightgray",
         "videoTheme": false
     }
 
@@ -151,6 +173,7 @@ function setUpThemes() {
         "htmlBackground": "#222222",
         "html": "white",
         "navbarBackground": "#151515",
+        "footerBackground": "#151515",
         "videoTheme": false,
         "glow": "green"
     }
@@ -159,6 +182,7 @@ function setUpThemes() {
         "htmlBackground": "black",
         "html": "white",
         "navbarBackground": "#151515",
+        "footerBackground": "#151515",
         "videoTheme": false,
         "glow": "green"
     }
@@ -167,6 +191,7 @@ function setUpThemes() {
         "htmlBackground": "white",
         "html": "black",
         "navbarBackground": "transparent",
+        "footerBackground": "rgba(255, 255, 255, 0.096)",
         "videoTheme": true
     }
 
@@ -174,6 +199,7 @@ function setUpThemes() {
         "htmlBackground": "white",
         "html": "white",
         "navbarBackground": "transparent",
+        "footerBackground": "rgba(255, 255, 255, 0.096)",
         "videoTheme": true
     }
 

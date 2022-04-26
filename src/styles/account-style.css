@@ -98,8 +98,18 @@
     
     #logout_button {
         position: absolute;
-        top: 100px;
+        top: 130px;
         right: 50px;
+    }
+
+    #delete_button {
+        position: absolute;
+        top: 230px;
+        right: 50px;
+        background-color:rgb(165, 18, 18);
+    }
+    #delete_button:hover {
+        background-color:rgb(108, 13, 13);
     }
     
     #google_logo {
@@ -122,4 +132,14 @@
     #google_button:hover {
         background-color: gainsboro;
         border-width: 3px;
+    }
+
+    #back {
+        display:flex;
+        color:inherit;
+    }
+
+    #back:hover {
+        cursor: pointer;
+        font-weight: bold;
     }

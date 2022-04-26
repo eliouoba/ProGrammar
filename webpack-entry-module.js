@@ -1,4 +1,7 @@
+require('./src/scripts/navbar-script.js'); 
+
 var entryModule = document.querySelector('script').getAttribute('webpack-entry');
+
 switch(entryModule) {
     case 'home':
         require('./src/scripts/home-script.js'); 
