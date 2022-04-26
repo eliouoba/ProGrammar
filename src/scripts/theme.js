@@ -7,6 +7,9 @@ if (currentTheme == null) currentTheme = 'default';
 // var glowing = localStorage.getItem('glowing');
 // if (glowing == null) localStorage.setItem('glowing', false);
 
+
+let imports = document.getElementsByTagName('import');
+
 window.addEventListener("DOMContentLoaded", import1());
 
 setUpThemes();
@@ -20,18 +23,15 @@ module.exports = {
 //Source of this script: 
 // https://unpkg.com/htmlimpjs@1.0.0/index.js
 function import1() {
-    let imports = document.getElementsByTagName('import');
     for (var i = 0; i < imports.length; i++) {
         let imp = imports[i];
         load_file(imp.attributes.src.value, function(text) {
             imp.insertAdjacentHTML('afterend', text);
-            if(/navbar.html/.test(imp.attributes.src.value)
-            //&& /footer.html/.test(imp.attributes.src.value)
-            ) {
-                //guarantee that theme applied only when navbar and footer imported
+            imp.remove(); //removes import tag from html
+
+            //once all imports are complete, apply theme
+            if(imports.length == 0)
                 chooseTheme(currentTheme, true);
-            }
-            imp.remove();
         });
 
         function load_file(filename, callback) {
@@ -39,7 +39,6 @@ function import1() {
         }
     }
 }
-
 //if (glowBoxExists) glowBox.addEventListener('change', handleglowBox);
 
 function chooseTheme(newTheme, initialize) {
@@ -68,25 +67,23 @@ function applyTheme(t, colorScheme) {
     const html = document.documentElement; // like document.body
     html.style.backgroundColor = theme.htmlBackground;
     html.style.color = theme.html;
+
     const navbar = document.getElementById("nav_bar");
     navbar.style.backgroundColor = theme.navbarBackground;
     
-    //temp race condition fix
-    setTimeout(() =>{
-        const footer = document.getElementById("footer");
-        footer.style.backgroundColor = theme.footerBackground;   
+    const footer = document.getElementById("footer");
+    footer.style.backgroundColor = theme.footerBackground;   
         
-        if (!theme.videoTheme) {
-            navbar.style.boxShadow="0px 5px 10px 2px rgba(0, 0, 0, 0.205)";
-            footer.style.boxShadow="0px -5px 10px 2px rgba(0, 0, 0, 0.205)";
-        } else { 
-            navbar.style.removeProperty("box-shadow");
-            footer.style.removeProperty("box-shadow");
-        }
-        document.getElementById("next").style.color = theme.html;
-        document.getElementById("last").style.color = theme.html;
-    }, 3000);
-
+    if (!theme.videoTheme) {
+        navbar.style.boxShadow="0px 5px 10px 2px rgba(0, 0, 0, 0.205)";
+        footer.style.boxShadow="0px -5px 10px 2px rgba(0, 0, 0, 0.205)";
+    } else { 
+        navbar.style.removeProperty("box-shadow");
+        footer.style.removeProperty("box-shadow");
+    }
+    document.getElementById("next").style.color = theme.html;
+    document.getElementById("last").style.color = theme.html;
+    
     // if (glowing) navbar.style.boxShadow = "0px -30px 70px 20px " + themes.get("dark").glow;
     //if (glowBoxExists) handleglowBox();
 
@@ -95,8 +92,6 @@ function applyTheme(t, colorScheme) {
     for (let i = 0; i < navitems.length; i++)
         navitems[i].style.color = theme.html;
 
-  
-    
     const lessonHeader = document.getElementById("lesson-header");
     if (lessonHeader != null) {
         lessonHeader.style.color = theme.html;

@@ -21,8 +21,6 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
 
-onAuthStateChanged(auth, initLessonList);
-
 //quick element references
 const resetButton = document.getElementById("reset");
 const toType = document.getElementById("toType");
@@ -34,6 +32,16 @@ fileSelect.oninput=loadTextFromFile;
 resetButton.onclick=reset;
 saveButton.onclick=saveLesson;
 loadMenu.onchange=loadTextFromDB;
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("current user: " + user.uid);
+        onAuthStateChanged(auth, initLessonList);
+    } else {
+        toType.innerHTML = "Log in to access custom lessons."
+        setConfigDisabled(true);
+    }
+});
 
 let interval, start, end; //timer
 let typer = new Input();
