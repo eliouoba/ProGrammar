@@ -30,7 +30,7 @@ const uploader = document.getElementById('uploader');
 const downloader = document.getElementById('downloader');
 fileSelect.oninput=loadTextFromFile;
 resetButton.onclick=reset;
-uploader.onclick=uploadLesson;
+uploader.onclick=saveLesson;
 downloader.onclick=loadTextFromDB;
 
 let interval, start, end; //timer
@@ -45,23 +45,9 @@ document.getElementById("help").innerHTML += allowedMsg;
 
 const reader = new FileReader();
 
-function uploadLesson(){
-    let selectedFile = fileSelect.files[0];
-    if(selectedFile == null) return;
-    const user = auth.currentUser.uid;
-    const lessonsReference = ref(database, `users/${user}/lessons`);
-    get(lessonsReference).then((snapshot) => {
-        let newLesson = typer.toTypeText;
-        let name = prompt("Enter a name for your lesson.");
-        if(name == null || name == '') return;
-        if(snapshot.hasChild(name) && !confirm(`Lesson '${name}' already exists. Overwrite?`))
-            return;
-        set(ref(database, `users/${user}/lessons/${name}`), newLesson);
-    }).catch((error) => {
-        console.error(error);
-    });
-}
-
+/**
+ * loadTextFromFile - loads a lesson from a user-provided file
+ */
 function loadTextFromFile(){
     let selectedFile = fileSelect.files[0];
     if(selectedFile == null) return;
@@ -71,23 +57,53 @@ function loadTextFromFile(){
     //check file extension to see if selected file is valid
     let extension = selectedFile.name.split('.').pop();
     if(!allowed.includes(extension)){
-        alert(`Invalid input. Please use a supported file.\n${allowedMsg}`)
+        alert(`Error: Invalid input. Please use a supported file.\n${allowedMsg}`)
         return;
     }
 
     toType.textContent = reader.readAsText(selectedFile);
-    reader.addEventListener("load", ()=>{
-        typer.toTypeText = reader.result;
-        typer.init();
-        document.addEventListener("keydown", startLesson);
-        resetButton.hidden = false;
-        fileSelect.blur();
-        reader.removeEventListener("load", this);
+    reader.addEventListener("load", reader.f = function fn(){
+        setText(reader.result);    
+        reader.removeEventListener("load", reader.f);
     }, false);
 }
 
+/**
+ * setText - initializes the typer for this lesson text
+ * @param {*} text 
+ */
+function setText(text){
+    typer.toTypeText = text;
+    typer.init();
+    document.addEventListener("keydown", startLesson);
+    resetButton.hidden = false;
+    fileSelect.blur();
+}
+
+/**
+ * saveLesson - saves and uploads a lesson to the user's account
+ */
+function saveLesson(){
+    let selectedFile = fileSelect.files[0];
+    if(selectedFile == null) return;
+    const user = auth.currentUser.uid;
+    const lessonsReference = ref(database, `users/${user}/lessons`);
+    get(lessonsReference).then((snapshot) => {
+        let newLesson = typer.toTypeText;
+        let name = promptName("Enter a name for your lesson.");
+        if(name == null) return;
+        if(snapshot.hasChild(name) && confirm(`Lesson '${name}' already exists. Overwrite?`))
+            set(ref(database, `users/${user}/lessons/${name}`), newLesson);
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
+/**
+ * loadTextFromDB - loads a previously saved lesson (if it exists).
+ */
 function loadTextFromDB(){
-    let name = prompt("What is the name of the lesson you previously uploaded?")
+    let name = promptName("Enter the name of a lesson you previously uploaded.");
     if(name == null) return;
     const user = auth.currentUser.uid;
     const lessonsReference = ref(database, `users/${user}/lessons`);
@@ -101,13 +117,18 @@ function loadTextFromDB(){
     });
 }
 
-function setText(text){
-    typer.toTypeText = text;
-    typer.init();
-    document.addEventListener("keydown", startLesson);
-    resetButton.hidden = false;
-    fileSelect.blur();
-    reader.removeEventListener("load", this);
+/**
+ * promptName - prompts the user to input a name, with an additional guard
+ *              to prevent invalid characters.
+ * @param {*} promptText The prompt to use
+ * @returns the inputted name, or null if the user cancels the prompt
+ */
+function promptName(promptText){
+    let name = prompt(promptText)
+    while(name != null && /^$|\.|\#|\$|\[|\]/.test(name)){    
+        name = prompt('Error: Invalid name.\nNames must be nonempty and cannot contain ".", "#", "$", "[", or "]".');
+    }
+    return name;
 }
 
 /**
@@ -147,7 +168,10 @@ function startLesson(keydownEvent) {
     }
 }
 
-
+/**
+ * setConfigDisabled - enables/disables interactable elements
+ * @param {*} disable True if disabling elements, false if enabling them
+ */
 function setConfigDisabled(disable){
     fileSelect.disabled = disable;
     uploader.disabled = disable;
