@@ -114,12 +114,16 @@ function main() {
     async function createEmailPassword() {
         const loginEmail = emailBox.value;
         const loginPassword = passwordBox.value;
+        let username = usernameBox.value;
+        if (usernameBox.value.length < 6) {
+            alert("Please enter at least 6 characters for the username.");
+            return;
+        }
         try {
             const userCredential =
                 await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
             signupButton.style.display = "none";
             initializeUser(userCredential.user);
-            let username = usernameBox.value;
             authStateLabel.innerHTML =
                 `Welcome, ${username}`;
             errorLabel.style.display = "none";
@@ -165,7 +169,7 @@ function main() {
 
         document.onkeydown = (e) => {
             if (e.key == "Enter") {
-                createEmailPassword();
+                loginEmailPassword();
                 let boxes = document.getElementsByTagName("input");
                 for (let i = 0; i < boxes.length; i++) 
                     boxes[i].blur();
