@@ -20,6 +20,7 @@
 .themes:hover {
     font-weight: 1000;
     color: darkred;
+    cursor: default;
 }
 
 .themes:active {

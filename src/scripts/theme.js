@@ -1,7 +1,7 @@
 var themes = new Map();
 var colorSchemes = new Map();
 var currentTheme = localStorage.getItem('theme');
-if (currentTheme == null) currentTheme = 'modern';
+if (currentTheme == null) currentTheme = 'day';
 //var glowBox = document.getElementById("glow");
 //var glowBoxExists = (glowBox != null);
 // var glowing = localStorage.getItem('glowing');
@@ -75,10 +75,10 @@ function applyTheme(t, colorScheme) {
     
     const footer = document.getElementById("footer");
     footer.style.backgroundColor = theme.footerBackground;   
-        
+    
     if (!theme.videoTheme) {
         navbar.style.boxShadow="0px 5px 10px 2px rgba(0, 0, 0, 0.205)";
-        footer.style.boxShadow="0px -5px 10px 2px rgba(0, 0, 0, 0.205)";
+        footer.style.boxShadow="0px -5px 10px 2px rgba(0, 0, 0, 0.205)";  
     } else { 
         navbar.style.removeProperty("box-shadow");
         footer.style.removeProperty("box-shadow");
@@ -177,19 +177,19 @@ function setUpThemes() {
     }
 
     const darkTheme = {
-        "htmlBackground": "#222222",
+        "htmlBackground": "#303030",
         "html": "white",
-        "navbarBackground": "#151515",
-        "footerBackground": "#151515",
+        "navbarBackground": "#202020",
+        "footerBackground": "#202020",
         "videoTheme": false,
         "glow": "green"
     }
 
     const blackTheme = {
-        "htmlBackground": "black",
+        "htmlBackground": "#141414",
         "html": "white",
-        "navbarBackground": "#151515",
-        "footerBackground": "#151515",
+        "navbarBackground": "black",
+        "footerBackground": "black",
         "videoTheme": false,
         "glow": "green"
     }
