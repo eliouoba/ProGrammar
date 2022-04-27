@@ -1,25 +1,10 @@
 //Josiah Hsu
 
-import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getDatabase, ref, get, set} from "firebase/database";
+import { onAuthStateChanged } from 'firebase/auth';
+import { ref, get, set} from "firebase/database";
+import { auth, database } from './firebaseInit';
 
 import Input from "./Input-Class.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyC8TjMHSCAqxaqlIW2MNdbWWLp_vyWUBHA",
-    authDomain: "programmar-d33e8.firebaseapp.com",
-    databaseURL: "https://programmar-d33e8-default-rtdb.firebaseio.com",
-    projectId: "programmar-d33e8",
-    storageBucket: "programmar-d33e8.appspot.com",
-    messagingSenderId: "1017841820021",
-    appId: "1:1017841820021:web:943e79503ad7292bb6b33c",
-    measurementId: "G-6QTSB873J8"
-};
-
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
-const auth = getAuth(app);
 
 //quick element references
 const resetButton = document.getElementById("reset");
@@ -35,8 +20,7 @@ loadMenu.onchange=loadTextFromDB;
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        console.log("current user: " + user.uid);
-        onAuthStateChanged(auth, initLessonList);
+        initLessonList();
     } else {
         toType.innerHTML = "Log in to access custom lessons."
         setConfigDisabled(true);
@@ -105,6 +89,7 @@ function loadTextFromFile(){
     else{
         alert(`Error: Invalid input. Please use a supported file.\n${acceptMsg}`)
     }
+    fileSelect.blur();
 }
 
 /**
@@ -116,7 +101,6 @@ function setText(text){
     typer.init();
     document.addEventListener("keydown", startLesson);
     resetButton.hidden = false;
-    fileSelect.blur();
 }
 
 /**
@@ -124,9 +108,9 @@ function setText(text){
  */
 function saveLesson(){
     let selectedFile = fileSelect.files[0];
-    if(selectedFile == null) return;
+    if(selectedFile == null) return
+
     const user = auth.currentUser.uid;
-    
     const lessonsReference = ref(database, `users/${user}/lessons`);
     get(lessonsReference).then((snapshot) => {
         let newLesson = typer.toTypeText;
@@ -140,6 +124,7 @@ function saveLesson(){
     }).catch((error) => {
         console.error(error);
     });
+    saveButton.blur();
 }
 
 /**
@@ -154,6 +139,7 @@ function loadTextFromDB(){
     }).catch((error) => {
         console.error(error);
     });
+    loadMenu.blur();
 }
 
 /**

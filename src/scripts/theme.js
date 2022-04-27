@@ -7,9 +7,6 @@ if (currentTheme == null) currentTheme = 'default';
 // var glowing = localStorage.getItem('glowing');
 // if (glowing == null) localStorage.setItem('glowing', false);
 
-
-let imports = document.getElementsByTagName('import');
-
 window.addEventListener("DOMContentLoaded", import1());
 
 setUpThemes();
@@ -23,6 +20,7 @@ module.exports = {
 //Source of this script: 
 // https://unpkg.com/htmlimpjs@1.0.0/index.js
 function import1() {
+    let imports = document.getElementsByTagName('import');
     for (var i = 0; i < imports.length; i++) {
         let imp = imports[i];
         load_file(imp.attributes.src.value, function(text) {
@@ -30,8 +28,12 @@ function import1() {
             imp.remove(); //removes import tag from html
 
             //once all imports are complete, apply theme
-            if(imports.length == 0)
+            if(imports.length == 0){
                 chooseTheme(currentTheme, true);
+
+                //add signout functionality to navbar
+                require('../scripts/navbar-script.js'); 
+            }
         });
 
         function load_file(filename, callback) {
