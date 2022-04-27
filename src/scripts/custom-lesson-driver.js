@@ -35,8 +35,7 @@ loadMenu.onchange=loadTextFromDB;
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        console.log("current user: " + user.uid);
-        onAuthStateChanged(auth, initLessonList);
+        initLessonList();
     } else {
         toType.innerHTML = "Log in to access custom lessons."
         setConfigDisabled(true);
@@ -124,9 +123,9 @@ function setText(text){
  */
 function saveLesson(){
     let selectedFile = fileSelect.files[0];
-    if(selectedFile == null) return;
+    if(selectedFile == null) return
+
     const user = auth.currentUser.uid;
-    
     const lessonsReference = ref(database, `users/${user}/lessons`);
     get(lessonsReference).then((snapshot) => {
         let newLesson = typer.toTypeText;

@@ -14,16 +14,13 @@ import { getAuth, signOut } from 'firebase/auth';
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+let auth = getAuth(app);
 
-//a weird way of doing this but action events weren't firing
-document.body.onload = ()=> {
-    const signoutButton = document.getElementById("signoutButton");
-    signoutButton.addEventListener("click", logOut);
-}
+const signoutButton = document.getElementById("signoutButton");
+signoutButton.addEventListener("click", logOut);
 
 async function logOut() {
-    let auth = getAuth();
+    auth = getAuth();
     if (auth.currentUser == null)         
         alert("You're not logged in!");
     else {

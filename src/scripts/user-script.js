@@ -35,8 +35,8 @@ function main() {
             showStats(database, user);
         } else {
             const statsPanel = document.getElementById("stats-panel");
-            statsPanel.innerHTML = `Login to view stats`;
-            lessonIncrementButton.style.display = "none";
+            statsPanel.innerHTML = `Log in to view stats`;
+            incrementButton.style.display = "none";
         }
     });
 
@@ -47,20 +47,12 @@ function main() {
         const user = auth.currentUser.uid;
         const userStatsReference = ref(database, `users/${user}/stats`);
         get(userStatsReference).then((snapshot) => {
-            const stats = snapshot.val();
-            let lessons = parseInt(stats.lessons);
-            let topics = parseInt(stats.topics);
-            let played = parseInt(stats.lessons);
-            let won = parseInt(stats.won);
-            let wpm = parseInt(stats.wpm);
-            let acc = parseInt(stats.acc);
-
-            set(ref(database, `users/${user}/stats/lessons`), lessons + 1);
-            set(ref(database, `users/${user}/stats/topics`), topics + 1);
-            set(ref(database, `users/${user}/stats/played`), played + 1);
-            set(ref(database, `users/${user}/stats/won`), won + 1);
-            set(ref(database, `users/${user}/stats/wpm`), wpm + 1);
-            set(ref(database, `users/${user}/stats/acc`), acc + 1);
+            //userReference
+            let pathName = ["lessons", "topics", "played", "won", "wpm", "acc"];
+            pathName.forEach((path)=>{
+                let value = parseInt(snapshot.child(`${path}`).val());
+                set(ref(database, `users/${user}/stats/${path}`), value + 1);
+            });
 
             showStats();
         }).catch((error) => {
@@ -68,8 +60,7 @@ function main() {
         });
         const statsReference = ref(database, `stats`);
         get(statsReference).then((snapshot) => {
-            const stats = snapshot.val();
-            //for calculating average
+            //statsReference
             //syntax: just "lessons[user]" not "lessons.[user]"
             let pathName = ["lessons", "topics", "played", "won", "wpm", "acc"];
             pathName.forEach((path)=>{

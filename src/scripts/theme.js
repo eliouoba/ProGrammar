@@ -28,8 +28,12 @@ function import1() {
             imp.remove(); //removes import tag from html
 
             //once all imports are complete, apply theme
-            if(imports.length == 0)
+            if(imports.length == 0){
                 chooseTheme(currentTheme, true);
+
+                //add signout functionality to navbar
+                require('../scripts/navbar-script.js'); 
+            }
         });
 
         function load_file(filename, callback) {
