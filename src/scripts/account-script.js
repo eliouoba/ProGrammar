@@ -208,6 +208,7 @@ function main() {
     /** add user to database with initial stats */
     function initializeUser(user) {
         updateProfile(user, { displayName: usernameBox.value });
+        set(ref(database, `users/${user.uid}/username`), user.displayName);
         set(ref(database, `users/${user.uid}/email`), user.email);
         set(ref(database, `users/${user.uid}/stats`), {
             lessons: 0,
