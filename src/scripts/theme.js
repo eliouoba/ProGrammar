@@ -244,8 +244,8 @@ function setUpThemes() {
     const turquoiseTheme = {
         "htmlBackground": "#1F2833",
         "html": "#66FCF1",
-        "navbarBackground": "#0B0C10",
-        "footerBackground": "#0B0C10",
+        "navbarBackground": "#00111a",
+        "footerBackground": "#00111a",
         "videoTheme": false
     }
 

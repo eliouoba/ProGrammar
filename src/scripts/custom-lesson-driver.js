@@ -187,7 +187,7 @@ function startLesson(keydownEvent) {
         document.removeEventListener("keydown", startLesson);
         document.addEventListener("keydown", type);
         start = Date.now();
-        interval = window.setInterval(timer, 250);
+        interval = window.setInterval(timer, 1000);
         setConfigDisabled(true);
         typer.input(keydownEvent.key);
     }
