@@ -22,7 +22,9 @@ nextLessonButton.onclick=getNextLesson;
 let interval, start, end; //timer
 let typer = new Input();
 
-const lessons = ["HelloWorld", "Integers", "BasicMath", "Strings", "Concatenation", "IfStatements", "WhileLoops", "ForLoops"];
+const lessons = ["HelloWorld", "Integers", "BasicMath", "Strings", 
+"Concatenation", "IfStatements", "WhileLoops", "ForLoops", "PrintArray",
+"Bubble", "Selection", "Insertion", "Merge", "Quick", "Heap", "Linear", "Binary"];
 
 //determine lesson from url
 const urlParams = new URLSearchParams(window.location.search);
