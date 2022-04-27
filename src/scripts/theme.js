@@ -64,7 +64,7 @@ function applyTheme(t, colorScheme) {
     if (colorScheme == false) theme = themes.get("darkVideo");
     if (colorScheme == true) theme = themes.get("lightVideo");
 
-    const html = document.documentElement; // like document.body
+    const html = document.documentElement; //like document.body
     html.style.backgroundColor = theme.htmlBackground;
     html.style.color = theme.html;
 
@@ -81,8 +81,6 @@ function applyTheme(t, colorScheme) {
         navbar.style.removeProperty("box-shadow");
         footer.style.removeProperty("box-shadow");
     }
-    document.getElementById("next").style.color = theme.html;
-    document.getElementById("last").style.color = theme.html;
     
     // if (glowing) navbar.style.boxShadow = "0px -30px 70px 20px " + themes.get("dark").glow;
     //if (glowBoxExists) handleglowBox();
@@ -100,6 +98,18 @@ function applyTheme(t, colorScheme) {
     if (gamingHeader != null) {
         gamingHeader.style.color = theme.html;
     }
+
+    const tugHeader = document.getElementById("tug-header");
+    if (tugHeader != null) {
+        tugHeader.style.color = theme.html;
+    }
+    const raceHeader = document.getElementById("race-header");
+    if (raceHeader != null) {
+        raceHeader.style.color = theme.html;
+    }
+
+    document.getElementById("next").style.color = theme.html;
+    document.getElementById("last").style.color = theme.html;
     //document.getElementById("nav_bar").style.boxShadow = "0px -30px 70px 20px " + theme.glow
     theme.videoTheme? addVideo(theme) : removeExistingVideo();
 }
@@ -157,8 +167,8 @@ function setUpThemes() {
     }
 
     const lightTheme = {
-        "htmlBackground": "white",
-        "html": "blue",
+        "htmlBackground": "honeydew",
+        "html": "navy",
         "navbarBackground": "lightgray",
         "footerBackground": "lightgray",
         "videoTheme": false
@@ -182,6 +192,61 @@ function setUpThemes() {
         "glow": "green"
     }
 
+    const vividTheme = {
+        "htmlBackground": "#2F2FA2",
+        "html": "#ff80b4",
+        "navbarBackground": "#242582",
+        "footerBackground": "#242582",
+        "videoTheme": false
+    }
+
+    const earthTheme = {
+        "htmlBackground": "#9e805a",
+        "html": "#f7ecc6",
+        "navbarBackground": "#8D8741",
+        "footerBackground": "#8D8741",
+        "videoTheme": false
+    }
+
+    const coolTheme = {
+        "htmlBackground": "#379683",
+        "html": "#b2f7b3",
+        "navbarBackground": "#05386b",
+        "footerBackground": "#05386b",
+        "videoTheme": false
+    }
+
+    const dragonTheme = {
+        "htmlBackground": "#111111",
+        "html": "red",
+        "navbarBackground": "#050505",
+        "footerBackground": "#050505",
+        "videoTheme": false
+    }
+
+    const modernTheme = {
+        "htmlBackground": "#7395ae",
+        "html": "white",
+        "navbarBackground": "#b1a296",
+        "footerBackground": "#b1a296",
+        "videoTheme": false
+    }
+    const nightTheme = {
+        "htmlBackground": "black",
+        "html": "#b0beff",
+        "navbarBackground": "#0C0032",
+        "footerBackground": "#0C0032",
+        "videoTheme": false
+    }
+
+    const turquoiseTheme = {
+        "htmlBackground": "#1F2833",
+        "html": "#66FCF1",
+        "navbarBackground": "#0B0C10",
+        "footerBackground": "#0B0C10",
+        "videoTheme": false
+    }
+
     const lightVideoTheme = {
         "htmlBackground": "white",
         "html": "black",
@@ -202,6 +267,13 @@ function setUpThemes() {
     themes.set("light", lightTheme);
     themes.set("dark", darkTheme);
     themes.set("black", blackTheme);
+    themes.set("vivid", vividTheme);
+    themes.set("earth", earthTheme);
+    themes.set("cool", coolTheme);
+    themes.set("dragon", dragonTheme);
+    themes.set("modern", modernTheme);
+    themes.set("night", nightTheme);
+    themes.set("turquoise", turquoiseTheme);
     themes.set("lightVideo", lightVideoTheme);
     themes.set("darkVideo", darkVideoTheme);
 

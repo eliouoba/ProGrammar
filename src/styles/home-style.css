@@ -8,7 +8,6 @@
     animation-name: titleSlide;
     /*why is this necessary? should be imported*/
     font-family: 'Montserrat', sans-serif;
-
 }
 
 @keyframes titleSlide {

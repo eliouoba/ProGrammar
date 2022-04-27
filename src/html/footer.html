@@ -1,4 +1,5 @@
-<div style="height:50px;" ></div>
+<!--so nothing gets hid behind footer-->
+<div style="height:100px;" ></div>
 
 <div id="footer">
     <a id="last" href="">« Last Lesson</a>
@@ -13,26 +14,31 @@
     <style>
         #footer {
             width: 100%;
-            display: inline-block;
             position: fixed;
             bottom: 0;
-            margin-top: 500px;
+            height: 55px;
+            margin-top: 550px;
         }
         
         #next, #last {
             color:inherit;
             text-decoration: none;
-            margin-left: 20px;
+            margin-left: 50px;
             margin-right: 50px;
             font-size: 20px;
-            padding-top: 20px;
-            padding-bottom: 20px;
+            padding-top: 15px;
+            padding-bottom: 10px;
         }
         #next {
             float:right;
         }
         #last {
             float:left;
+        }
+
+        #footer a:hover {
+           font-weight: bold;
+           font-size: larger;
         }
     </style>
 
