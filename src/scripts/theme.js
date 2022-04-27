@@ -1,7 +1,7 @@
 var themes = new Map();
 var colorSchemes = new Map();
 var currentTheme = localStorage.getItem('theme');
-if (currentTheme == null) currentTheme = 'default';
+if (currentTheme == null) currentTheme = 'modern';
 //var glowBox = document.getElementById("glow");
 //var glowBoxExists = (glowBox != null);
 // var glowing = localStorage.getItem('glowing');
@@ -160,7 +160,7 @@ function addVideo(video) {
 }*/
 
 function setUpThemes() {
-    const defaultTheme = {
+    const dayTheme = {
         "htmlBackground": "lemonchiffon",
         "html": "black",
         "navbarBackground": "lightgray",
@@ -265,7 +265,7 @@ function setUpThemes() {
         "videoTheme": true
     }
 
-    themes.set("default", defaultTheme);
+    themes.set("day", dayTheme);
     themes.set("light", lightTheme);
     themes.set("dark", darkTheme);
     themes.set("black", blackTheme);

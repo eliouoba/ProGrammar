@@ -15,56 +15,69 @@
 
 <body>
     <import src="../html/navbar.html"></import>
-    <h1 class="theme">Toggle keyboard colors</h1>
-    <p class="choose">Choose whether the keyboard is colored to indicate finger positions:</p>
-    <input class="themes" id="keyboardTheme" type="checkBox" onclick="toggleTheme()">Colored Keyboard</input>
-    <script>
-        var keyboardTheme = localStorage.getItem('keyboardTheme');
-        document.getElementById("keyboardTheme").checked = keyboardTheme == 'color';
-
-        function toggleTheme() {
+    <div id="container">
+        <div id="t">
+            <h1 class="theme">Theme</h1>
+            <div id="themes">
+                <div id="regular">
+                    <p class="choose">Choose a regular theme:</p>
+                    <p class="themes" onclick="chooseTheme('modern')">Modern</p>
+                    <p class="themes" onclick="chooseTheme('day')">Day</p>
+                    <p class="themes" onclick="chooseTheme('light')">Light</p>
+                    <!--div id="darkmodeglow">
+                        <p class="themes" onclick="chooseTheme('dark')">Dark 
+                            &nbsp&nbsp&nbsp&nbsp
+                            <span id="glowLabel">glow: </span>
+                            <input type="checkbox" id="glow">
+                        </p>
+                    </div-->
+                    <p class="themes" onclick="chooseTheme('dark')">Dark</p>
+                    <p class="themes" onclick="chooseTheme('black')">Black</p>
+                    <p class="themes" onclick="chooseTheme('dragon')">Dragon</p>
+                    <p class="themes" onclick="chooseTheme('earth')">Earth</p>
+                    <p class="themes" onclick="chooseTheme('night')">Night</p>
+                    <p class="themes" onclick="chooseTheme('turquoise')">Turquoise</p>
+                    <p class="themes" onclick="chooseTheme('cool')">Cool</p>
+                    <p class="themes" onclick="chooseTheme('vivid')">Vivid</p>
+                </div>
+                <div id="video">
+                    <p class="choose">Or choose a video theme:</p>
+                    <p class="themes" onclick="chooseTheme('aqua')">Aqua</p>
+                    <p class="themes" onclick="chooseTheme('atlantic')">Atlantic</p>
+                    <!--p class="themes" onclick="chooseTheme('breakthrough')">Breakthrough</p-->
+                    <p class="themes" onclick="chooseTheme('bronze')">Bronze</p>
+                    <p class="themes" onclick="chooseTheme('chlorophyll')">Chlorophyll</p>
+                    <p class="themes" onclick="chooseTheme('constellations')">Constellations</p>
+                    <p class="themes" onclick="chooseTheme('crimson')">Crimson</p>
+                    <p class="themes" onclick="chooseTheme('deep')">Deep</p>
+                    <p class="themes" onclick="chooseTheme('eve')">Eve</p>
+                    <p class="themes" onclick="chooseTheme('golden')">Golden</p>
+                    <!--p class="themes" onclick="chooseTheme('journey')">Journey</p-->
+                    <!--p class="themes" onclick="chooseTheme('micro')">Micro</p-->
+                    <p class="themes" onclick="chooseTheme('mist')">Mist</p>
+                    <p class="themes" onclick="chooseTheme('network')">Network</p>
+                    <p class="themes" onclick="chooseTheme('sunlight')">Sunlight</p>
+                </div>
+            </div>
+        </div>
+        <h1 class="theme">Toggle keyboard colors</h1>
+        <p class="choose">Choose whether the keyboard is colored to indicate finger positions:</p>
+        <input class="themes" id="keyboardTheme" type="checkBox" onclick="toggleTheme()">Colored Keyboard</input>
+        <script>
             var keyboardTheme = localStorage.getItem('keyboardTheme');
-            keyboardTheme = (keyboardTheme == 'color' ? 'b/w' : 'color');
-            localStorage.setItem('keyboardTheme', keyboardTheme);
-        }
-    </script>
+            document.getElementById("keyboardTheme").checked = keyboardTheme == 'color';
 
-    <h1 class="theme">Theme</h1>
-    <p class="choose">Choose a regular theme:</p>
-    <p class="themes" onclick="chooseTheme('default')">Default</p>
-    <p class="themes" onclick="chooseTheme('light')">Light</p>
-    <!--div id="darkmodeglow">
-        <p class="themes" onclick="chooseTheme('dark')">Dark 
-            &nbsp&nbsp&nbsp&nbsp
-            <span id="glowLabel">glow: </span>
-            <input type="checkbox" id="glow">
-        </p>
-    </div-->
-    <p class="themes" onclick="chooseTheme('dark')">Dark</p>
-    <p class="themes" onclick="chooseTheme('black')">Black</p>
-    <p class="themes" onclick="chooseTheme('vivid')">Vivid</p>
-    <p class="themes" onclick="chooseTheme('earth')">Earth</p>
-    <p class="themes" onclick="chooseTheme('cool')">Cool</p>
-    <p class="themes" onclick="chooseTheme('dragon')">Dragon</p>
-    <p class="themes" onclick="chooseTheme('modern')">Modern</p>
-    <p class="themes" onclick="chooseTheme('night')">Night</p>
-    <p class="themes" onclick="chooseTheme('turquoise')">Turquoise</p>
-    <p class="choose">Or choose a video theme:</p>
-    <p class="themes" onclick="chooseTheme('aqua')">Aqua</p>
-    <p class="themes" onclick="chooseTheme('atlantic')">Atlantic</p>
-    <!--p class="themes" onclick="chooseTheme('breakthrough')">Breakthrough</p-->
-    <p class="themes" onclick="chooseTheme('bronze')">Bronze</p>
-    <p class="themes" onclick="chooseTheme('chlorophyll')">Chlorophyll</p>
-    <p class="themes" onclick="chooseTheme('constellations')">Constellations</p>
-    <p class="themes" onclick="chooseTheme('crimson')">Crimson</p>
-    <p class="themes" onclick="chooseTheme('deep')">Deep</p>
-    <p class="themes" onclick="chooseTheme('eve')">Eve</p>
-    <p class="themes" onclick="chooseTheme('golden')">Golden</p>
-    <!--p class="themes" onclick="chooseTheme('journey')">Journey</p-->
-    <!--p class="themes" onclick="chooseTheme('micro')">Micro</p-->
-    <p class="themes" onclick="chooseTheme('mist')">Mist</p>
-    <p class="themes" onclick="chooseTheme('network')">Network</p>
-    <p class="themes" onclick="chooseTheme('sunlight')">Sunlight</p>
+            function toggleTheme() {
+                var keyboardTheme = localStorage.getItem('keyboardTheme');
+                keyboardTheme = (keyboardTheme == 'color' ? 'b/w' : 'color');
+                localStorage.setItem('keyboardTheme', keyboardTheme);
+            }
+        </script>
+    </div>
+    
+    
+    
+    
     <import src="../html/footer.html"></import>
 
 </body>
