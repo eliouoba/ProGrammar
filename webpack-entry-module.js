@@ -30,7 +30,10 @@ switch(entryModule) {
     case 'account':
         require('./src/scripts/account-script.js'); 
         break;
-    case 'race':
-            require('./src/scripts/race-script.js');
+    case 'race-page':
+            require('./src/scripts/race-page-script.js');
             break;
+    case 'race':
+        require('./src/scripts/race.js');
+        break;
 }

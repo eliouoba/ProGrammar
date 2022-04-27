@@ -9,13 +9,18 @@ let joinBox = document.getElementById("join_box");
 
 createButton.addEventListener("click", createRoom(createBox.value));
 joinButton.addEventListener("click", joinRoom(joinBox.value));
-
-
-let room;
+createButton.addEventListener("click", () => {
+    location.href= 'raceLobby.html';
+    sessionStorage.setItem("creator", true);
+});
+joinButton.addEventListener("click", () => {
+    location.href= 'raceLobby.html';
+    sessionStorage.setItem("creator", false);
+});
 
 function createRoom(name) {
-    room = new Room(name);
-    console.log("hey");
+    let room = new Room(name);
+    
 }
 
 function joinRoom(name) {
