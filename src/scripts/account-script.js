@@ -86,6 +86,9 @@ function main() {
             passwordBox.style.display = "none";
             loginButton.style.display = "none";
             googleButton.style.display = "none";
+            signupButton.style.display = "none";
+            errorLabel.style.display = "none";
+            back.style.display = "none";
             or.style.display = "none";
             authStateLabel.innerHTML =
                 `You're currently logged in, ${user.displayName}`;
@@ -117,17 +120,15 @@ function main() {
         const loginPassword = passwordBox.value;
         let username = usernameBox.value;
         if (usernameBox.value.length < 6) {
-            alert("Please enter at least 6 characters for the username.");
+            errorLabel.innerHTML = "Please enter at least 6 characters for the username.";
             return;
         }
         try {
             const userCredential =
                 await createUserWithEmailAndPassword(auth, loginEmail, loginPassword);
-            signupButton.style.display = "none";
             initializeUser(userCredential.user);
             authStateLabel.innerHTML =
                 `Welcome, ${username}`;
-            errorLabel.style.display = "none";
 
         } catch (error) {
             console.log(error.message);
@@ -144,7 +145,6 @@ function main() {
                     getAdditionalUserInfo(result).isNewUser;
                 if (newUser)
                     googleInitializeUser(result.user);
-                errorLabel.style.display = "none";
                 authStateLabel.innerHTML =
                     `Welcome, ${result.user.displayName}`;
             }).catch((error) => {
@@ -263,20 +263,21 @@ function main() {
         let user = auth.currentUser;
         if (user == null) alert("No user logged in!");
         else {
-            //let msg = 'Are you sure you want to delete your account? This action is permanent.'
-            //if (confirm(msg)) {
-                deleteUser(user).then(() => {
-                    //alert("Your account has been deleted.");
-                   // setTimeout(window.location.reload(), 500);
-                }).catch((error) => {
-                    console.log(error.message);
-                });
-                remove(ref(database, `users/${user.uid}`));
-
+            let msg = 'Are you sure you want to delete your account? This action is permanent.'
+            if (confirm(msg)) {
                 let pathNames = ["lessons", "topics", "played", "won", "wpm", "acc"];
                 pathNames.forEach( (path)=>{
                     remove(ref(database, `stats/${path}/${user.uid}`));
                 });
+                
+                remove(ref(database, `users/${user.uid}`));
+                deleteUser(user).then(() => {
+                    alert("Your account has been deleted.");
+                    setTimeout(window.location.reload(), 500);
+                }).catch((error) => {
+                    console.log(error.message);
+                });
+            }
         }
     }
 
