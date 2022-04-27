@@ -18,8 +18,8 @@
     }
     
     #container {
-        position: absolute;
-        top: 15%;
+        position: relative;
+        margin-top: 40px;
         left: 30%;
         background-color: white;
         padding: 30px;
