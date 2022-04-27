@@ -12,7 +12,26 @@
 
 <body>
     <import src="../html/navbar.html"></import>
+    <div id="container">
+        <div id="info">
+            <h1 id="race-header">Play multiplayer racing!</h1>
+            <p>Create a room of up to 4 people and play a live multiplayer race. Face off against your friends to see who's got the quickest typing!</p>
+        </div>
+        <div id="play">
+            <h2 id="create_header">Create a room</h2>
+            <div class="row">
+                <input type="text" placeholder="Enter room name" id="create_box">
+                <button id="create_button" type="submit">Create room</button>
+            </div>
+            
+            <h2 id="join_header">Join a room</h2>
+            <div class="row">
+                <input type="text" placeholder="Enter room name" id="join_box">
+                <button id="join_button" type="submit">Join room</button>
+            </div>
+        </div>
 
-
+    </div>
+    
     <import src="../html/footer.html"></import>
 </body>

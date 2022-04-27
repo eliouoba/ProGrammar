@@ -1,1 +1,57 @@
-@import "page-style.css"
+@import "page-style.css";
+
+#info {
+    margin: 7%;
+    width: 20%;
+}
+
+#info, #play {
+    float:left;
+}
+
+#play {
+    margin: 7%;
+    width: 50%
+}
+
+input {
+    height: 40px;
+    width: 200px;
+    border-radius: 3px;
+    border-width: 1px;
+    border-color: gray;
+    border-style: solid;
+    outline-width: 0px;
+    padding-left: 20px;
+}
+
+input:focus {
+    box-shadow: 0 0 5px darkcyan;
+    border-color: darkcyan;
+}
+
+button {
+    width: 200px;
+    height: 40px;
+    color: white;
+    background-color: slategray;
+    border-width: 0px;
+    border-radius: 20px;
+}
+
+button:hover {
+    background-color: rgb(46, 46, 46);
+}
+
+#create_button,
+#join_button {
+    margin-left: 7%;
+} 
+
+.row {
+    display:inline;
+}
+
+#join_header {
+    margin-top: 10%;
+}
