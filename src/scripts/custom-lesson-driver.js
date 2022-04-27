@@ -89,6 +89,7 @@ function loadTextFromFile(){
     else{
         alert(`Error: Invalid input. Please use a supported file.\n${acceptMsg}`)
     }
+    fileSelect.blur();
 }
 
 /**
@@ -100,7 +101,6 @@ function setText(text){
     typer.init();
     document.addEventListener("keydown", startLesson);
     resetButton.hidden = false;
-    fileSelect.blur();
 }
 
 /**
@@ -124,6 +124,7 @@ function saveLesson(){
     }).catch((error) => {
         console.error(error);
     });
+    saveButton.blur();
 }
 
 /**
@@ -138,6 +139,7 @@ function loadTextFromDB(){
     }).catch((error) => {
         console.error(error);
     });
+    loadMenu.blur();
 }
 
 /**
