@@ -44,18 +44,6 @@ function main() {
         }).catch((error) => {
             console.error(error);
         });
-        const statsReference = ref(database, `stats`);
-        get(statsReference).then((snapshot) => {
-            //statsReference
-            //syntax: just "lessons[user]" not "lessons.[user]"
-            let pathName = ["lessons", "topics", "played", "won", "wpm", "acc"];
-            pathName.forEach((path)=>{
-                let value = parseInt(snapshot.child(`${path}/${user}/value`).val());
-                set(ref(database, `stats/${path}/${user}/value`), value + 1);
-            });
-        }).catch((error) => {
-            console.error(error);
-        });
     }
 
     

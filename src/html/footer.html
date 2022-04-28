@@ -1,16 +1,9 @@
 <!--so nothing gets hid behind footer-->
 <div style="margin-top: 200px;" ></div>
 
-<div id="footer">
-    <a id="last" href="">« Last Lesson</a>
-    <a id="next" href="">Next Lesson »</a>
-    <script>
-        let nextLesson = document.body.getElementbyId("next");
-        let next = localStorage.getItem("nextLesson");
-        console.log(nextLesson);
-        if (nextLesson == null) next = "lesson.html?lesson=HelloWorld&lang=java";
-        nextLesson.setAttribute("href", nextLesson);
-    </script>
+<div id="footer"">
+    <a id="last">« Last Lesson</a>
+    <a id="next">Next Lesson »</a>
     <style>
         #footer {
             width: 100%;

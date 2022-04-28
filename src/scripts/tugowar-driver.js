@@ -155,6 +155,11 @@ function endGame() {
     const str =  typer.score.value==0? 'win':'lose';
     alert(`Game over. You ${str}!`);
 
+    updateUserStats();
+}
+
+function updateUserStats(){
+    if(auth.currentUser == null) return;
     let sts = typer.getStats();
     const user = auth.currentUser.uid;
     const statsReference = ref(database, `users/${user}/stats`);

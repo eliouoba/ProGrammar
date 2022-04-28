@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../styles/tugowar-style.css">
 
     <script src="../../dist/bundle.js" webpack-entry = "tugowar" defer></script>
+    <!--needed for getComputedStyle to work as intended-->
+    <script>console.log()</script>
     <link rel="icon" href="../files/logos/logo2.png"></link>
 </head>
 
@@ -30,7 +32,7 @@
     </div>
 
     <div id="statBar">
-        <button id="reset" type="button" hidden="true">Reset</button>
+        <button id="reset" class="button" hidden="true">Reset</button>
         <label id="langLabel" for="lang">Language: </label>
         <select id="lang">
             <option hidden value='' id="defaultOption">Select Language</option>
@@ -50,6 +52,5 @@
         <input type="range" min="80" max="100" value="100" id="setacc"></input>
         Bot Accuracy = <span id="botacc">100%</span>
     </div>
-    <import src="../html/footer.html"></import>
 </body>
 </html>

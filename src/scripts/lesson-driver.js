@@ -1,57 +1,70 @@
 //Josiah Hsu
 
-
 /* Initializing Firebase */
 import { ref, get, set} from "firebase/database";
 import Input from "./Input-Class.js";
 
 import { auth, database } from './firebaseInit';
 
+//footer navigation
+if(document.getElementById("footer"))
+    require("../scripts/footer-script.js");
+
 //quick element references
 const langSelect = document.getElementById("lang");
-const defaultOption = document.getElementById("defaultOption");
 const resetButton = document.getElementById("reset");
 const toType = document.getElementById("toType");
-const nextLessonButton = document.getElementById("nextLesson");
 const twitter = document.getElementById("twitter");
 
-langSelect.onchange=changeLanguage;
-resetButton.onclick=reset;
-nextLessonButton.onclick=getNextLesson;
+langSelect.onchange=loadLesson;
+resetButton.onclick=init;
 
 let interval, start, end; //timer
 let typer = new Input();
-
-const lessons = ["HelloWorld", "Integers", "BasicMath", "Strings", 
-"Concatenation", "IfStatements", "WhileLoops", "ForLoops", "PrintArray",
-"Bubble", "Selection", "Insertion", "Merge", "Quick", "Heap", "Linear", "Binary"];
 
 //determine lesson from url
 const urlParams = new URLSearchParams(window.location.search);
 const lessonFile = urlParams.get("lesson");
 const extension = urlParams.get("lang");
 
-//set default option for langSelect
-const options = langSelect.options;
-for(var i = 0; i < options.length; i++){
-    if(options[i].value == extension){
-        defaultOption.textContent = options[i].text;
-    }
-};
+//checks which languages are available for this lesson
+const options = ['j', 'p', 'c'];
+for(let i = options.length-1; i >= 0; i--){
+    if(!extension.includes(options[i]))
+        langSelect.options[i].remove();
+}
+
+if(langSelect.options.length == 0){
+    //no valid language for selected lesson
+    toType.textContent = "ERROR: The lesson you selected could not be found.";
+    langSelect.remove();
+    document.getElementById("langLabel").remove();
+}
+else{
+    //set default option for langSelect
+    langSelect.value = langSelect.options[0].value;
+    loadLesson();
+}
+
+//map between extension and language
+const langs = new Map();
+langs.set('java', 'Java');
+langs.set('py', 'Python');
+langs.set('c', 'C');
 
 /**
- * loadLesson - loads a lesson based on URL parameters
+ * loadLesson - loads a lesson based on the URL parameter
+ *              and the currently selected language
  */
 function loadLesson(){
     const httpx = new XMLHttpRequest();
-    httpx.open("GET", `../files/${lessonFile}.${extension}`);
+    httpx.open("GET", `../files/${lessonFile}.${langSelect.value}`);
     httpx.onreadystatechange = function() {
         if (httpx.readyState == 4) {
             if (httpx.status == 200){
                 typer.toTypeText = httpx.responseText.replace(/    /g, "\t").replace(/\r/g, '');
                 resetButton.hidden = false;
-                nextLessonButton.hidden = true;
-                typer.init();
+                init();
             }
             else if (httpx.status == 404)
                 toType.textContent = "ERROR: The lesson you selected could not be found.";
@@ -61,22 +74,9 @@ function loadLesson(){
 }
 
 /**
- * changeLanguage - changes programming language and reloads page
+ * init - sets to initial state
  */
-function changeLanguage() {
-    const newExt = langSelect.value;
-    if(newExt != extension){
-        let url = window.location.href;
-        url = `lesson.html?lesson=${lessonFile}&lang=${newExt}`;
-        window.location = url;
-    }
-}
-
-/**
- * reset - reset to initial state
- */
-function reset() {
-    alert("Resetting!");
+function init() {
     resetButton.blur();
     window.clearInterval(interval);
     document.removeEventListener("keydown", type);
@@ -134,18 +134,26 @@ function endLesson() {
     typer.time = (end - start) / 1000;
     typer.updateWPM();
     typer.displayStats();
-    nextLessonButton.hidden = false;
     twitter.hidden = false;
-
+    
     let sts = typer.getStats();
     let tweet = "https://twitter.com/intent/tweet?text=";
-    tweet += `I just completed the ${lessonFile} ${defaultOption.textContent} lesson in ProGrammar!`;
+    tweet += `I just completed the ${lessonFile} ${langs.get(langSelect.value)} lesson in ProGrammar!`;
     tweet += `%0aTime: ${sts[0]}%0aErrors: ${sts[1]}%0aNet WPM: ${sts[2]}%0aAccuracy: ${sts[3]}%25`
     twitter.href = tweet;
 
+    updateUserStats();
+}
+
+/**
+ * updateUserStats - calculates new stats for user and updates database accordingly
+ */
+function updateUserStats(){
+    if(auth.currentUser == null) return;
+    let sts = typer.getStats();
     const user = auth.currentUser.uid;
-    const userStatsReference = ref(database, `users/${user}/stats`);
-    get(userStatsReference).then((snapshot) => {
+    const statsReference = ref(database, `users/${user}/stats`);
+    get(statsReference).then((snapshot) => {
         const stats = snapshot.val();
         //for calculating average
         let prevTotal = stats.lessons+stats.played;
@@ -162,47 +170,6 @@ function endLesson() {
     }).catch((error) => {
         console.error(error);
     });
-
-    const statsReference = ref(database, `stats`);
-    get(statsReference).then((snapshot) => {
-        const stats = snapshot.val();
-
-        //for calculating average
-        //syntax: just "lessons[user.uid]" not "lessons.[user.uid]""
-        let prevLessons = parseInt(stats.lessons[user].value);
-        let prevPlayed = parseInt(stats.played[user].value);
-        let prevAccuracy = parseInt(stats.acc[user].value);
-        let prevWPM = parseInt(stats.wpm[user].value);
-        let prevTotal = prevLessons + prevPlayed;
-        let newTotal = prevTotal + 1;
-
-        let newLessons = prevLessons + 1;
-        let newAccuracy = ((prevAccuracy * prevTotal) + sts[3])/newTotal;
-        newAccuracy = Number(newAccuracy.toFixed(2)); 
-        let newWPM = ((prevWPM * prevTotal) +sts[2])/newTotal; 
-        newWPM = Math.round(newWPM);
-
-        set(ref(database, `stats/lessons/${user}/value`), newLessons);
-        set(ref(database, `stats/acc/${user}/value`), newAccuracy);
-        set(ref(database, `stats/wpm/${user}/value`), newWPM);
-    }).catch((error) => {
-        console.error(error);
-    });
 }
 
-function getNextLesson() {
-    let n = lessons.findIndex((element) => element == lessonFile) + 1;
-    if (n <= lessons.length)
-        selectLesson(lessons[n], extension);
-    else
-        alert("Sorry, that lesson doesn't exist yet...");
-}
-
-function selectLesson(lesson, lang) {
-    let url = window.location.href;
-    url = `lesson.html?lesson=${lesson}&lang=${lang}`;
-    window.location = url;
-}
-
-loadLesson();
 document.addEventListener("keydown", startLesson);

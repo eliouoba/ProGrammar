@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="../styles/lesson-style.css">
     
     <script src="../../dist/bundle.js" webpack-entry = "lesson" defer></script>
+    <!--needed for getComputedStyle to work as intended-->
+    <script>console.log()</script>
     <link rel="icon" href="../files/logos/logo2.png">
 </head>
 
@@ -26,21 +28,21 @@
         <button id="reset" class="button" hidden="true">Reset</button>
         <label id="langLabel" for="lang">Language: </label>
         <select id="lang">
-            <option hidden value='' id="defaultOption">Select Language</option>
             <option value="java">Java</option>
             <option value="py">Python</option>
             <option value="c">C</option>
         </select>
         <span id="stats"></span>
-        <button class=button id="nextLesson" hidden="true">Next Lesson</button>
         <a href="" id="twitter" hidden="true" target="_blank">
             <img src="../files/logos/Twitter social icons - circle - blue.png" width="32px" height="32px">
         </a>
     </div>
 
     <import src="../html/keyboard.html"></import>
-    <import src="../html/footer.html"></import>
-
+    <div id="footer"">
+        <a id="last">« Last Lesson</a>
+        <a id="next">Next Lesson »</a>
+    </div>
 </body>
 
 </html>
