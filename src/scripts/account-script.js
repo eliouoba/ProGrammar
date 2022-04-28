@@ -210,30 +210,12 @@ function main() {
         updateProfile(user, { displayName: usernameBox.value });
         set(ref(database, `users/${user.uid}/username`), user.displayName);
         set(ref(database, `users/${user.uid}/email`), user.email);
-        set(ref(database, `users/${user.uid}/stats`), {
-            lessons: 0,
-            topics: 0,
-            played: 0,
-            won: 0,
-            wpm: 0,
-            acc: 0
-        });
-        
         initStats(user.uid);
     }
 
     /** Initialization is handled differently with Google sign-in */
     function googleInitializeUser(user) {
         set(ref(database, `users/${user.uid}/username`), user.displayName);
-        set(ref(database, `users/${user.uid}/stats`), {
-            lessons: 0,
-            topics: 0,
-            played: 0,
-            won: 0,
-            wpm: 0,
-            acc: 0
-        });
-
         initStats(user.uid);
     }
 
@@ -242,9 +224,13 @@ function main() {
      * @param {*} uid User ID to initialize stats for
      */
     function initStats(uid){
-        let pathNames = ["lessons", "topics", "played", "won", "wpm", "acc"];
-        pathNames.forEach( (path)=>{
-            set(ref(database, `stats/${path}/${uid}/value`), 0 );
+        set(ref(database, `users/${uid}/stats`), {
+            lessons: 0,
+            topics: 0,
+            played: 0,
+            won: 0,
+            wpm: 0,
+            acc: 0
         });
     }
 
@@ -265,11 +251,6 @@ function main() {
         else {
             let msg = 'Are you sure you want to delete your account? This action is permanent.'
             if (confirm(msg)) {
-                let pathNames = ["lessons", "topics", "played", "won", "wpm", "acc"];
-                pathNames.forEach( (path)=>{
-                    remove(ref(database, `stats/${path}/${user.uid}`));
-                });
-                
                 remove(ref(database, `users/${user.uid}`));
                 deleteUser(user).then(() => {
                     alert("Your account has been deleted.");
