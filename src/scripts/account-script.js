@@ -207,14 +207,16 @@ function main() {
 
     /** add user to database with initial stats */
     function initializeUser(user) {
-        updateProfile(user, { displayName: usernameBox.value });
-        set(ref(database, `users/${user.uid}/username`), user.displayName);
+        updateProfile(user, { displayName: usernameBox.value }).then( ()=>{
+            set(ref(database, `users/${user.uid}/username`), user.displayName);
+        });
         set(ref(database, `users/${user.uid}/email`), user.email);
         initStats(user.uid);
     }
 
     /** Initialization is handled differently with Google sign-in */
     function googleInitializeUser(user) {
+        set(ref(database, `users/${user.uid}/email`), user.email);
         set(ref(database, `users/${user.uid}/username`), user.displayName);
         initStats(user.uid);
     }
