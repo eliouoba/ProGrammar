@@ -27,5 +27,5 @@ module.exports = {
     //for automatic npm run build
     //uncomment for local development
     //recomment when committing to GitHub
-    watch: true
+    //watch: true
 };

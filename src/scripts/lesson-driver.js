@@ -147,9 +147,14 @@ function endLesson() {
     tweet += `%0aTime: ${sts[0]}%0aErrors: ${sts[1]}%0aNet WPM: ${sts[2]}%0aAccuracy: ${sts[3]}%25`
     twitter.href = tweet;
 
+    updateUserStats();
+}
+
+function updateUserStats(){
+    if(auth.currentUser == null) return;
     const user = auth.currentUser.uid;
-    const userStatsReference = ref(database, `users/${user}/stats`);
-    get(userStatsReference).then((snapshot) => {
+    const statsReference = ref(database, `users/${user}/stats`);
+    get(statsReference).then((snapshot) => {
         const stats = snapshot.val();
         //for calculating average
         let prevTotal = stats.lessons+stats.played;
@@ -163,32 +168,6 @@ function endLesson() {
         set(ref(database, `users/${user}/stats/lessons`), newLessons);
         set(ref(database, `users/${user}/stats/acc`), newAccuracy);
         set(ref(database, `users/${user}/stats/wpm`), newWPM);
-    }).catch((error) => {
-        console.error(error);
-    });
-
-    const statsReference = ref(database, `stats`);
-    get(statsReference).then((snapshot) => {
-        const stats = snapshot.val();
-
-        //for calculating average
-        //syntax: just "lessons[user.uid]" not "lessons.[user.uid]""
-        let prevLessons = parseInt(stats.lessons[user].value);
-        let prevPlayed = parseInt(stats.played[user].value);
-        let prevAccuracy = parseInt(stats.acc[user].value);
-        let prevWPM = parseInt(stats.wpm[user].value);
-        let prevTotal = prevLessons + prevPlayed;
-        let newTotal = prevTotal + 1;
-
-        let newLessons = prevLessons + 1;
-        let newAccuracy = ((prevAccuracy * prevTotal) + sts[3])/newTotal;
-        newAccuracy = Number(newAccuracy.toFixed(2)); 
-        let newWPM = ((prevWPM * prevTotal) +sts[2])/newTotal; 
-        newWPM = Math.round(newWPM);
-
-        set(ref(database, `stats/lessons/${user}/value`), newLessons);
-        set(ref(database, `stats/acc/${user}/value`), newAccuracy);
-        set(ref(database, `stats/wpm/${user}/value`), newWPM);
     }).catch((error) => {
         console.error(error);
     });
