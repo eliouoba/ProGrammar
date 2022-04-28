@@ -12,6 +12,7 @@ onAuthStateChanged(auth, (user) => {
         document.getElementById("login").style.display = "none";
     } else {
         document.getElementById("play").style.display = "none";
+        document.getElementById("login").style.display = "flex";
     }
 });
 
@@ -22,7 +23,13 @@ async function initializeRoom(name) {
         return;
     }
     let roomRef = ref(database, `rooms/${name}/players`);
+    
     await get(roomRef).then((snapshot) => {
+        if (Object.keys(snapshot.val()).length >= 4) {
+            alert("Sorry. this room is full.");
+            return;
+        }
+        console.log(snapshot.val().size());
         sessionStorage.setItem("creator", snapshot.val() == null);
         let userRef = ref(database, `rooms/${name}/players/${auth.currentUser.uid}`);
         set(userRef, { name: auth.currentUser.displayName});
@@ -32,5 +39,5 @@ async function initializeRoom(name) {
         console.error(error);
     });
     sessionStorage.setItem("room", name);
-    location.href= 'raceLobby.html';
+    //location.href= 'raceLobby.html';
 }

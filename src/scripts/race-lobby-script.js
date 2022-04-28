@@ -1,43 +1,35 @@
 import { auth, database } from './firebaseInit';
-import { ref, set, get, remove } from "firebase/database";
+import { ref, set, get, onValue, remove } from "firebase/database";
 import { onAuthStateChanged, d } from 'firebase/auth';
 let startButton = document.getElementById("start");
 let roomHeader = document.getElementById("room_header");
 let container = document.getElementById("container");
 let name = sessionStorage.getItem("room");
-let currentRoom;
 roomHeader.innerHTML = name;
 if (!sessionStorage.getItem("creator")) startButton.style.display = "none";
 startButton.addEventListener("click", () => startGame());
 
-setInterval(()=> updateRoom(), 1000);
+updateRoom();
+let currentRoom;
 
 function updateRoom() {
     let roomRef = ref(database, `rooms/${name}/players`);
-    get(roomRef).then((snapshot) => {
-        //can't find an easier way to compare Javascript objects
-        if (JSON.stringify(snapshot.val()) != JSON.stringify(currentRoom)) {
-            for (let player of Object.values(snapshot.val())) {
-                const p = document.createElement("p");
-                p.innerHTML = player.name;
-                document.getElementById("players_header").after(p); //insert after
-            }
+    onValue(roomRef, (snapshot) => {
+        let players = document.getElementById("players_list");
+        players.innerHTML = "";
+        for (let p of Object.values(snapshot.val())) {
+            const player = document.createElement("p");
+            player.innerHTML = p.name;
+            players.appendChild(player);
         }
         currentRoom = snapshot.val();
-    }).catch((error) => {
-        console.error(error);
-    })
+    });
 }
 
 function startGame() {
-    let size = currentRoom.size;
-    console.log(size);
+    let size = Object.keys(currentRoom).length;
     if (size < 2) {
         alert("Not enough users.");
-        return;
-    }
-    if (size > 4) {
-        alert("Too many users");
         return;
     }
     location.href= 'race.html';

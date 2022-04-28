@@ -59,4 +59,5 @@ button:hover {
     position: absolute;
     top:45%;
     left:50%;
+    display: none;
 }
