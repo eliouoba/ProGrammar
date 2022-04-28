@@ -82,7 +82,7 @@ function loadTextFromFile(){
     if(supportedFiles.includes(extension)){
         toType.textContent = reader.readAsText(selectedFile);
         reader.addEventListener("load", reader.f = function fn(){
-            setText(reader.result);    
+            setText(reader.result.replace(/\r/g, ''));    
             reader.removeEventListener("load", reader.f);
         }, false);
     }
