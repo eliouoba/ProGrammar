@@ -6,9 +6,10 @@ let roomHeader = document.getElementById("room_header");
 let container = document.getElementById("container");
 let name = sessionStorage.getItem("room");
 roomHeader.innerHTML = name;
-if (!sessionStorage.getItem("creator")) startButton.style.display = "none";
+if (sessionStorage.getItem("creator") == "false") 
+    document.getElementById("start").style.display = 'none';
+console.log(startButton.style.display);
 startButton.addEventListener("click", () => startGame());
-
 updateRoom();
 let currentRoom;
 

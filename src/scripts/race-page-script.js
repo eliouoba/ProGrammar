@@ -7,9 +7,12 @@ let box = document.getElementById("box");
 
 button.addEventListener("click", () => initializeRoom(box.value));
 
-onAuthStateChanged(auth, (user) => {
-    if (user) {
+let user;
+
+onAuthStateChanged(auth, (u) => {
+    if (u) {
         document.getElementById("login").style.display = "none";
+        user = u;
     } else {
         document.getElementById("play").style.display = "none";
         document.getElementById("login").style.display = "flex";
@@ -27,10 +30,14 @@ async function initializeRoom(name) {
     await get(roomRef).then((snapshot) => {
         let data = snapshot.val();
         if (data == null) {
-            sessionStorage.setItem("creator", true);
-        } else if (Object.keys(data).length >= 4) {
-            alert("Sorry. this room is full.");
-            return;
+            sessionStorage.setItem("creator", "true");
+        } else {
+            if (Object.keys(data).length >= 4
+            && !(data[user.uid].name == user.displayName)) {
+                alert("Sorry. This room is full.");
+                return;
+            }
+            sessionStorage.setItem("creator", "false");
         }
         let userRef = ref(database, `rooms/${name}/players/${auth.currentUser.uid}`);
         set(userRef, { name: auth.currentUser.displayName});
@@ -40,5 +47,5 @@ async function initializeRoom(name) {
         console.error(error);
     });
     sessionStorage.setItem("room", name);
-    //location.href= 'raceLobby.html';
+    location.href= 'raceLobby.html';
 }
