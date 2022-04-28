@@ -152,7 +152,7 @@ function updateUserStats(){
     if(auth.currentUser == null) return;
     let sts = typer.getStats();
     const user = auth.currentUser.uid;
-    const statsReference = ref(database, `users/${user}/stats`);
+    const statsReference = ref(database, `stats/users/${user}`);
     get(statsReference).then((snapshot) => {
         const stats = snapshot.val();
         //for calculating average
@@ -164,9 +164,9 @@ function updateUserStats(){
         newAccuracy = Number(newAccuracy.toFixed(2)); 
         let newWPM = ((stats.wpm * prevTotal) +sts[2])/newTotal; 
         newWPM = Math.round(newWPM);
-        set(ref(database, `users/${user}/stats/lessons`), newLessons);
-        set(ref(database, `users/${user}/stats/acc`), newAccuracy);
-        set(ref(database, `users/${user}/stats/wpm`), newWPM);
+        set(ref(database, `stats/users/${user}/lessons`), newLessons);
+        set(ref(database, `stats/users/${user}/acc`), newAccuracy);
+        set(ref(database, `stats/users/${user}/wpm`), newWPM);
     }).catch((error) => {
         console.error(error);
     });

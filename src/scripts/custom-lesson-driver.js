@@ -111,7 +111,7 @@ function saveLesson(){
     if(selectedFile == null) return
 
     const user = auth.currentUser.uid;
-    const lessonsReference = ref(database, `users/${user}/lessons`);
+    const lessonsReference = ref(database, `lessons/users/${user}`);
     get(lessonsReference).then((snapshot) => {
         let newLesson = typer.toTypeText;
         let name = promptName("Enter a name for your lesson.");
@@ -120,7 +120,7 @@ function saveLesson(){
             appendLessonList(name);
         else if(!confirm(`Lesson '${name}' already exists. Overwrite?`))
             return;
-        set(ref(database, `users/${user}/lessons/${name}`), newLesson);
+        set(ref(database, `lessons/users/${user}/${name}`), newLesson);
     }).catch((error) => {
         console.error(error);
     });

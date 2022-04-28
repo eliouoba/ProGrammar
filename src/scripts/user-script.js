@@ -31,13 +31,13 @@ function main() {
 
     function increase() {
         const user = auth.currentUser.uid;
-        const userStatsReference = ref(database, `users/${user}/stats`);
+        const userStatsReference = ref(database, `stats/users/${user}`);
         get(userStatsReference).then((snapshot) => {
             //userReference
             let pathName = ["lessons", "topics", "played", "won", "wpm", "acc"];
             pathName.forEach((path)=>{
-                let value = parseInt(snapshot.child(`${path}`).val());
-                set(ref(database, `users/${user}/stats/${path}`), value + 1);
+                let value = snapshot.child(`${path}`).val();
+                set(ref(database, `stats/users/${user}/${path}`), value + 1);
             });
 
             showStats();
@@ -45,12 +45,11 @@ function main() {
             console.error(error);
         });
     }
-
     
     //read from database and update html
     function showStats() {
         const user = auth.currentUser;
-        const statsReference = ref(database, `users/${user.uid}/stats`);
+        const statsReference = ref(database, `stats/users/${user.uid}`);
         get(statsReference).then((snapshot) => {
             if (snapshot.exists()) {
                 const stats = snapshot.val();

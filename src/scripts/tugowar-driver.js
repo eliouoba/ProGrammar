@@ -78,7 +78,6 @@ function setConfigDisabled(disable){
  * reset - reset to initial state
  */
 function reset() {
-    alert("Resetting!");
     resetButton.blur();
     window.clearInterval(interval);
     window.clearInterval(bot);
@@ -162,7 +161,7 @@ function updateUserStats(){
     if(auth.currentUser == null) return;
     let sts = typer.getStats();
     const user = auth.currentUser.uid;
-    const statsReference = ref(database, `users/${user}/stats`);
+    const statsReference = ref(database, `stats/users/${user}`);
     get(statsReference).then((snapshot) => {
         const stats = snapshot.val();
         //for calculating average
@@ -175,10 +174,10 @@ function updateUserStats(){
         let newWPM = ((stats.wpm * prevTotal) +sts[2])/newTotal; 
         newWPM = Math.round(newWPM);
         let newWins = stats.won + (typer.score.value==0? 1:0);
-        set(ref(database, `users/${user}/stats/played`), newPlayed);
-        set(ref(database, `users/${user}/stats/acc`), newAccuracy);
-        set(ref(database, `users/${user}/stats/wpm`), newWPM);
-        set(ref(database, `users/${user}/stats/won`), newWins);
+        set(ref(database, `stats/users/${user}/played`), newPlayed);
+        set(ref(database, `stats/users/${user}/acc`), newAccuracy);
+        set(ref(database, `stats/users/${user}/wpm`), newWPM);
+        set(ref(database, `stats/users/${user}/won`), newWins);
     }).catch((error) => {
         console.error(error);
     });

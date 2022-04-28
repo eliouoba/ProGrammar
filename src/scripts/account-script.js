@@ -224,7 +224,7 @@ function main() {
      * @param {*} uid User ID to initialize stats for
      */
     function initStats(uid){
-        set(ref(database, `users/${uid}/stats`), {
+        set(ref(database, `stats/users/${uid}`), {
             lessons: 0,
             topics: 0,
             played: 0,
@@ -251,6 +251,8 @@ function main() {
         else {
             let msg = 'Are you sure you want to delete your account? This action is permanent.'
             if (confirm(msg)) {
+                remove(ref(database, `stats/users/${user.uid}`));
+                remove(ref(database, `lessons/users/${user.uid}`));
                 remove(ref(database, `users/${user.uid}`));
                 deleteUser(user).then(() => {
                     alert("Your account has been deleted.");
