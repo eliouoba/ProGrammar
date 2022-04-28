@@ -1,28 +1,36 @@
 import { auth, database } from './firebaseInit';
-import { ref, set, remove } from "firebase/database";
-import Room from "./Room";
+import { ref, set, get, child } from "firebase/database";
+import { onAuthStateChanged } from 'firebase/auth';
 
-let createButton = document.getElementById("create_button");
-let joinButton = document.getElementById("join_button");
-let createBox = document.getElementById("create_box");
-let joinBox = document.getElementById("join_box");
+let button = document.getElementById("button");
+let box = document.getElementById("box");
 
-createButton.addEventListener("click", createRoom(createBox.value));
-joinButton.addEventListener("click", joinRoom(joinBox.value));
-createButton.addEventListener("click", () => {
-    location.href= 'raceLobby.html';
-    sessionStorage.setItem("creator", true);
-});
-joinButton.addEventListener("click", () => {
-    location.href= 'raceLobby.html';
-    sessionStorage.setItem("creator", false);
+button.addEventListener("click", () => initializeRoom(box.value));
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        document.getElementById("login").style.display = "none";
+    } else {
+        document.getElementById("play").style.display = "none";
+    }
 });
 
-function createRoom(name) {
-    let room = new Room(name);
-    
-}
 
-function joinRoom(name) {
-
+async function initializeRoom(name) {
+    if (name.length < 4) {
+        alert("Please enter a name of at least 4 characters")
+        return;
+    }
+    let roomRef = ref(database, `rooms/${name}/players`);
+    await get(roomRef).then((snapshot) => {
+        sessionStorage.setItem("creator", snapshot.val() == null);
+        let userRef = ref(database, `rooms/${name}/players/${auth.currentUser.uid}`);
+        set(userRef, { name: auth.currentUser.displayName});
+        let newRef = child(userRef, "liveStats");
+        set(newRef, { speed: 0, accuracy: 0 });
+    }).catch((error) => {
+        console.error(error);
+    });
+    sessionStorage.setItem("room", name);
+    location.href= 'raceLobby.html';
 }

@@ -36,4 +36,7 @@ switch(entryModule) {
     case 'race':
         require('./src/scripts/race.js');
         break;
+    case 'lobby':
+        require('./src/scripts/race-lobby-script.js');
+        break;
 }

@@ -138,18 +138,17 @@ function main() {
 
     /** Sign in with Google */
     function googleSignin() {
-        signInWithPopup(auth, google)
-            .then((result) => {
-                const newUser =
-                    getAdditionalUserInfo(result).isNewUser;
-                if (newUser)
-                    googleInitializeUser(result.user);
-                errorLabel.style.display = "none";
-                authStateLabel.innerHTML =
-                    `Welcome, ${result.user.displayName}`;
-            }).catch((error) => {
-                console.log(error.message);
-            });
+        signInWithPopup(auth, google).then((result) => {
+            const newUser =
+                getAdditionalUserInfo(result).isNewUser;
+            if (newUser)
+                googleInitializeUser(result.user);
+            errorLabel.style.display = "none";
+            authStateLabel.innerHTML =
+                `Welcome, ${result.user.displayName}`;
+        }).catch((error) => {
+            console.log(error.message);
+        });
     }
 
 
