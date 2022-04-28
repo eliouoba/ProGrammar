@@ -1,29 +1,26 @@
 //Josiah Hsu
 
-
 /* Initializing Firebase */
 import { ref, get, set} from "firebase/database";
 import Input from "./Input-Class.js";
 
 import { auth, database } from './firebaseInit';
 
+//footer navigation
+if(document.getElementById("footer"))
+    require("../scripts/footer-script.js");
+
 //quick element references
 const langSelect = document.getElementById("lang");
 const resetButton = document.getElementById("reset");
 const toType = document.getElementById("toType");
-const nextLessonButton = document.getElementById("nextLesson");
 const twitter = document.getElementById("twitter");
 
 langSelect.onchange=loadLesson;
 resetButton.onclick=init;
-nextLessonButton.onclick=getNextLesson;
 
 let interval, start, end; //timer
 let typer = new Input();
-
-const lessons = ["HelloWorld", "Integers", "BasicMath", "Strings", 
-"Concatenation", "IfStatements", "WhileLoops", "ForLoops", "PrintArray",
-"Bubble", "Selection", "Insertion", "Merge", "Quick", "Heap", "Linear", "Binary"];
 
 //determine lesson from url
 const urlParams = new URLSearchParams(window.location.search);
@@ -67,7 +64,6 @@ function loadLesson(){
             if (httpx.status == 200){
                 typer.toTypeText = httpx.responseText.replace(/    /g, "\t").replace(/\r/g, '');
                 resetButton.hidden = false;
-                nextLessonButton.hidden = true;
                 init();
             }
             else if (httpx.status == 404)
@@ -138,9 +134,8 @@ function endLesson() {
     typer.time = (end - start) / 1000;
     typer.updateWPM();
     typer.displayStats();
-    nextLessonButton.hidden = false;
     twitter.hidden = false;
-
+    
     let sts = typer.getStats();
     let tweet = "https://twitter.com/intent/tweet?text=";
     tweet += `I just completed the ${lessonFile} ${langs.get(langSelect.value)} lesson in ProGrammar!`;
@@ -150,8 +145,12 @@ function endLesson() {
     updateUserStats();
 }
 
+/**
+ * updateUserStats - calculates new stats for user and updates database accordingly
+ */
 function updateUserStats(){
     if(auth.currentUser == null) return;
+    let sts = typer.getStats();
     const user = auth.currentUser.uid;
     const statsReference = ref(database, `users/${user}/stats`);
     get(statsReference).then((snapshot) => {
@@ -171,20 +170,6 @@ function updateUserStats(){
     }).catch((error) => {
         console.error(error);
     });
-}
-
-function getNextLesson() {
-    let n = lessons.findIndex((element) => element == lessonFile) + 1;
-    if (n <= lessons.length)
-        selectLesson(lessons[n], extension);
-    else
-        alert("Sorry, that lesson doesn't exist yet...");
-}
-
-function selectLesson(lesson, lang) {
-    let url = window.location.href;
-    url = `lesson.html?lesson=${lesson}&lang=${lang}`;
-    window.location = url;
 }
 
 document.addEventListener("keydown", startLesson);

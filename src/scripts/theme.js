@@ -30,9 +30,6 @@ function import1() {
             //once all imports are complete, apply theme
             if(imports.length == 0){
                 chooseTheme(currentTheme, true);
-
-                //add signout functionality to navbar
-                require('../scripts/navbar-script.js'); 
             }
         });
 
@@ -69,51 +66,53 @@ function applyTheme(t, colorScheme) {
     const html = document.documentElement; //like document.body
     html.style.backgroundColor = theme.htmlBackground;
     html.style.color = theme.html;
-
-    const navbar = document.getElementById("nav_bar");
-    navbar.style.backgroundColor = theme.navbarBackground;
-    
-    const footer = document.getElementById("footer");
-    footer.style.backgroundColor = theme.footerBackground;   
-    
-    if (!theme.videoTheme) {
-        navbar.style.boxShadow="0px 5px 10px 2px rgba(0, 0, 0, 0.205)";
-        footer.style.boxShadow="0px -5px 10px 2px rgba(0, 0, 0, 0.205)";  
-    } else { 
-        navbar.style.removeProperty("box-shadow");
-        footer.style.removeProperty("box-shadow");
-    }
     
     // if (glowing) navbar.style.boxShadow = "0px -30px 70px 20px " + themes.get("dark").glow;
     //if (glowBoxExists) handleglowBox();
+    applyNavbar(theme);
+    applyFooter(theme);
 
-    //no idea why this is necessary 
+    applyPageSpecific("lesson-header", theme);    
+    applyPageSpecific("gaming-header", theme);
+    applyPageSpecific("tug-header", theme);
+    applyPageSpecific("race-header", theme);
+
+    //document.getElementById("nav_bar").style.boxShadow = "0px -30px 70px 20px " + theme.glow
+    theme.videoTheme? addVideo(theme) : removeExistingVideo();
+}
+
+function applyPageSpecific(id, theme){
+    const element = document.getElementById(id);
+    if(element != null) element.style.color = theme.html;
+}
+
+function applyNavbar(theme){
+    //add signout functionality to navbar
+    require('../scripts/navbar-script.js');
+    const navbar = document.getElementById("nav_bar");
+    navbar.style.backgroundColor = theme.navbarBackground;
+    if (!theme.videoTheme) {
+        navbar.style.boxShadow="0px 5px 10px 2px rgba(0, 0, 0, 0.205)";
+    } else { 
+        navbar.style.removeProperty("box-shadow");
+    }
     const navitems = document.getElementsByClassName("nav_menu");
     for (let i = 0; i < navitems.length; i++)
         navitems[i].style.color = theme.html;
+}
 
-    const lessonHeader = document.getElementById("lesson-header");
-    if (lessonHeader != null) {
-        lessonHeader.style.color = theme.html;
-    }
-    const gamingHeader = document.getElementById("gaming-header");
-    if (gamingHeader != null) {
-        gamingHeader.style.color = theme.html;
-    }
+function applyFooter(theme){
+    const footer = document.getElementById("footer");
+    if(footer == null) return;
 
-    const tugHeader = document.getElementById("tug-header");
-    if (tugHeader != null) {
-        tugHeader.style.color = theme.html;
+    footer.style.backgroundColor = theme.footerBackground;   
+    if (!theme.videoTheme) {
+        footer.style.boxShadow="0px -5px 10px 2px rgba(0, 0, 0, 0.205)";  
+    } else { 
+        footer.style.removeProperty("box-shadow");
     }
-    const raceHeader = document.getElementById("race-header");
-    if (raceHeader != null) {
-        raceHeader.style.color = theme.html;
-    }
-
     document.getElementById("next").style.color = theme.html;
     document.getElementById("last").style.color = theme.html;
-    //document.getElementById("nav_bar").style.boxShadow = "0px -30px 70px 20px " + theme.glow
-    theme.videoTheme? addVideo(theme) : removeExistingVideo();
 }
 
 function removeExistingVideo() {
