@@ -209,6 +209,8 @@ function main() {
     function initializeUser(user) {
         updateProfile(user, { displayName: usernameBox.value }).then( ()=>{
             set(ref(database, `users/${user.uid}/username`), user.displayName);
+        }).catch((error) => {
+            console.log(error.message);
         });
         set(ref(database, `users/${user.uid}/email`), user.email);
         initStats(user.uid);
