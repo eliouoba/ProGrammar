@@ -67,3 +67,24 @@ function main() {
         })
     }
 }
+
+let newBackground;
+switch (localStorage.getItem('themeTextColor')) {
+    case "navy":
+    case "black":
+        newBackground = "lightgray";
+        break;
+    case "red": 
+        newBackground = "black";
+        break;
+    default:    //most light colors
+        newBackground = "rgb(60,60,60)";
+}
+let panels = document.getElementsByClassName("stats");
+
+for (const panel of panels) {
+    panel.style.backgroundColor = newBackground;
+    if(localStorage.getItem('video theme')) 
+        panel.style.opacity = "90%";
+    else panel.style.opacity = "100%";
+}

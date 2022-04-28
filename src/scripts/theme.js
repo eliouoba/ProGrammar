@@ -50,7 +50,7 @@ function chooseTheme(newTheme, initialize) {
     let textColor;
     let check = themes.get(newTheme);
     if (check == undefined) //meaning this is a video theme
-        textColor = colorSchemes.get(currentTheme) ? "black" : "white";
+        textColor = colorSchemes.get(newTheme) ? "black" : "white";
     else textColor = themes.get(newTheme).html;
     localStorage.setItem('themeTextColor', textColor);
     currentTheme = newTheme;
@@ -59,7 +59,11 @@ function chooseTheme(newTheme, initialize) {
 
 function applyTheme(t, colorScheme) {
     let theme;
-    if (typeof colorScheme === 'undefined') theme = themes.get(t);
+    if (typeof colorScheme === 'undefined') {
+        localStorage.setItem('video theme', false);
+        theme = themes.get(t);
+    } else localStorage.setItem('video theme', true);
+
     if (colorScheme == false) theme = themes.get("darkVideo");
     if (colorScheme == true) theme = themes.get("lightVideo");
 
