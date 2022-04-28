@@ -25,12 +25,13 @@ async function initializeRoom(name) {
     let roomRef = ref(database, `rooms/${name}/players`);
     
     await get(roomRef).then((snapshot) => {
-        if (Object.keys(snapshot.val()).length >= 4) {
+        let data = snapshot.val();
+        if (data == null) {
+            sessionStorage.setItem("creator", true);
+        } else if (Object.keys(data).length >= 4) {
             alert("Sorry. this room is full.");
             return;
         }
-        console.log(snapshot.val().size());
-        sessionStorage.setItem("creator", snapshot.val() == null);
         let userRef = ref(database, `rooms/${name}/players/${auth.currentUser.uid}`);
         set(userRef, { name: auth.currentUser.displayName});
         let newRef = child(userRef, "liveStats");
