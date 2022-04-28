@@ -1,6 +1,5 @@
-import { onAuthStateChanged } from 'firebase/auth';
-import { ref, get, set } from "firebase/database";
-import { auth, database } from './firebaseInit';
+import { ref, get } from "firebase/database";
+import { database } from './firebaseInit';
 
 
 var tabs = document.querySelectorAll(".lboard_tabs ul li");
@@ -36,57 +35,94 @@ tabs.forEach(function(tab){
 	})
 })
 
-function main(){
-	const onewpm = document.getElementById("1wpm");
-	const twowpm = document.getElementById("2wpm");
-	const threewpm = document.getElementById("3wpm");
-	const fourwpm = document.getElementById("4wpm");
-	const fivewpm = document.getElementById("5wpm");
+let noUser = ["", 0, 0, 0]
+let userStats = [];
+for(let i = 0; i < 5; i++){
+	userStats.push(noUser);
+}
 
-	if(currenttab == "WPM"){
-		popAndSort()
+populateStats();
+
+/**
+ * populateStats - populates the stats array with collections containing 
+ * 					each users' wpm, accuracy, and # of wins
+ */
+function populateStats(){
+	const allUserStats = ref(database, 'stats/users');
+	get(allUserStats).then((snapshot) => {
+		let children = snapshot.size;
+		let count = 0;
+		snapshot.forEach((child) => {
+			let userRef = ref(database, `users/${child.key}`);
+			get(userRef).then((snapshot) =>{
+				let username = snapshot.child("username").val();
+				let wpm = child.child("wpm").val();
+				let acc = child.child("acc").val();
+				let won = child.child("won").val();
+				let lst = [username, wpm, acc, won];
+				userStats.push(lst);
+				
+				//check if all stats have been retrieved
+				count++;
+				if(count == children){
+					//wpm by default
+					initializeTab("wpm");
+					initializeTab("acc");
+					initializeTab("won");
+				}
+			});
+		})
+	});
+}
+
+/**
+ * initializeTab - sorts and records stats for the corresponding tab
+ * @param {*} category either wpm, acc, or won
+ */
+function initializeTab(category){
+	let index;
+	let suffix;
+	switch (category){
+		case "wpm": 
+			userStats.sort(compareWPM);
+			index = 1;
+			suffix = "WPM"
+			break;
+		case "acc": 
+			userStats.sort(compareAcc);
+			index = 2;
+			suffix = "%"
+			break;
+		case "won": 
+			userStats.sort(compareWon);
+			index = 3;
+			suffix = "wins"
+			break;
+	}
+
+	let name = document.getElementsByClassName(`user_${category}`);
+	let bar = document.getElementsByClassName(`${category}_inner_bar`);
+	let points = document.getElementsByClassName(`${category}_points`);
+	for(let i = 0; i < 5; i++){
+		name[i].textContent = `${i+1}. ${userStats[i][0]}`;
+	
+		const percent = (userStats[i][index]/userStats[0][index]) * 100;
+		bar[i].style.width = `${percent}%`;
+
+		points[i].textContent = `${userStats[i][index]} ${suffix}`;
 	}
 }
 
-function sort(a, users){
-	{
-        var n = a.length;
-        for (var i = 0; i < n - 1; i++)
-            for (var j = 0; j < n - i - 1; j++)
-                if (a[j] > a[j + 1]) {
-                    var temp = a[j]
-					var temp2 = users[j]
-                    a[j] = a[j + 1]
-					users[j] = users[j+1]
-                    a[j + 1] = temp
-					users[j+1] = temp2
-                }
-    }
+//specialized comparison functions to sort stats
+
+function compareWPM(a, b){
+	return b[1] - a[1];
 }
 
-//populate stat array, user array, sort parallel to each other, and display to tabs
-function popAndSort(){
-	const userRef = ref(database, 'users');
-	var i = 0;
-	var j = 0;
-	var users=[];
-	var wpm = [];
-	//for each user, add their uID to the user array
-	const allUserStats = ref(database, `stats/users`);
-	get(allUserStats).then((snapshot) => {
-		snapshot.forEach((child) => {
-			users[i] = child.child(`username`).val();
-			wpm[j] = parseInt(child.child(`wpm`).val());
-			i++;
-			j++;
-		})
-	})
-	sort(wpm, users);
+function compareAcc(a, b){
+	return b[2] - a[2];
+}
 
-	//display top 5
-	onewpm.innerHTML = wpm[0];
-	twowpm.innerHTML = wpm[1];
-	threewpm.innerHTML = wpm[2];
-	fourwpm.innerHTML = wpm[3];
-	fivewpm.innerHTML = wpm[4];
+function compareWon(a, b){
+	return b[3] - a[3];
 }
