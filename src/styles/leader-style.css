@@ -1,118 +1,113 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,700&display=swap");
 body {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    box-sizing: border-box;
-    font-family: "Montserrat", sans-serif;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
 }
 
 .wrapper {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .lboard_section {
-    width: 500px;
-    height: 400px;
-    margin: 100px auto 0;
-    background: lightgray;
-    padding: 25px 40px;
-    position: relative;
-    border-radius: 5px;
+  width: 600px;
+  height: 550px;
+  margin: 100px auto 0;
+  background: lightgray;
+  padding: 25px 40px;
+  position: relative;
+  border-radius: 5px;
 }
 
 .lboard_section .lboard_tabs ul {
-    display: flex;
+  display: flex;
+  margin-right: 40px;
 }
 
 .lboard_section .lboard_tabs ul li {
-    margin-right: 50px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #3a3d51;
-    cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  margin: auto;
+  color: #3a3d51;
+  list-style: none;
+  cursor: pointer;
 }
 
 .lboard_section .lboard_tabs ul li:hover,
 .lboard_section .lboard_tabs ul li.active {
-    color: #fff;
+  color: #fff;
 }
 
 .lboard_wrap {
-    position: absolute;
-    top: 70px;
-    left: 40px;
-    background: darkgray;
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
+  position: absolute;
+  top: 90px;
+  left: 40px;
+  background: darkgray;
+  width: 88%;
+  height: 80%;
+  border-radius: 5px;
 }
 
 .lboard_wrap .lboard_item {
-    padding: 25px;
+  padding: 25px;
 }
 
 .lboard_wrap .lboard_mem {
-    display: flex;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid black;
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid black;
 }
 
 .lboard_wrap .lboard_mem:first-child {
-    padding-top: 0;
+  padding-top: 0;
 }
 
 .lboard_wrap .lboard_mem:last-child {
-    padding-bottom: 0;
-    border-bottom: 0;
-}
-
-.lboard_wrap .lboard_mem .img {
-    width: 50px;
-}
-
-.lboard_wrap .lboard_mem img {
-    display: block;
-    width: 100%;
+  padding-bottom: 0;
+  border-bottom: 0;
 }
 
 .lboard_wrap .lboard_mem .name_bar {
-    margin: 0 20px;
-    width: calc(100% - 150px);
+  margin: 0 20px;
+  width: calc(100% - 150px);
 }
 
 .lboard_wrap .lboard_mem .name_bar p {
-    color: #3a3d51;
+  color: #3a3d51;
 }
 
 .lboard_wrap .lboard_mem .name_bar p span {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .lboard_wrap .lboard_mem .points {
-    width: 100px;
-    color: #3a3d51;
+  width: 100px;
+  color: #3a3d51;
 }
 
 .lboard_wrap .lboard_mem .name_bar .bar_wrap {
-    width: 100%;
-    height: 5px;
-    background: black;
-    margin-top: 5px;
-    border-radius: 5px;
-    position: relative;
-    overflow: hidden;
+  width: 100%;
+  height: 5px;
+  background: black;
+  margin-top: 5px;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
 }
 
-.wpm_inner_bar, .acc_inner_bar, .won_inner_bar{
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 5px;
-    background: #fff;
-    border-radius: 5px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+.wpm_inner_bar,
+.acc_inner_bar,
+.won_inner_bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background: #fff;
+  border-radius: 5px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
