@@ -48,7 +48,7 @@ const reader = new FileReader();
  */
 function initLessonList(){
     const user = auth.currentUser.uid;
-    const lessonsReference = ref(database, `users/${user}/lessons`);
+    const lessonsReference = ref(database, `lessons/users/${user}`);
     get(lessonsReference).then((snapshot) => {
         snapshot.forEach((child)=>{
             appendLessonList(child.key);
@@ -133,7 +133,7 @@ function saveLesson(){
 function loadTextFromDB(){
     const user = auth.currentUser.uid;
     const name = loadMenu.value;
-    const lessonsReference = ref(database, `users/${user}/lessons`);
+    const lessonsReference = ref(database, `lessons/users/${user}`);
     get(lessonsReference).then((snapshot) => {
         setText(snapshot.child(name).val());
     }).catch((error) => {
