@@ -106,7 +106,7 @@ body {
     overflow: hidden;
 }
 
-.lboard_wrap .lboard_mem .name_bar .bar_wrap .inner_bar {
+.wpm_inner_bar, .acc_inner_bar, .won_inner_bar{
     position: absolute;
     top: 0;
     left: 0;
