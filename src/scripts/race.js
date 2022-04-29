@@ -22,6 +22,8 @@ onAuthStateChanged(auth, (u) => {
     set(state, "racing");
 });  
 
+let roomName = sessionStorage.getItem('room');
+
 loadLesson();
 
 /**
@@ -30,8 +32,6 @@ loadLesson();
  */
 function loadLesson(){
     const httpx = new XMLHttpRequest();
-
-    let roomName = sessionStorage.getItem('room');
     let fileRef = ref(database, `rooms/${roomName}/gameFile`);
 
     get(fileRef).then((snapshot) => {
@@ -58,6 +58,25 @@ function init() {
     document.removeEventListener("keydown", type);
     document.addEventListener("keydown", startLesson);
     typer.init();
+    let fileRef = ref(database, `rooms/${roomName}/players`);
+    get(fileRef).then((snapshot) => {
+        let tracks = document.getElementsByClassName("track");
+        let i = 0;
+        snapshot.forEach((child) => {
+            if(child != null){
+                document.getElementById(`p${i+1}`).innerHTML = child.child("name").val();
+                tracks[i].id = child.key;
+                i++;
+            }
+        });
+        let roomRef = ref(database, `rooms/${roomName}/players`);
+        onValue(roomRef, async (snapshot) => {
+            snapshot.forEach((child)=>{
+                if(child != null)
+                    document.getElementById(child.key).value = child.child("progress").val();
+            });
+        });
+    });
 }
 
 /**
@@ -78,7 +97,7 @@ function startLesson(keydownEvent) {
         document.removeEventListener("keydown", startLesson);
         document.addEventListener("keydown", type);
         start = Date.now();
-        interval = window.setInterval(timer, 1000);
+        interval = window.setInterval(timer, 500);
         typer.input(keydownEvent.key);
     }
     endLesson();
@@ -93,6 +112,12 @@ function type(keydownEvent) {
     if(key == "Tab" || key == " ")
         keydownEvent.preventDefault();
     typer.input(keydownEvent.key);
+    let progress = (typer.typed.length / typer.toTypeText.length) * 100;
+    progress = parseInt(progress);
+
+    let userRef = ref(database, `rooms/${roomName}/players/${auth.currentUser.uid}/progress`)
+    set(userRef, progress);
+    
     if(typer.checkEnd())
         endLesson();
 }
@@ -108,9 +133,13 @@ function endLesson() {
     typer.updateWPM();
     typer.displayStats();
 
+    let state = ref(database, `rooms/${name}/players/${user.uid}/state`);
     set(state, "complete");
-    addResults();
-    //updateUserStats();
+    updateUserStats();
+    //addResults();
+    //score based on WPM
+    let score = ref(database, `rooms/${roomName}/players/${user.uid}/score`);
+    set(score, typer.getStats()[2])
     document.getElementById("stats").style.color="red";
     let time = 3;
     setInterval(function() {
@@ -124,7 +153,7 @@ function endLesson() {
 /**
  * updateUserStats - calculates new stats for user and updates database accordingly
  */
-function updateUserStats(){
+function updateUserStats(win){
     if(auth.currentUser == null) return;
     let sts = typer.getStats();
     const user = auth.currentUser.uid;
