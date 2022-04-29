@@ -20,7 +20,6 @@ onAuthStateChanged(auth, (u) => {
     }
 });
 
-
 async function initializeRoom(name) {
     if (name.length < 4) {
         alert("Please enter a name of at least 4 characters")
@@ -52,7 +51,7 @@ async function initializeRoom(name) {
         console.error(error);
     });
     sessionStorage.setItem("room", name);
-    location.href= 'raceLobby.html';
+    window.location= 'raceLobby.html';
 }
 
 /** Deletes rooms more than an hour old. Important in case users never

@@ -1,1 +1,11 @@
 @import "page-style.css";
+@import "page-style.css";
+@import "typing-style.css";
+input[type=range] {
+    width: 100%;
+}
+
+#racetrack {
+    margin-left: 15%;
+    margin-right: 15%;
+}
