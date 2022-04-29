@@ -136,7 +136,9 @@ function endLesson() {
     let state = ref(database, `rooms/${name}/players/${user.uid}/state`);
     set(state, "complete");
     updateUserStats();
+    
     //addResults();
+
     //score based on WPM
     let score = ref(database, `rooms/${roomName}/players/${user.uid}/score`);
     set(score, typer.getStats()[2])
