@@ -63,7 +63,6 @@ async function initializeRoom(name) {
     let rooms = ref(database, `rooms`);
     get(rooms).then((snapshot) => {
         let data = snapshot.val();
-        console.log(data);
         if (data == null) return;
         for (let [roomName, room] of Object.entries(data)) {
             if (((Date.now()) - room.date) > ONE_HOUR)

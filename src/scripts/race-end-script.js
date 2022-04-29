@@ -1,83 +1,42 @@
 import { auth, database } from './firebaseInit';
 import { ref, set, get, onValue, remove } from "firebase/database";
-import { onAuthStateChanged, d } from 'firebase/auth';
-import {lessons, getExtOpts} from './lessonsRef';
+import { onAuthStateChanged, } from 'firebase/auth';
 
 let backButton = document.getElementById("back");
 let roomHeader = document.getElementById("room_header");
 let container = document.getElementById("container");
-let name = sessionStorage.getItem("room");
-roomHeader.innerHTML = name;
+let currentRoom = sessionStorage.getItem("room");
+roomHeader.innerHTML = currentRoom;
 
 backButton.addEventListener("click", () => window.location= 'gaming.html');
-updateRoom();
-let currentRoom;
+updateResults();
 let user;
 
-function updateRoom() {
-    onAuthStateChanged(auth, (u) => {
-        if (u) {
-            user = u;
-            let roomRef = ref(database, `rooms/${name}/players`);
-            onValue(roomRef, async (snapshot) => {
-                let players = document.getElementById("players_list");
-                players.innerHTML = "";
-                for (let p of Object.values(snapshot.val())) {
-                    const player = document.createElement("p");
-                    player.innerHTML = p.name;
-                    players.appendChild(player);
-                }
-                currentRoom = snapshot.val();
-
-                if (currentRoom[user.uid].state == "racing")
-                    location.href= 'race.html';
-            });
-        }
-    });  
+async function updateResults() {
+    await onAuthStateChanged(auth, (u) => { if (u) user = u; });  
+    
+    let resultsRef = ref(database, `rooms/${currentRoom}/results`)
+    let roomRef = ref(database, `rooms/${currentRoom}/players`);
+    
+    //show the standings
+    onValue(resultsRef, async (snapshot) => {   
+        console.log("called");
+        get(resultsRef).then((snapshot) => {
+            let players = document.getElementById("players_list");
+            players.innerHTML = "";
+            for (let [place, p] of Object.entries(snapshot.val())) {
+                const player = document.createElement("p");
+                let n = parseInt(place) + parseInt(1);
+                let t = n + " place: " + p;
+                player.innerHTML = t;
+                players.appendChild(player);
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    });      
 }
 
-function setRace(){
-    let len = lessons.length;
-    const index = Math.floor(Math.random() * len);
-    let ext = chooseExt(getExtOpts(index));
-    let filePath = `${lessons[index]}.${ext}`;
-    let fileRef = ref(database, `rooms/${name}/gameFile`);
-    set(fileRef, filePath);
-}
-
-function chooseExt(opts){
-    let extOpts = opts.split("");
-    const index = Math.floor(Math.random() * extOpts.length);
-    return optToExt(extOpts[index]);
-}
-
-function optToExt(opt){
-    switch(opt){
-        case 'j': return 'java';
-        case 'p': return 'py';
-        case 'c': return 'c';
-        case 'h': return 'html';
-        case 's': return 'js';
-    }
-}
-
-console.log(setRace());
-
-function startGame(user) {
-    let size = Object.keys(currentRoom).length;
-    if (size < 2) {
-        alert("Not enough users.");
-        return;
-    }
-    let roomRef = ref(database, `rooms/${name}/players`);
-
-    get(roomRef).then((snapshot) => {
-        for (let player of Object.keys(snapshot.val())) {
-            let state = ref(database, `rooms/${name}/players/${player}/state`);
-            set(state, "racing");
-        }
-    });
-}
 
 //a race condition with theme.js setting local storage 
     //after this accesses it

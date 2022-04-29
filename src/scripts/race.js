@@ -1,7 +1,7 @@
 //Josiah Hsu
 
 /* Initializing Firebase */
-import { ref, get, set } from "firebase/database";
+import { ref, get, set, onValue } from "firebase/database";
 import Input from "./Input-Class.js";
 
 import { auth, database } from './firebaseInit';
@@ -13,9 +13,14 @@ const toType = document.getElementById("toType");
 let interval, start, end; //timer
 let typer = new Input();
 let name = sessionStorage.getItem("room");
+let state;
 let user;
 
-onAuthStateChanged(auth, (u) => { if (u) user = u; });  
+onAuthStateChanged(auth, (u) => { 
+    if (u) user = u; 
+    state = ref(database, `rooms/${name}/players/${user.uid}/state`);
+    set(state, "racing");
+});  
 
 loadLesson();
 
@@ -76,7 +81,7 @@ function startLesson(keydownEvent) {
         interval = window.setInterval(timer, 1000);
         typer.input(keydownEvent.key);
     }
-    //endLesson();
+    endLesson();
 }
 
 /**
@@ -103,10 +108,9 @@ function endLesson() {
     typer.updateWPM();
     typer.displayStats();
 
-    let state = ref(database, `rooms/${name}/players/${user.uid}/state`);
-        set(state, "complete");
-
-    updateUserStats();
+    set(state, "complete");
+    addResults();
+    //updateUserStats();
     document.getElementById("stats").style.color="red";
     let time = 3;
     setInterval(function() {
@@ -141,6 +145,29 @@ function updateUserStats(){
         set(ref(database, `stats/users/${user}/wpm`), newWPM);
     }).catch((error) => {
         console.error(error);
+    });
+}
+
+/** add this player to the results */
+function addResults() {
+    let resultsRef = ref(database, `rooms/${name}/results`)
+    let roomRef = ref(database, `rooms/${name}/players`);
+    onValue(roomRef, async (snapshot) => {   
+        get(resultsRef).then((snapshot) => {
+            let results;
+            if (snapshot.exists()) {
+                results = snapshot.val();
+            } else {
+                results = [];
+            }
+            console.log(results);
+            if (!(results.includes(user.displayName)))
+                results.push(user.displayName);
+                console.log(results);
+            set(resultsRef, results);
+        }).catch((error) => {
+            console.error(error);
+        });
     });
 }
 
