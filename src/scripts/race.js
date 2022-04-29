@@ -136,8 +136,6 @@ function endLesson() {
     let state = ref(database, `rooms/${name}/players/${user.uid}/state`);
     set(state, "complete");
     updateUserStats();
-    
-    //addResults();
 
     //score based on WPM
     let score = ref(database, `rooms/${roomName}/players/${user.uid}/score`);
@@ -176,29 +174,6 @@ function updateUserStats(win){
         set(ref(database, `stats/users/${user}/wpm`), newWPM);
     }).catch((error) => {
         console.error(error);
-    });
-}
-
-/** add this player to the results */
-function addResults() {
-    let resultsRef = ref(database, `rooms/${name}/results`)
-    let roomRef = ref(database, `rooms/${name}/players`);
-    onValue(roomRef, async (snapshot) => {   
-        get(resultsRef).then((snapshot) => {
-            let results;
-            if (snapshot.exists()) {
-                results = snapshot.val();
-            } else {
-                results = [];
-            }
-            console.log(results);
-            if (!(results.includes(user.displayName)))
-                results.push(user.displayName);
-                console.log(results);
-            set(resultsRef, results);
-        }).catch((error) => {
-            console.error(error);
-        });
     });
 }
 

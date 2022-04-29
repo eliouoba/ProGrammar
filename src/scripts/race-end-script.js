@@ -12,34 +12,6 @@ backButton.addEventListener("click", () => window.location= 'gaming.html');
 updateRoom();
 let user;
 
-//updateResults();
-//let user;
-
-async function updateResults() {
-    await onAuthStateChanged(auth, (u) => { if (u) user = u; });  
-    
-    let resultsRef = ref(database, `rooms/${currentRoom}/results`)
-    let roomRef = ref(database, `rooms/${currentRoom}/players`);
-    
-    //show the standings
-    onValue(resultsRef, async (snapshot) => {   
-        console.log("called");
-        get(resultsRef).then((snapshot) => {
-            let players = document.getElementById("players_list");
-            players.innerHTML = "";
-            for (let [place, p] of Object.entries(snapshot.val())) {
-                const player = document.createElement("p");
-                let n = parseInt(place) + parseInt(1);
-                let t = n + " place: " + p;
-                player.innerHTML = t;
-                players.appendChild(player);
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
-    });      
-}
-
 function updateRoom() {
     onAuthStateChanged(auth, (u) => {
         if (u) {
