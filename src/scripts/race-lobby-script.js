@@ -33,8 +33,15 @@ function updateRoom() {
                 }
                 currentRoom = snapshot.val();
 
-                if (currentRoom[user.uid].state == "racing")
-                    location.href= 'race.html';
+                if (currentRoom[user.uid].state == "racing"){
+                    let time = 5
+                    setInterval(function() {
+                        if (time < 0) return;
+                        document.getElementById("players_header").innerHTML = `Starting in ${time}...`;
+                        time--;
+                    }, 1000);
+                    setTimeout(() => location.href= 'race.html', 6000);
+                }
             });
         }
     });  

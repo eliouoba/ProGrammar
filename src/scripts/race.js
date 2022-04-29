@@ -55,10 +55,9 @@ function loadLesson(){
  */
 function init() {
     window.clearInterval(interval);
-    document.removeEventListener("keydown", type);
-    document.addEventListener("keydown", startLesson);
     typer.init();
     let fileRef = ref(database, `rooms/${roomName}/players`);
+    startLesson()
     get(fileRef).then((snapshot) => {
         let tracks = document.getElementsByClassName("track");
         let i = 0;
@@ -66,6 +65,7 @@ function init() {
             if(child != null){
                 document.getElementById(`p${i+1}`).innerHTML = child.child("name").val();
                 tracks[i].id = child.key;
+                tracks[i].hidden = false;
                 i++;
             }
         });
@@ -92,14 +92,10 @@ function timer() {
  * startLesson - special event for first input
  * @param {*} keydownEvent the first key entered
  */
-function startLesson(keydownEvent) {
-    if (keydownEvent.key.length == 1) {
-        document.removeEventListener("keydown", startLesson);
-        document.addEventListener("keydown", type);
-        start = Date.now();
-        interval = window.setInterval(timer, 500);
-        typer.input(keydownEvent.key);
-    }
+function startLesson() {
+    document.addEventListener("keydown", type);
+    start = Date.now();
+    interval = window.setInterval(timer, 500);
 }
 
 /**
@@ -152,11 +148,12 @@ function endLesson() {
 /**
  * updateUserStats - calculates new stats for user and updates database accordingly
  */
-function updateUserStats(win){
+function updateUserStats(){
     if(auth.currentUser == null) return;
     let sts = typer.getStats();
     const user = auth.currentUser.uid;
     const statsReference = ref(database, `stats/users/${user}`);
+
     get(statsReference).then((snapshot) => {
         const stats = snapshot.val();
         //for calculating average
@@ -175,5 +172,3 @@ function updateUserStats(win){
         console.error(error);
     });
 }
-
-document.addEventListener("keydown", startLesson);
