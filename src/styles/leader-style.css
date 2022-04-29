@@ -5,6 +5,7 @@ body {
   list-style: none;
   box-sizing: border-box;
   font-family: "Montserrat", sans-serif;
+  color:black;
 }
 
 .wrapper {
@@ -20,6 +21,7 @@ body {
   padding: 25px 40px;
   position: relative;
   border-radius: 5px;
+  margin-bottom: 150px;
 }
 
 .lboard_section .lboard_tabs ul {
