@@ -38,7 +38,10 @@ function main() {
     const back = document.getElementById("back");
 
     //Change account panel color
-    setTimeout(() => {
+
+    //a race condition with theme.js setting local storage 
+        //after this accesses it
+    setTimeout(() => {  
         switch (localStorage.getItem('themeTextColor')) {
             case "navy":
                 container.style.backgroundColor = "lightgray";
@@ -57,10 +60,6 @@ function main() {
                 container.style.boxShadow = "0px 1px 3px black";
         }
     }, 50);
-    if (localStorage.getItem('themeTextColor') == "white")
-        container.style.backgroundColor = "rgb(60,60,60)";
-    if (localStorage.getItem('themeTextColor') == "blue")
-        container.style.backgroundColor = "lightgray";
 
     loginButton.addEventListener("click", loginEmailPassword);
     signupButton.addEventListener("click", signupConfiguration);
@@ -246,8 +245,6 @@ function main() {
         await signOut(auth);
         authStateLabel.innerHTML = "Logged out!";
         setTimeout(window.location.reload(), 1500);
-        //await new Promise(resolve => setTimeout(resolve, 1500));
-        //window.location.reload();
     }
 
     /** Delete account and clear info from database. */

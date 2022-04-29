@@ -39,7 +39,6 @@ function main() {
                 let value = snapshot.child(`${path}`).val();
                 set(ref(database, `stats/users/${user}/${path}`), value + 1);
             });
-
             showStats();
         }).catch((error) => {
             console.error(error);
