@@ -1,7 +1,7 @@
-//Josiah HsuS
+//Josiah Hsu
 
 /* Initializing Firebase */
-import { ref, get, set } from "firebase/database";
+import { ref, get, set, onValue } from "firebase/database";
 import Input from "./Input-Class.js";
 
 import { auth, database } from './firebaseInit';
@@ -12,6 +12,8 @@ const toType = document.getElementById("toType");
 let interval, start, end; //timer
 let typer = new Input();
 
+let roomName = sessionStorage.getItem('room');
+
 loadLesson();
 
 /**
@@ -20,8 +22,6 @@ loadLesson();
  */
 function loadLesson(){
     const httpx = new XMLHttpRequest();
-
-    let roomName = sessionStorage.getItem('room');
     let fileRef = ref(database, `rooms/${roomName}/gameFile`);
 
     get(fileRef).then((snapshot) => {
@@ -48,6 +48,25 @@ function init() {
     document.removeEventListener("keydown", type);
     document.addEventListener("keydown", startLesson);
     typer.init();
+    let fileRef = ref(database, `rooms/${roomName}/players`);
+    get(fileRef).then((snapshot) => {
+        let tracks = document.getElementsByClassName("track");
+        let i = 0;
+        snapshot.forEach((child) => {
+            if(child != null){
+                document.getElementById(`p${i+1}`).innerHTML = child.child("name").val();
+                tracks[i].id = child.key;
+                i++;
+            }
+        });
+        let roomRef = ref(database, `rooms/${roomName}/players`);
+        onValue(roomRef, async (snapshot) => {
+            snapshot.forEach((child)=>{
+                if(child != null)
+                    document.getElementById(child.key).value = child.child("progress").val();
+            });
+        });
+    });
 }
 
 /**
@@ -82,6 +101,12 @@ function type(keydownEvent) {
     if(key == "Tab" || key == " ")
         keydownEvent.preventDefault();
     typer.input(keydownEvent.key);
+    let progress = (typer.typed.length / typer.toTypeText.length) * 100;
+    progress = parseInt(progress);
+
+    let userRef = ref(database, `rooms/${roomName}/players/${auth.currentUser.uid}/progress`)
+    set(userRef, progress);
+    
     if(typer.checkEnd())
         endLesson();
 }
@@ -97,13 +122,28 @@ function endLesson() {
     typer.updateWPM();
     typer.displayStats();
 
-    updateUserStats();
+    let userRef = ref(database, `rooms/${roomName}/players`);
+    get(userRef).then((snapshot)=>{
+        let won = true;
+        snapshot.forEach((child) =>{
+            if(child.child("state").val() == "completed"){
+                won = false;
+            }
+            if(child.key == auth.currentUser.uid){
+                set(ref(database, `rooms/${roomName}/players/${auth.currentUser.uid}/state`), "completed");
+            }
+        })
+        if(won){
+            alert("You win!")    
+        }
+        updateUserStats(won);
+    })
 }
 
 /**
  * updateUserStats - calculates new stats for user and updates database accordingly
  */
-function updateUserStats(){
+function updateUserStats(win){
     if(auth.currentUser == null) return;
     let sts = typer.getStats();
     const user = auth.currentUser.uid;
@@ -119,9 +159,11 @@ function updateUserStats(){
         newAccuracy = Number(newAccuracy.toFixed(2)); 
         let newWPM = ((stats.wpm * prevTotal) +sts[2])/newTotal; 
         newWPM = Math.round(newWPM);
+        let newWon = stats.won + win? 1 : 0;
         set(ref(database, `stats/users/${user}/played`), newPlayed);
         set(ref(database, `stats/users/${user}/acc`), newAccuracy);
         set(ref(database, `stats/users/${user}/wpm`), newWPM);
+        set(ref(database, `stats/users/${user}/won`), newWon);
     }).catch((error) => {
         console.error(error);
     });

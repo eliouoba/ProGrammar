@@ -6,6 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <title>Play!</title>
     <script src="../../dist/bundle.js" webpack-entry = "race" defer></script>
+    <script>console.log()</script>
     <link rel="stylesheet" href="../styles/race-style.css">
 </head>
 
@@ -14,21 +15,21 @@
     <div>
         <div id="racetrack">
             <span id ='p1'>Player 1</span>
-            <input type="range" id="track1" min="0" max="100" value="0" id="track" disabled="true"></input>
+            <input type="range" class="track" min="0" max="100" value="0" id="track" disabled="true"></input>
             <span id = 'p2'>Player 2</span>      
-            <input type="range" id="track2" min="0" max="100" value="0" id="track" disabled="true"></input> 
+            <input type="range" class="track" min="0" max="100" value="0" id="track" disabled="true"></input> 
             <span id = 'p3'>Player 3</span>       
-            <input type="range" id="track3" min="0" max="100" value="0" id="track" disabled="true"></input> 
+            <input type="range" class="track" min="0" max="100" value="0" id="track" disabled="true"></input> 
             <span id = 'p4'>Player 4</span>       
-            <input type="range" id="track4" min="0" max="100" value="0" id="track" disabled="true"></input>          
+            <input type="range" class="track" min="0" max="100" value="0" id="track" disabled="true"></input>          
         </div>
     </div>
 
     <div class=type_box id="toTypeBox">
-        <pre id="toType">will need to load lesson...</pre>
+        <pre id="toType"></pre>
     </div>
 
     <div id="statBar">
-        <span id="stats">statbar here...</span>
+        <span id="stats"></span>
     </div>
 </body>

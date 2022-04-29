@@ -42,9 +42,7 @@ async function initializeRoom(name) {
         if (sessionStorage.getItem("creator") == "true")
             set(ref(database, `rooms/${name}`), { date: `${Date.now()}`});
         let userRef = ref(database, `rooms/${name}/players/${auth.currentUser.uid}`);
-        set(userRef, { name: auth.currentUser.displayName});
-        let stats = child(userRef, "liveStats");
-        set(stats, { speed: 0, accuracy: 0 });
+        set(userRef, { name: auth.currentUser.displayName, progress: 0});
         let state = child(userRef, "state");
         set(state, "lobby"); 
     }).catch((error) => {

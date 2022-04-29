@@ -11,9 +11,12 @@ roomHeader.innerHTML = name;
 if (sessionStorage.getItem("creator") == "false") 
     document.getElementById("start").style.display = 'none';
 startButton.addEventListener("click", () => startGame(user));
-updateRoom();
 let currentRoom;
 let user;
+
+
+updateRoom();
+setRace();
 
 function updateRoom() {
     onAuthStateChanged(auth, (u) => {
@@ -61,8 +64,6 @@ function optToExt(opt){
         case 's': return 'js';
     }
 }
-
-console.log(setRace());
 
 function startGame(user) {
     let size = Object.keys(currentRoom).length;
