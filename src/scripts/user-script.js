@@ -22,28 +22,8 @@ function main() {
         } else {
             const statsPanel = document.getElementById("stats-panel");
             statsPanel.innerHTML = `Log in to view stats`;
-            incrementButton.style.display = "none";
         }
     });
-
-    const incrementButton = document.getElementById("increment");
-    incrementButton.addEventListener("click", increase);
-
-    function increase() {
-        const user = auth.currentUser.uid;
-        const userStatsReference = ref(database, `stats/users/${user}`);
-        get(userStatsReference).then((snapshot) => {
-            //userReference
-            let pathName = ["lessons", "topics", "played", "won", "wpm", "acc"];
-            pathName.forEach((path)=>{
-                let value = snapshot.child(`${path}`).val();
-                set(ref(database, `stats/users/${user}/${path}`), value + 1);
-            });
-            showStats();
-        }).catch((error) => {
-            console.error(error);
-        });
-    }
     
     //read from database and update html
     function showStats() {
