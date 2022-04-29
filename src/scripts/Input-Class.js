@@ -11,7 +11,7 @@ export default class Input{
         this.toTypeText; this.typed; this.currentline; //input
         this.time; this.errors; this.netwpm; this.accuracy; //stats
         this.entries; this.totalErrors; //accuracy
-        this.lineHeight = window.getComputedStyle(this.toTypeBox).lineHeight.replace("px", '');
+        this.lineHeight = 24;
     }
 
     /**
