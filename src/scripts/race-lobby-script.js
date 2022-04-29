@@ -46,7 +46,6 @@ function startGame(user) {
         for (let player of Object.keys(snapshot.val())) {
             let state = ref(database, `rooms/${name}/players/${player}/state`);
             set(state, "racing");
-            console.log
         }
     });
 }
