@@ -28,7 +28,7 @@ const lessonFile = urlParams.get("lesson");
 const extension = urlParams.get("lang");
 
 //checks which languages are available for this lesson
-const options = ['j', 'p', 'c', 'h', 's', 'q'];
+const options = ['j', 'p', 'c', 'h', 's', 'q', 'u'];
 for(let i = options.length-1; i >= 0; i--){
     if(!extension.includes(options[i]))
         langSelect.options[i].remove();
@@ -54,6 +54,7 @@ langs.set('c', 'C');
 langs.set('html', 'HTML');
 langs.set('js', 'JavaScript');
 langs.set('sql', 'SQL');
+langs.set('cpp', 'C++');
 
 /**
  * loadLesson - loads a lesson based on the URL parameter
