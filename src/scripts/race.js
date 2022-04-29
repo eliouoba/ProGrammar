@@ -128,30 +128,20 @@ function endLesson() {
     typer.updateWPM();
     typer.displayStats();
 
-    let userRef = ref(database, `rooms/${roomName}/players`);
-    get(userRef).then((snapshot)=>{
-        let won = true;
-        snapshot.forEach((child) =>{
-            if(child.child("state").val() == "completed"){
-                won = false;
-            }
-        })
-        
-        let state = ref(database, `rooms/${name}/players/${user.uid}/state`);
-        set(state, "complete");
-        if(won){
-            alert("You win!")    
-        }
-        updateUserStats(won);
-        document.getElementById("stats").style.color="red";
-        let time = 3;
-        setInterval(function() {
-            if (time < 0) return;
-            document.getElementById("count").innerHTML = `${time}...`;
-            time--;
-        }, 1000);
-        setTimeout(() => location.href= 'raceEnd.html', 4000);
-    })
+    let state = ref(database, `rooms/${name}/players/${user.uid}/state`);
+    set(state, "complete");
+    updateUserStats();
+    //score based on WPM
+    let score = ref(database, `rooms/${roomName}/players/${user.uid}/score`);
+    set(score, typer.getStats()[2])
+    document.getElementById("stats").style.color="red";
+    let time = 3;
+    setInterval(function() {
+        if (time < 0) return;
+        document.getElementById("count").innerHTML = `${time}...`;
+        time--;
+    }, 1000);
+    setTimeout(() => location.href= 'raceEnd.html', 4000);
 }
 
 /**
@@ -173,11 +163,9 @@ function updateUserStats(win){
         newAccuracy = Number(newAccuracy.toFixed(2)); 
         let newWPM = ((stats.wpm * prevTotal) +sts[2])/newTotal; 
         newWPM = Math.round(newWPM);
-        let newWon = stats.won + win? 1 : 0;
         set(ref(database, `stats/users/${user}/played`), newPlayed);
         set(ref(database, `stats/users/${user}/acc`), newAccuracy);
         set(ref(database, `stats/users/${user}/wpm`), newWPM);
-        set(ref(database, `stats/users/${user}/won`), newWon);
     }).catch((error) => {
         console.error(error);
     });

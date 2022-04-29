@@ -1,7 +1,6 @@
 import { auth, database } from './firebaseInit';
-import { ref, set, get, onValue, remove } from "firebase/database";
-import { onAuthStateChanged, d } from 'firebase/auth';
-import {lessons, getExtOpts} from './lessonsRef';
+import { ref, set, get, onValue } from "firebase/database";
+import { onAuthStateChanged } from 'firebase/auth';
 
 let backButton = document.getElementById("back");
 let roomHeader = document.getElementById("room_header");
@@ -11,71 +10,56 @@ roomHeader.innerHTML = name;
 
 backButton.addEventListener("click", () => window.location= 'gaming.html');
 updateRoom();
-let currentRoom;
 let user;
 
 function updateRoom() {
     onAuthStateChanged(auth, (u) => {
         if (u) {
             user = u;
-            let roomRef = ref(database, `rooms/${name}/players`);
-            onValue(roomRef, async (snapshot) => {
-                let players = document.getElementById("players_list");
-                players.innerHTML = "";
-                for (let p of Object.values(snapshot.val())) {
-                    const player = document.createElement("p");
-                    player.innerHTML = p.name;
-                    players.appendChild(player);
-                }
-                currentRoom = snapshot.val();
 
-                if (currentRoom[user.uid].state == "racing")
-                    location.href= 'race.html';
+            let players = document.getElementById("players_list");
+            let roomRef = ref(database, `rooms/${name}/players`);
+            players.innerHTML = "";
+            get(roomRef).then((snapshot) => {
+                let size = snapshot.size;
+                snapshot.forEach((child) => {
+                    let userRef = ref(database, `rooms/${name}/players/${child.key}/score`);
+                    onValue(userRef, async (snapshot) => {
+                        if(snapshot.exists()){
+                            const player = document.createElement("p");
+                            player.innerHTML = `${child.child("name").val()}: ${snapshot.val()}`;
+                            players.appendChild(player);
+
+                            if(players.childElementCount == size)
+                                awardWinner();
+                        }
+                    });
+                })
             });
         }
     });  
 }
 
-function setRace(){
-    let len = lessons.length;
-    const index = Math.floor(Math.random() * len);
-    let ext = chooseExt(getExtOpts(index));
-    let filePath = `${lessons[index]}.${ext}`;
-    let fileRef = ref(database, `rooms/${name}/gameFile`);
-    set(fileRef, filePath);
-}
-
-function chooseExt(opts){
-    let extOpts = opts.split("");
-    const index = Math.floor(Math.random() * extOpts.length);
-    return optToExt(extOpts[index]);
-}
-
-function optToExt(opt){
-    switch(opt){
-        case 'j': return 'java';
-        case 'p': return 'py';
-        case 'c': return 'c';
-        case 'h': return 'html';
-        case 's': return 'js';
-    }
-}
-
-console.log(setRace());
-
-function startGame(user) {
-    let size = Object.keys(currentRoom).length;
-    if (size < 2) {
-        alert("Not enough users.");
-        return;
-    }
+function awardWinner(){
     let roomRef = ref(database, `rooms/${name}/players`);
-
     get(roomRef).then((snapshot) => {
-        for (let player of Object.keys(snapshot.val())) {
-            let state = ref(database, `rooms/${name}/players/${player}/state`);
-            set(state, "racing");
+        let winner = null;;
+        let best = null;
+        snapshot.forEach((child) => {
+            let score = child.child("score").val();
+            if(best == null || score > best){
+                best = score;
+                winner = child;
+            }
+        })
+        if(auth.currentUser.uid == winner.key){
+            const winnerRef = ref(database, `stats/users/${winner.key}/won`);
+            get(winnerRef).then((snapshot) => {
+                let newWon = snapshot.val() + 1;
+                set(winnerRef, newWon);
+            });
         }
+        alert(`The results are in: ${winner.child("name").val()} has won!`);
     });
 }
 
