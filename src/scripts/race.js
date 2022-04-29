@@ -12,6 +12,8 @@ const toType = document.getElementById("toType");
 let interval, start, end; //timer
 let typer = new Input();
 
+loadLesson();
+
 /**
  * loadLesson - loads a lesson based on the URL parameter
  *              and the currently selected language
@@ -20,9 +22,9 @@ function loadLesson(){
     const httpx = new XMLHttpRequest();
 
     let roomName = sessionStorage.getItem('room');
-    let fileRef = ref(`rooms/${roomName}/gameFile`);
+    let fileRef = ref(database, `rooms/${roomName}/gameFile`);
 
-    get(gameRef).then((snapshot) => {
+    get(fileRef).then((snapshot) => {
         httpx.open("GET", `../files/${snapshot.val()}`);
         httpx.onreadystatechange = function() {
             if (httpx.readyState == 4) {
@@ -37,9 +39,6 @@ function loadLesson(){
         httpx.send();
     })
 }
-
-typer.toTypeText = "TEST"
-init();
 
 /**
  * init - sets to initial state
