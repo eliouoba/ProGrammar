@@ -5,12 +5,17 @@ import { ref, get, set, onValue } from "firebase/database";
 import Input from "./Input-Class.js";
 
 import { auth, database } from './firebaseInit';
+import { onAuthStateChanged } from "firebase/auth";
 
 //quick element references
 const toType = document.getElementById("toType");
 
 let interval, start, end; //timer
 let typer = new Input();
+let name = sessionStorage.getItem("room");
+let user;
+
+onAuthStateChanged(auth, (u) => { if (u) user = u; });  
 
 let roomName = sessionStorage.getItem('room');
 
@@ -90,6 +95,7 @@ function startLesson(keydownEvent) {
         interval = window.setInterval(timer, 1000);
         typer.input(keydownEvent.key);
     }
+    //endLesson();
 }
 
 /**
@@ -129,14 +135,22 @@ function endLesson() {
             if(child.child("state").val() == "completed"){
                 won = false;
             }
-            if(child.key == auth.currentUser.uid){
-                set(ref(database, `rooms/${roomName}/players/${auth.currentUser.uid}/state`), "completed");
-            }
         })
+        
+        let state = ref(database, `rooms/${name}/players/${user.uid}/state`);
+        set(state, "complete");
         if(won){
             alert("You win!")    
         }
         updateUserStats(won);
+        document.getElementById("stats").style.color="red";
+        let time = 3;
+        setInterval(function() {
+            if (time < 0) return;
+            document.getElementById("count").innerHTML = `${time}...`;
+            time--;
+        }, 1000);
+        setTimeout(() => location.href= 'raceEnd.html', 4000);
     })
 }
 

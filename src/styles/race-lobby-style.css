@@ -1,21 +1,4 @@
-
 @import "page-style.css";
-
-input {
-    height: 40px;
-    width: 200px;
-    border-radius: 3px;
-    border-width: 1px;
-    border-color: gray;
-    border-style: solid;
-    outline-width: 0px;
-    padding-left: 20px;
-}
-
-input:focus {
-    box-shadow: 0 0 5px darkcyan;
-    border-color: darkcyan;
-}
 
 button {
     width: 200px;
