@@ -1,6 +1,8 @@
 import { auth, database } from './firebaseInit';
 import { ref, set, get, onValue, remove } from "firebase/database";
 import { onAuthStateChanged, d } from 'firebase/auth';
+import {lessons, getExtOpts} from './lessonsRef';
+
 let startButton = document.getElementById("start");
 let roomHeader = document.getElementById("room_header");
 let container = document.getElementById("container");
@@ -27,12 +29,40 @@ function updateRoom() {
                     players.appendChild(player);
                 }
                 currentRoom = snapshot.val();
+
                 if (currentRoom[user.uid].state == "racing")
                     location.href= 'race.html';
             });
         }
     });  
 }
+
+function setRace(){
+    let len = lessons.length;
+    const index = Math.floor(Math.random() * len);
+    let ext = chooseExt(getExtOpts(index));
+    let filePath = `${lessons[index]}.${ext}`;
+    let fileRef = ref(database, `rooms/${name}/gameFile`);
+    set(fileRef, filePath);
+}
+
+function chooseExt(opts){
+    let extOpts = opts.split("");
+    const index = Math.floor(Math.random() * extOpts.length);
+    return optToExt(extOpts[index]);
+}
+
+function optToExt(opt){
+    switch(opt){
+        case 'j': return 'java';
+        case 'p': return 'py';
+        case 'c': return 'c';
+        case 'h': return 'html';
+        case 's': return 'js';
+    }
+}
+
+console.log(setRace());
 
 function startGame(user) {
     let size = Object.keys(currentRoom).length;
@@ -46,7 +76,6 @@ function startGame(user) {
         for (let player of Object.keys(snapshot.val())) {
             let state = ref(database, `rooms/${name}/players/${player}/state`);
             set(state, "racing");
-            console.log
         }
     });
 }
