@@ -69,6 +69,7 @@ function optToExt(opt){
         case 'c': return 'c';
         case 'h': return 'html';
         case 's': return 'js';
+        case 'u': return 'cpp';
     }
 }
 
