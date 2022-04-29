@@ -1,7 +1,7 @@
 //Josiah Hsu
 
 /* Initializing Firebase */
-import { ref, get, set} from "firebase/database";
+import { ref, get, set } from "firebase/database";
 import Input from "./Input-Class.js";
 
 import { auth, database } from './firebaseInit';
@@ -28,7 +28,7 @@ const lessonFile = urlParams.get("lesson");
 const extension = urlParams.get("lang");
 
 //checks which languages are available for this lesson
-const options = ['j', 'p', 'c'];
+const options = ['j', 'p', 'c', 'h'];
 for(let i = options.length-1; i >= 0; i--){
     if(!extension.includes(options[i]))
         langSelect.options[i].remove();
@@ -51,6 +51,7 @@ const langs = new Map();
 langs.set('java', 'Java');
 langs.set('py', 'Python');
 langs.set('c', 'C');
+langs.set('html', 'HTML');
 
 /**
  * loadLesson - loads a lesson based on the URL parameter
