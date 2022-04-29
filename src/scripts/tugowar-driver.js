@@ -115,7 +115,7 @@ function initType(keydownEvent) {
         document.removeEventListener("keydown", initType);
         document.addEventListener("keydown", type);
         start = Date.now();
-        interval = window.setInterval(timer, 250);
+        interval = window.setInterval(timer, 500);
         setConfigDisabled(true);
         typer.input(keydownEvent.key);
 
