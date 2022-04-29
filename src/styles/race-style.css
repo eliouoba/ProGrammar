@@ -9,3 +9,5 @@ input[type=range] {
     margin-left: 15%;
     margin-right: 15%;
 }
+
+#count { color:red }

@@ -39,4 +39,7 @@ switch(entryModule) {
     case 'lobby':
         require('./src/scripts/race-lobby-script.js');
         break;
+    case 'race-end':
+        require('./src/scripts/race-end-script.js');
+        break;
 }

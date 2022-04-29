@@ -1,16 +1,21 @@
-//Josiah HsuS
+//Josiah Hsu
 
 /* Initializing Firebase */
 import { ref, get, set } from "firebase/database";
 import Input from "./Input-Class.js";
 
 import { auth, database } from './firebaseInit';
+import { onAuthStateChanged } from "firebase/auth";
 
 //quick element references
 const toType = document.getElementById("toType");
 
 let interval, start, end; //timer
 let typer = new Input();
+let name = sessionStorage.getItem("room");
+let user;
+
+onAuthStateChanged(auth, (u) => { if (u) user = u; });  
 
 loadLesson();
 
@@ -71,6 +76,7 @@ function startLesson(keydownEvent) {
         interval = window.setInterval(timer, 1000);
         typer.input(keydownEvent.key);
     }
+    //endLesson();
 }
 
 /**
@@ -97,7 +103,18 @@ function endLesson() {
     typer.updateWPM();
     typer.displayStats();
 
+    let state = ref(database, `rooms/${name}/players/${user.uid}/state`);
+        set(state, "complete");
+
     updateUserStats();
+    document.getElementById("stats").style.color="red";
+    let time = 3;
+    setInterval(function() {
+        if (time < 0) return;
+        document.getElementById("count").innerHTML = `${time}...`;
+        time--;
+    }, 1000);
+    setTimeout(() => location.href= 'raceEnd.html', 4000);
 }
 
 /**
