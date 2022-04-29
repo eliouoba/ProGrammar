@@ -172,7 +172,7 @@ function setUpThemes() {
     }
 
     const lightTheme = {
-        "htmlBackground": "honeydew",
+        "htmlBackground": "whitesmoke",
         "html": "navy",
         "navbarBackground": "lightgray",
         "footerBackground": "lightgray",
