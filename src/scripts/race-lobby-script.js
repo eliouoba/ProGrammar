@@ -74,10 +74,13 @@ function startGame(user) {
     let roomRef = ref(database, `rooms/${name}/players`);
 
     get(roomRef).then((snapshot) => {
-        for (let player of Object.keys(snapshot.val())) {
-            let state = ref(database, `rooms/${name}/players/${player}/state`);
-            set(state, "racing");
-        }
+        snapshot.forEach((child) => {
+            if(child.key != user.uid){
+                let state = ref(database, `rooms/${name}/players/${child.key}/state`);
+                set(state, "racing");
+            }
+        });
+        set(ref(database, `rooms/${name}/players/${user.uid}/state`), "racing");
     });
 }
 
