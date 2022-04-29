@@ -100,7 +100,6 @@ function startLesson(keydownEvent) {
         interval = window.setInterval(timer, 500);
         typer.input(keydownEvent.key);
     }
-    endLesson();
 }
 
 /**
