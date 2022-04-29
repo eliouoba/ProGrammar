@@ -1,8 +1,9 @@
 const urlParams = new URLSearchParams(window.location.search);
 const lessonFile = urlParams.get("lesson");
 const lessons = ["HelloWorld", "Integers", "BasicMath", "Strings", 
-"Concatenation", "IfStatements", "WhileLoops", "ForLoops", "PrintArray",
-"Bubble", "Selection", "Insertion", "Merge", "Quick", "Heap", "Linear", "Binary"];
+"Concatenation", "IfStatements", "WhileLoops", "ForLoops", "DoWhile", "PrintArray",
+"Bubble", "Selection", "Insertion", "Merge", "Quick", "Heap", "Linear", "Binary", 
+"Intro", "Format", "Supersub", "Links", "Images", "Style", "Button", "Lists", "Table"];
 
 document.getElementById("next").addEventListener("click", () => {
     let lesson = getNextLesson();
