@@ -5,10 +5,14 @@ const lessons =
 "Substring", "TryCatch", "ForEach", "Iterator", "Anonymous", "CheckPrime", "FibIt", "Fibonacci", "SD", 
 "Sqrt", "Random", "Quadratic", "LeapYear", "Primes", "Factorial", "GCD", "LCM", "CardShuffle",
 "ASCII", "StringSearch", "Clock", "Reverse", "ReverseArr", "BitCount", "DigitSum", "PrimeFactors", "IntToBinary",
-"KM2M", "Palindrome", "SortWords", "ReverseString", "Replace", "RandomString", "CompareStrings", "Date", "RemoveItem"];
+"KM2M", "Palindrome", "SortWords", "ReverseString", "Replace", "RandomString", "CompareStrings", "Date", "RemoveItem",
+"RemovePunctuation", "RoundTen", "DuckNumber", "CopyString", "SameCharacters", "CheckInput", "FindInitials"];
 
 function getExtOpts(n){
-    if(n > 53)
+    if (n > 62){
+        return 'jpu';
+    }
+    else if(n > 53)
         return 's';
     else if(n > 44)
         return 'c';
